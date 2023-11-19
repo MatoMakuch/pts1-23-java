@@ -21,6 +21,11 @@ public final class Points {
     return value;
   }
 
+  public void add(final Points points) {
+
+    value += points.getValue();
+  }
+
   @Override
   public int hashCode() {
 

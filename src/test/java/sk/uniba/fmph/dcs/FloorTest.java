@@ -10,7 +10,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-class FakeUsedTiles implements UsedTilesGiveInterface {
+class FakeUsedTiles implements UsedTilesInterface {
   public ArrayList<Tile> tiles;
 
   public FakeUsedTiles() {

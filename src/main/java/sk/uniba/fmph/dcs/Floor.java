@@ -2,13 +2,14 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public final class Floor {
-  private final UsedTilesGiveInterface usedTiles;
-  private final ArrayList<Points> pointPattern;
-  private ArrayList<Tile> tiles;
+  private final UsedTilesInterface usedTiles;
+  private final List<Points> pointPattern;
+  private List<Tile> tiles;
 
-  public Floor(final UsedTilesGiveInterface usedTiles, final ArrayList<Points> pointPattern) {
+  public Floor(final UsedTilesInterface usedTiles, final List<Points> pointPattern) {
 
     this.usedTiles = usedTiles;
     this.pointPattern = pointPattern;
@@ -44,6 +45,7 @@ public final class Floor {
     }
 
     usedTiles.give(tiles);
+
     tiles = new ArrayList<>();
 
     return new Points(sum);

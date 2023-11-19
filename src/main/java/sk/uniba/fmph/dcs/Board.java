@@ -8,6 +8,7 @@ public class Board {
   private final List<WallLine> wallLines;
   private final Floor floor;
   private final FinalPointsCalculation finalPointsCalculation;
+  private Points points;
 
   public Board(Floor floor) {
 
@@ -48,12 +49,17 @@ public class Board {
     }
   }
 
-  public void put(int destinationIndex, List<Tile> tiles) {
+  public void put(List<Tile> tiles, int destinationIndex) {
 
     patternLines.get(destinationIndex).put(tiles);
   }
 
   public FinishRoundResult finishRound() {
+
+    for (PatternLine patternLine : patternLines) {
+
+      points.add(patternLine.finishRound());
+    }
 
     return GameFinished.gameFinished(wallLines);
   }
@@ -66,11 +72,7 @@ public class Board {
 
     Points finalPoints = finalPointsCalculation.getPoints(wall);
 
-    // points = points.add(finalPoints);
-
-    // Here you would typically update the game state to show that the game has ended,
-    // potentially notifying players of the final scores and the winner.
-    // This could involve calling a method like gameFinished() on a game observer.
+    points.add(finalPoints);
   }
 
   public String state() {
