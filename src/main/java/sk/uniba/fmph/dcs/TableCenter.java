@@ -1,51 +1,82 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TableCenter implements TileSource{
-    private ArrayList<Tile> tiles;
-    private boolean isFirstPlayer;
+public class TableCenter implements TileSource {
+  private List<Tile> tiles;
+  private boolean isFirstPlayer;
 
-    public TableCenter() {
-        tiles = new ArrayList<>();
-        isFirstPlayer = true;
+  public TableCenter() {
+    tiles = new ArrayList<>();
+    isFirstPlayer = true;
+    tiles.add(Tile.STARTING_PLAYER); // Adding the starting player tile initially
+  }
+
+  public void add(List<Tile> tilesToAdd) {
+    this.tiles.addAll(tilesToAdd);
+  }
+
+  @Override
+  public List<Tile> take(int index) {
+
+    if (index < 0 || index >= tiles.size()) {
+
+      throw new IllegalArgumentException("Index out of bounds.");
     }
 
-    public void add(ArrayList<Tile> tiles) {
-        this.tiles.addAll(tiles);
+    Tile pickedTile = tiles.get(index);
+
+    List<Tile> pickedTiles = new ArrayList<>();
+
+    // Use an iterator to avoid ConcurrentModificationException
+    tiles.removeIf(tile -> {
+
+      boolean shouldRemove = tile == pickedTile;
+
+      if (shouldRemove) {
+
+        pickedTiles.add(tile);
+      }
+
+      return shouldRemove;
+    });
+
+    // Remove the starting player tile if it is the first take.
+    if (isFirstPlayer && pickedTile != Tile.STARTING_PLAYER) {
+
+      isFirstPlayer = false;
+
+      pickedTiles.add(Tile.STARTING_PLAYER);
+
+      tiles.remove(Tile.STARTING_PLAYER);
     }
 
-    @Override
-    public ArrayList<Tile> take(int idx) {
-        Tile pickedTile = tiles.get(idx);
-        ArrayList<Tile> pickedTiles = new ArrayList<Tile>();
-        for (int i = 0; i < tiles.size(); i++) {
-            if (tiles.get(i) == pickedTile) {
-                pickedTiles.add(tiles.remove(i));
-                i--;
-            }
-        }
-        if (isFirstPlayer) {
-            isFirstPlayer = false;
-            pickedTiles.add(tiles.remove(tiles.indexOf(Tile.STARTING_PLAYER)));
-        }
-        return pickedTiles;
-    }
+    return pickedTiles;
+  }
 
-    @Override
-    public boolean isEmpty() {
-        return tiles.isEmpty();
-    }
+  @Override
+  public boolean isEmpty() {
 
-    @Override
-    public void startNewRound() {
-        isFirstPlayer = true;
-        tiles = new ArrayList<Tile>();
-        tiles.add(Tile.STARTING_PLAYER);
-    }
+    return tiles.isEmpty();
+  }
 
-    @Override
-    public String State() {
-        return "Don't ask me about my state";
+  @Override
+  public void startNewRound() {
+
+    tiles.clear();
+    tiles.add(Tile.STARTING_PLAYER);
+
+    isFirstPlayer = true;
+  }
+
+  @Override
+  public String state() {
+
+    StringBuilder stateBuilder = new StringBuilder();
+    for (Tile tile : tiles) {
+      stateBuilder.append(tile.toString());
     }
+    return stateBuilder.toString();
+  }
 }

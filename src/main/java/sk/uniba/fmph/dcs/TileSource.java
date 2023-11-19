@@ -1,10 +1,13 @@
 package sk.uniba.fmph.dcs;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TileSource {
-    ArrayList<Tile> take (int idx);
-    boolean isEmpty();
-    void startNewRound();
-    String State();
+  List<Tile> take(int index);
+
+  boolean isEmpty();
+
+  void startNewRound();
+
+  String state();
 }

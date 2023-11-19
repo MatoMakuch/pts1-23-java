@@ -9,9 +9,11 @@ public final class Floor {
   private ArrayList<Tile> tiles;
 
   public Floor(final UsedTilesGiveInterface usedTiles, final ArrayList<Points> pointPattern) {
+
     this.usedTiles = usedTiles;
     this.pointPattern = pointPattern;
-    tiles = new ArrayList<Tile>();
+
+    tiles = new ArrayList<>();
   }
 
   public void put(final Collection<Tile> tiles) {
@@ -19,24 +21,31 @@ public final class Floor {
   }
 
   public String state() {
-    String toReturn = "";
-    for (final Tile tile : tiles) {
-      toReturn += tile.toString();
+
+    StringBuilder builder = new StringBuilder();
+
+    for (Tile tile : tiles) {
+
+      builder.append(tile.toString());
     }
-    return toReturn;
+
+    return builder.toString();
   }
 
   public Points finishRound() {
+
     int sum = 0;
     for (int i = 0; i < tiles.size(); i++) {
       sum +=
           (i < pointPattern.size()
-                  ? pointPattern.get(i)
-                  : pointPattern.get(pointPattern.size() - 1))
+              ? pointPattern.get(i)
+              : pointPattern.get(pointPattern.size() - 1))
               .getValue();
     }
+
     usedTiles.give(tiles);
-    tiles = new ArrayList<Tile>();
+    tiles = new ArrayList<>();
+
     return new Points(sum);
   }
 }

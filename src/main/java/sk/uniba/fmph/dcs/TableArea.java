@@ -1,49 +1,74 @@
 package sk.uniba.fmph.dcs;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class TableArea {
-    ArrayList<TileSource> factories;
-    TableCenter tableCenter;
-    Bag bag;
+  private List<TileSource> factories;
+  private TableCenter tableCenter;
 
-    public TableArea(int playerCount, Bag bag) {
-        this.bag = bag;
-        factories.add(new Factory(this));
-        for (int i = 0; i < playerCount; i++) {
-            factories.add(new Factory(this));
-            factories.add(new Factory(this));
-        }
-        tableCenter = new TableCenter();
+  public TableArea(int playerCount, Bag bag) {
+
+    this.factories = new ArrayList<>();
+    this.tableCenter = new TableCenter();
+
+    // Adjust the number of factories based on the player count.
+    int factoryCount = playerCount * 2 + 1;
+
+    for (int i = 0; i < factoryCount; i++) {
+
+      factories.add(new Factory(bag, tableCenter));
+    }
+  }
+
+  public TableCenter getTableCenter() {
+
+    return tableCenter;
+  }
+
+  public List<Tile> take(int sourceIndex, int tileIndex) {
+
+    if (sourceIndex == -1) {
+
+      return tableCenter.take(tileIndex);
+    }
+    return factories.get(sourceIndex).take(tileIndex);
+  }
+
+  public boolean isRoundEnd() {
+    for (TileSource factory : factories) {
+      if (!factory.isEmpty()) {
+        return false;
+      }
+    }
+    return tableCenter.isEmpty();
+  }
+
+  public void startNewRound() {
+
+    // Refill factories with tiles from the bag.
+    for (TileSource factory : factories) {
+
+      factory.startNewRound();
+    }
+    tableCenter.startNewRound();
+  }
+
+  public String state() {
+
+    StringBuilder builder = new StringBuilder();
+
+    for (TileSource factory : factories) {
+
+      builder.append("Factory:");
+      builder.append(factory.state());
+
+      builder.append("\n");
     }
 
-    public TableCenter getTableCenter() {
-        return tableCenter;
-    }
+    builder.append("TableCenter:");
+    builder.append(tableCenter.state());
 
-    ArrayList<Tile> take(int sourceIdx, int idx) {
-        if (sourceIdx == -1) {
-            return tableCenter.take(idx);
-        }
-        return factories.get(sourceIdx).take(idx);
-    }
-
-    boolean isRoundEnd() {
-        for (TileSource tileSource : factories) {
-            if (!tileSource.isEmpty()) {
-                return false;
-            }
-        }
-        return tableCenter.isEmpty();
-    }
-
-    void startNewRound() {
-        for (TileSource tileSource : factories) {
-            tileSource.startNewRound();
-        }
-        tableCenter.startNewRound();
-    }
-
-    public String State() {
-        return "Don't ask me about my state";
-    }
+    return builder.toString();
+  }
 }
