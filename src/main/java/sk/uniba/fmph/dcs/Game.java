@@ -6,59 +6,103 @@ import java.util.List;
 import java.util.Map;
 
 class Game implements GameInterface {
-  private final Map<String, Player> players;
   private final TableArea tableArea;
-  private final Bag bag;
-  private final GameObserver gameObserver;
+  private final List<Player> players;
+  private int startingPlayerIndex = 0;
   private int currentPlayerIndex = 0;
 
   public Game(List<String> playerNames) {
 
-    this.bag = new Bag();
-    this.tableArea = new TableArea(playerNames.size(), bag);
-    this.gameObserver = new GameObserver();
+    this.tableArea = new TableArea(playerNames.size());
+    this.players = new ArrayList<>();
 
-    // Define the point pattern for the floor line
-    List<Points> pointPattern = new ArrayList<>();
-    pointPattern.add(new Points(-1)); // The starting tile always goes into the floor line
-    pointPattern.add(new Points(-1)); // Typically, the first few tiles have the same negative points
-    pointPattern.add(new Points(-2));
-    pointPattern.add(new Points(-2)); // and so on, up to your game's specific rules
-    pointPattern.add(new Points(-2));
-    pointPattern.add(new Points(-3));
-    pointPattern.add(new Points(-3));
-
-    this.players = new HashMap<>();
     for (String playerName : playerNames) {
 
-      players.put(
-          playerName,
-          new Player(
-              playerName,
-              new Board(
-                  new Floor(
-                      new UsedTiles(),
-                      pointPattern
-                  )
-              )
-          )
-      );
+      players.add(new Player(playerName));
     }
   }
 
+  public static class GameState {
+    private final TableArea.TableAreaState tableAreaState;
+    private final List<Player.PlayerState> playerStates;
+    private final int currentPlayerIndex;
+    private final int startingPlayerIndex;
+
+    private GameState(TableArea tableArea, List<Player> players, int currentPlayerIndex, int startingPlayerIndex) {
+
+      this.tableAreaState = tableArea.saveState();
+
+      this.playerStates = new ArrayList<>();
+      for (Player player : players) {
+
+        this.playerStates.add(player.saveState());
+      }
+
+      this.currentPlayerIndex = currentPlayerIndex;
+      this.startingPlayerIndex = startingPlayerIndex;
+    }
+  }
+
+  public GameState saveState() {
+
+    return new GameState(tableArea, players, currentPlayerIndex, startingPlayerIndex);
+  }
+
+  public void restoreState(GameState state) {
+
+    this.tableArea.restoreState(state.tableAreaState);
+
+    for (int i = 0; i < players.size(); i++) {
+
+      Player.PlayerState playerState = state.playerStates.get(i);
+      players.get(i).restoreState(playerState);
+    }
+
+    this.currentPlayerIndex = state.currentPlayerIndex;
+    this.startingPlayerIndex = state.startingPlayerIndex;
+  }
+
+
   @Override
-  public void take(String playerName, int sourceIndex, int tileIndex, int destinationIndex) {
+  public String onTurn() {
+
+    return players.get(currentPlayerIndex).getName();
+  }
+
+  @Override
+  public void take(int sourceIndex, int tileIndex, int destinationIndex) {
 
     final List<Tile> tiles = tableArea.take(sourceIndex, tileIndex);
 
-    players.get(playerName).put(tiles, destinationIndex);
+    if (tiles.contains(Tile.STARTING_PLAYER)) {
+
+       startingPlayerIndex = currentPlayerIndex;
+    }
+
+    players.get(currentPlayerIndex).put(tiles, destinationIndex);
+
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+
+    if (!tableArea.isRoundEnd()) {
+
+      return;
+    }
+
+    var result = finishRound();
+
+    if (result == FinishRoundResult.NORMAL) {
+
+      return;
+    }
+
+    endGame();
   }
 
   public FinishRoundResult finishRound() {
 
     boolean isGameFinished = false;
 
-    for (Player player : players.values()) {
+    for (Player player : players) {
 
       final FinishRoundResult result = player.finishRound();
 
@@ -74,49 +118,17 @@ class Game implements GameInterface {
     }
     else {
 
+      currentPlayerIndex = startingPlayerIndex;
+
       return FinishRoundResult.NORMAL;
     }
   }
 
   public void endGame() {
 
-    for (Player player : players.values()) {
+    for (Player player : players) {
 
       player.endGame();
     }
   }
-
-  public String state() {
-
-    StringBuilder builder = new StringBuilder();
-
-    for (Player player : players.values()) {
-
-      builder.append("Player ");
-      builder.append(player.getName());
-      builder.append(": ");
-      builder.append(player.getState());
-    }
-
-    builder.append(tableArea.state());
-
-    return builder.toString();
-  }
-
-  private String getFinalScores() {
-    // Implement logic to retrieve final scores from players.
-    return ""; // Placeholder return
-  }
-
-  public void startNewRound() {
-    // Implement logic to start a new round, including refilling factories from the bag.
-  }
-
-  public void nextPlayerTurn() {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    // Notify observers about the change of turn
-    gameObserver.notifyEverybody("Player " + currentPlayerIndex + "'s turn.");
-  }
-
-  // Additional methods as needed...
 }

@@ -6,54 +6,56 @@ import java.util.List;
 import java.util.Random;
 
 public class Bag {
+  private static Bag instance = null;
   private List<Tile> tiles = new ArrayList<>();
 
-  public Bag() {
-
+  private Bag() {
     fillBag();
   }
 
-  public List<Tile> getTiles(int count) {
-
-    if (count > tiles.size()) {
-
-      throw new IllegalArgumentException("Not enough tiles in the bag");
+  public static Bag getInstance() {
+    if (instance == null) {
+      instance = new Bag();
     }
+    return instance;
+  }
 
-    List<Tile> pickedTiles = new ArrayList<>();
+  public static class BagState {
+    private String tiles;
 
-    for (int i = 0; i < count; i++) {
-
-      pickedTiles.add(tiles.remove(0));
+    public BagState(List<Tile> tiles) {
+      this.tiles = Tile.toString(tiles);
     }
+  }
 
-    return pickedTiles;
+  public BagState saveState() {
+    return new BagState(tiles);
+  }
+
+  public void restoreState(BagState state) {
+    tiles = Tile.fromString(state.tiles);
   }
 
   private void fillBag() {
-
     this.tiles.clear();
-
     for (Tile tile : Tile.values()) {
-
       if (tile != Tile.STARTING_PLAYER) {
-
         for (int i = 0; i < 20; i++) {
-
           tiles.add(tile);
         }
       }
     }
-
     Collections.shuffle(tiles, new Random());
   }
 
-  public String state() {
-
-    StringBuilder stateBuilder = new StringBuilder();
-    for (Tile tile : tiles) {
-      stateBuilder.append(tile.toString());
+  public List<Tile> getTiles(int count) {
+    if (count > tiles.size()) {
+      throw new IllegalArgumentException("Not enough tiles in the bag");
     }
-    return stateBuilder.toString();
+    List<Tile> pickedTiles = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      pickedTiles.add(tiles.remove(0));
+    }
+    return pickedTiles;
   }
 }

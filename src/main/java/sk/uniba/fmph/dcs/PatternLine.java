@@ -7,8 +7,8 @@ public class PatternLine {
 
   private WallLine wallLine;
   private Floor floor;
-  private final int capacity;
-  private final List<Tile> tiles;
+  private int capacity;
+  private List<Tile> tiles;
   private Tile type;
 
   public PatternLine(WallLine wallLine, Floor floor, int capacity) {
@@ -18,6 +18,32 @@ public class PatternLine {
     this.capacity = capacity;
 
     this.tiles = new ArrayList<>();
+  }
+
+  public static class PatternLineState {
+    private String tiles;
+    private Character type;
+    private int capacity;
+
+    private PatternLineState(List<Tile> tiles, Tile type, int capacity) {
+
+      this.tiles = Tile.toString(tiles);
+      this.type = Tile.toChar(type);
+
+      this.capacity = capacity;
+    }
+  }
+
+  public PatternLineState saveState() {
+
+    return new PatternLineState(tiles, type, capacity);
+  }
+
+  public void restoreState(PatternLineState state) {
+
+    this.tiles = Tile.fromString(state.tiles);
+    this.type = Tile.fromChar(state.type);
+    this.capacity = state.capacity;
   }
 
   public boolean put(List<Tile> tilesToAdd) {
@@ -32,10 +58,12 @@ public class PatternLine {
       throw new IllegalArgumentException("Invalid tile type.");
     }
 
-    if (wallLine.canPutTile(tilesToAdd.get(0))) {
+    if (!wallLine.canPutTile(tilesToAdd.get(0))) {
 
-      type = tilesToAdd.get(0);
+      throw new IllegalStateException("Cannot put tile on the wall.");
     }
+
+    type = tilesToAdd.get(0);
 
     List<Tile> tilesFalling = new ArrayList<>();
 
@@ -75,17 +103,5 @@ public class PatternLine {
     type = null;
 
     return points;
-  }
-
-  public String state() {
-
-    StringBuilder builder = new StringBuilder();
-
-    for (Tile tile : tiles) {
-
-      builder.append(tile.toString());
-    }
-
-    return builder.toString();
   }
 }

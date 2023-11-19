@@ -7,5 +7,4 @@ public interface PlayerInterface {
   void put(List<Tile> tiles, int destinationIndex);
   FinishRoundResult finishRound();
   void endGame();
-  String getState();
 }

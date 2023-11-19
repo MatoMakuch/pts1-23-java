@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Factory implements TileSource {
+public class Factory extends TileSource {
 
   private static final int MAX_TILES = 4;
   private List<Tile> tiles = new ArrayList<>();
-
-  private Bag bag;
   private TableCenter tableCenter;
 
-  public Factory(Bag bag, TableCenter tableCenter) {
+  public Factory(TableCenter tableCenter) {
 
-    this.bag = bag;
     this.tableCenter = tableCenter;
 
     fillFactory();
@@ -23,7 +20,7 @@ public class Factory implements TileSource {
   private void fillFactory() {
 
     tiles.clear();
-    tiles = bag.getTiles(MAX_TILES);
+    tiles = Bag.getInstance().getTiles(MAX_TILES);
   }
 
   @Override
@@ -73,16 +70,5 @@ public class Factory implements TileSource {
   public void startNewRound() {
 
     tiles.clear();
-  }
-
-  @Override
-  public String state() {
-
-    StringBuilder stateBuilder = new StringBuilder();
-    for (Tile tile : tiles) {
-      stateBuilder.append(tile.toString());
-    }
-
-    return stateBuilder.toString();
   }
 }

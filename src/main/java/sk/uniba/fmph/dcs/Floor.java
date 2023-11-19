@@ -5,32 +5,42 @@ import java.util.Collection;
 import java.util.List;
 
 public final class Floor {
-  private final UsedTilesInterface usedTiles;
   private final List<Points> pointPattern;
   private List<Tile> tiles;
 
-  public Floor(final UsedTilesInterface usedTiles, final List<Points> pointPattern) {
+  public Floor() {
 
-    this.usedTiles = usedTiles;
-    this.pointPattern = pointPattern;
+    // Define the point pattern for the floor line.
+    this.pointPattern = new ArrayList<>();
+    this.pointPattern.add(new Points(-1));
+    this.pointPattern.add(new Points(-1));
+    this.pointPattern.add(new Points(-2));
+    this.pointPattern.add(new Points(-2));
+    this.pointPattern.add(new Points(-2));
+    this.pointPattern.add(new Points(-3));
+    this.pointPattern.add(new Points(-3));
 
-    tiles = new ArrayList<>();
+    this.tiles = new ArrayList<>();
+  }
+
+  public static class FloorState {
+    private final String tiles;
+
+    private FloorState(List<Tile> tiles) {
+      this.tiles = Tile.toString(tiles); // Assuming Tile.toString method exists
+    }
+  }
+
+  public FloorState saveState() {
+    return new FloorState(tiles);
+  }
+
+  public void restoreState(FloorState state) {
+    this.tiles = Tile.fromString(state.tiles); // Assuming Tile.fromString method exists
   }
 
   public void put(final Collection<Tile> tiles) {
     this.tiles.addAll(tiles);
-  }
-
-  public String state() {
-
-    StringBuilder builder = new StringBuilder();
-
-    for (Tile tile : tiles) {
-
-      builder.append(tile.toString());
-    }
-
-    return builder.toString();
   }
 
   public Points finishRound() {
@@ -44,7 +54,7 @@ public final class Floor {
               .getValue();
     }
 
-    usedTiles.give(tiles);
+    UsedTiles.getInstance().give(tiles);
 
     tiles = new ArrayList<>();
 

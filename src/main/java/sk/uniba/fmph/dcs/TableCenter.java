@@ -3,14 +3,15 @@ package sk.uniba.fmph.dcs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableCenter implements TileSource {
-  private List<Tile> tiles;
+public class TableCenter extends TileSource {
   private boolean isFirstPlayer;
 
   public TableCenter() {
+
     tiles = new ArrayList<>();
     isFirstPlayer = true;
-    tiles.add(Tile.STARTING_PLAYER); // Adding the starting player tile initially
+
+    tiles.add(Tile.STARTING_PLAYER); // Adding the starting player tile initially.
   }
 
   public void add(List<Tile> tilesToAdd) {
@@ -68,15 +69,5 @@ public class TableCenter implements TileSource {
     tiles.add(Tile.STARTING_PLAYER);
 
     isFirstPlayer = true;
-  }
-
-  @Override
-  public String state() {
-
-    StringBuilder stateBuilder = new StringBuilder();
-    for (Tile tile : tiles) {
-      stateBuilder.append(tile.toString());
-    }
-    return stateBuilder.toString();
   }
 }

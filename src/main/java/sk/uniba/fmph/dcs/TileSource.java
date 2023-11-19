@@ -2,12 +2,34 @@ package sk.uniba.fmph.dcs;
 
 import java.util.List;
 
-public interface TileSource {
-  List<Tile> take(int index);
+public abstract class TileSource {
 
-  boolean isEmpty();
+  protected List<Tile> tiles;
+  public abstract List<Tile> take(int index);
+  public abstract boolean isEmpty();
+  public abstract void startNewRound();
+  public TileSourceState saveState() {
 
-  void startNewRound();
+    return new TileSourceState(tiles);
+  }
+  public void restoreState(TileSourceState state) {
 
-  String state();
+    tiles = Tile.fromString(state.tiles);
+  }
+  public static class TileSourceState {
+
+    private String tiles;
+
+    private TileSourceState(List<Tile> tiles) {
+
+      StringBuilder builder = new StringBuilder();
+
+      for (Tile tile : tiles) {
+
+        builder.append(tile.toString());
+      }
+
+      this.tiles = builder.toString();
+    }
+  }
 }

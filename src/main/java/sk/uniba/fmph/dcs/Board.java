@@ -1,55 +1,113 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Board {
-  private final List<PatternLine> patternLines;
-  private final List<WallLine> wallLines;
+  private List<PatternLine> patternLines = new ArrayList<>();
+  private List<WallLine> wallLines = new ArrayList<>();
   private final Floor floor;
-  private final FinalPointsCalculation finalPointsCalculation;
-  private Points points;
+  private final FinalPointsCalculation finalPointsCalculation = new FinalPointsCalculation();
+  private final Points points = new Points(0);
 
-  public Board(Floor floor) {
+  public Board() {
 
-    this.floor = floor;
-    this.wallLines = new ArrayList<>();
-    this.patternLines = new ArrayList<>();
-    this.finalPointsCalculation = new FinalPointsCalculation();
+    this.floor = new Floor();
 
-    // Get the list of colors from the Tile enum.
-    var colors = new Tile[] { Tile.RED, Tile.BLUE, Tile.YELLOW, Tile.RED, Tile.BLACK };
+    TilePermutationIterator iterator = new TilePermutationIterator();
 
-    // Generate the wall pattern where each row is a unique permutation.
-    for (int i = 0; i < colors.length; i++) {
+    int i = 0; // Initialize the counter.
+    while (iterator.hasNext()) {
 
-      Tile[] pattern = new Tile[colors.length];
+      final WallLine newWallLine = new WallLine(iterator.next());
 
-      for (int j = 0; j < colors.length; j++) {
+      if (i > 0) { // For all but the first WallLine.
 
-        pattern[j] = colors[(i + j) % colors.length];
+        newWallLine.setLineUp(wallLines.get(i - 1));
+        wallLines.get(i - 1).setLineDown(newWallLine);
       }
 
-      var wallLine = new WallLine(pattern);
-
-      if (i > 0) {
-
-        wallLine.setLineUp(wallLines.get(i - 1));
-
-        wallLines.get(i - 1).setLineDown(wallLine);
-      }
-
-      wallLines.add(wallLine);
-    }
-
-    // Create PatternLines for each WallLine
-    for (int i = 0; i < wallLines.size(); i++) {
+      wallLines.add(newWallLine);
 
       patternLines.add(new PatternLine(wallLines.get(i), floor, i + 1));
+
+      i++; // Increment the counter.
     }
   }
 
+  public static class BoardState {
+    private Floor.FloorState floorState;
+    private List<WallLine.WallLineState> wallLineStates;
+    private List<PatternLine.PatternLineState> patternLineStates;
+    private Points points;
+  }
+
+  public BoardState saveState() {
+
+    BoardState state = new BoardState();
+
+    state.floorState = floor.saveState();
+
+    state.wallLineStates = new ArrayList<>();
+    for (WallLine wallLine : wallLines) {
+
+      state.wallLineStates.add(wallLine.saveState());
+    }
+
+    state.patternLineStates = new ArrayList<>();
+    for (PatternLine patternLine : patternLines) {
+
+      state.patternLineStates.add(patternLine.saveState());
+    }
+
+    state.points = points;
+
+    return state;
+  }
+
+  public void restoreState(BoardState state) {
+
+    // Restore the state of the floor.
+    this.floor.restoreState(state.floorState);
+
+    // Restore the states of the wall lines.
+    for (int i = 0; i < state.wallLineStates.size(); i++) {
+
+      if (i < wallLines.size()) {
+
+        wallLines.get(i).restoreState(state.wallLineStates.get(i));
+      }
+    }
+
+    // Restore the states of the pattern lines.
+    for (int i = 0; i < state.patternLineStates.size(); i++) {
+
+      if (i < patternLines.size()) {
+
+        patternLines.get(i).restoreState(state.patternLineStates.get(i));
+      }
+    }
+
+    // Restore points
+    this.points.setValue(state.points.getValue());
+  }
+
+
   public void put(List<Tile> tiles, int destinationIndex) {
+
+    if (destinationIndex == -1) {
+
+      floor.put(tiles);
+
+      return;
+    }
+
+    if (tiles.contains(Tile.STARTING_PLAYER)) {
+
+      tiles.remove(Tile.STARTING_PLAYER);
+      floor.put(Collections.singleton(Tile.STARTING_PLAYER));
+    }
 
     patternLines.get(destinationIndex).put(tiles);
   }
@@ -73,48 +131,5 @@ public class Board {
     Points finalPoints = finalPointsCalculation.getPoints(wall);
 
     points.add(finalPoints);
-  }
-
-  public String state() {
-
-    StringBuilder builder = new StringBuilder();
-
-    builder.append("PatternLine:");
-
-    for (int i = 0; i < patternLines.size(); i++) {
-
-      builder.append(patternLines.get(i).state());
-
-      if (i < patternLines.size() - 1) {
-
-        builder.append(",");
-      }
-      else {
-
-        builder.append(";");
-      }
-    }
-
-    builder.append("WallLine:");
-    for (int i = 0; i < wallLines.size(); i++) {
-
-      builder.append(wallLines.get(i).state());
-
-      if (i < wallLines.size() - 1) {
-
-        builder.append(",");
-      }
-      else {
-
-        builder.append(";");
-      }
-    }
-
-    builder.append("Floor:");
-    builder.append(floor.state());
-    builder.append(";");
-
-    return builder.toString();
-
   }
 }

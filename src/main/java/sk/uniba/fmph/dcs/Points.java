@@ -21,6 +21,11 @@ public final class Points {
     return value;
   }
 
+  public void setValue(final int value) {
+
+    this.value = value;
+  }
+
   public void add(final Points points) {
 
     value += points.getValue();

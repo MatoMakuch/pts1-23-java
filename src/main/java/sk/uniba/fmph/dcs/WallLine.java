@@ -1,6 +1,8 @@
 package sk.uniba.fmph.dcs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class WallLine {
 
@@ -24,6 +26,42 @@ public class WallLine {
   public void setLineDown(WallLine lineDown) {
 
     this.lineDown = lineDown;
+  }
+
+  public static class WallLineState {
+
+    private String tiles;
+
+    private WallLineState(List<Tile> tiles) {
+
+      this.tiles = Tile.toString(tiles);
+    }
+  }
+
+  public WallLineState saveState() {
+
+    final List<Tile> tiles = new ArrayList<>();
+    for (int i = 0; i < tileTypes.length; i++) {
+
+      if (filledPositions[i]) {
+
+        tiles.add(tileTypes[i]);
+      }
+    }
+
+    return new WallLineState(tiles);
+  }
+
+  public void restoreState(WallLineState state) {
+
+    final List<Tile> tiles = Tile.fromString(state.tiles);
+    for (int i = 0; i < tileTypes.length; i++) {
+
+      if (tiles.contains(tileTypes[i])) {
+
+        filledPositions[i] = true;
+      }
+    }
   }
 
   public boolean canPutTile(Tile tile) {
@@ -116,13 +154,23 @@ public class WallLine {
 
   public String state() {
 
-    StringBuilder state = new StringBuilder();
+    StringBuilder builder = new StringBuilder();
 
     for (int i = 0; i < tileTypes.length; i++) {
 
-      state.append(filledPositions[i] ? tileTypes[i].toString() : ".");
+      // Add tile if it exists, otherwise add dot.
+      if (filledPositions[i]) {
+
+        builder.append(tileTypes[i]);
+      }
+      else {
+
+        builder.append(".");
+      }
     }
 
-    return state.toString();
+    builder.append("\n");
+
+    return builder.toString();
   }
 }

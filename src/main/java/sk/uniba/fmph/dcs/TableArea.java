@@ -4,20 +4,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableArea {
-  private List<TileSource> factories;
+
+  private Bag bag;
   private TableCenter tableCenter;
+  private List<TileSource> factories;
 
-  public TableArea(int playerCount, Bag bag) {
+  public TableArea(int playerCount) {
 
-    this.factories = new ArrayList<>();
     this.tableCenter = new TableCenter();
+    this.factories = new ArrayList<>();
 
     // Adjust the number of factories based on the player count.
     int factoryCount = playerCount * 2 + 1;
 
     for (int i = 0; i < factoryCount; i++) {
 
-      factories.add(new Factory(bag, tableCenter));
+      factories.add(new Factory(tableCenter));
+    }
+  }
+
+  public static class TableAreaState {
+    private TileSource.TileSourceState tableCenterState;
+    private List<TileSource.TileSourceState> factoryStates;
+  }
+
+  public TableAreaState saveState() {
+
+    TableAreaState state = new TableAreaState();
+
+    state.tableCenterState = tableCenter.saveState();
+
+    state.factoryStates = new ArrayList<>();
+
+    for (TileSource factory : factories) {
+
+      state.factoryStates.add(factory.saveState());
+    }
+
+    return state;
+  }
+
+  public void restoreState(TableAreaState state) {
+
+    this.tableCenter.restoreState(state.tableCenterState);
+
+    for (int i = 0; i < factories.size(); i++) {
+
+      factories.get(i).restoreState(state.factoryStates.get(i));
     }
   }
 
@@ -36,8 +69,11 @@ public class TableArea {
   }
 
   public boolean isRoundEnd() {
+
     for (TileSource factory : factories) {
+
       if (!factory.isEmpty()) {
+
         return false;
       }
     }
@@ -52,23 +88,5 @@ public class TableArea {
       factory.startNewRound();
     }
     tableCenter.startNewRound();
-  }
-
-  public String state() {
-
-    StringBuilder builder = new StringBuilder();
-
-    for (TileSource factory : factories) {
-
-      builder.append("Factory:");
-      builder.append(factory.state());
-
-      builder.append("\n");
-    }
-
-    builder.append("TableCenter:");
-    builder.append(tableCenter.state());
-
-    return builder.toString();
   }
 }
