@@ -7,12 +7,14 @@ public class Board {
   private final List<PatternLine> patternLines;
   private final List<WallLine> wallLines;
   private final Floor floor;
+  private final FinalPointsCalculation finalPointsCalculation;
 
   public Board(Floor floor) {
 
     this.floor = floor;
     this.wallLines = new ArrayList<>();
     this.patternLines = new ArrayList<>();
+    this.finalPointsCalculation = new FinalPointsCalculation();
 
     // Get the list of colors from the Tile enum.
     var colors = new Tile[] { Tile.RED, Tile.BLUE, Tile.YELLOW, Tile.RED, Tile.BLACK };
@@ -53,13 +55,22 @@ public class Board {
 
   public FinishRoundResult finishRound() {
 
-    // TODO: Implement the logic for finishing the round.
-
-    return FinishRoundResult.GAME_FINISHED;
+    return GameFinished.gameFinished(wallLines);
   }
 
   public void endGame() {
-    // Logic for the end of the game, including final scoring.
+
+    Tile[][] wall = wallLines.stream()
+        .map(WallLine::getTiles)
+        .toArray(Tile[][]::new);
+
+    Points finalPoints = finalPointsCalculation.getPoints(wall);
+
+    // points = points.add(finalPoints);
+
+    // Here you would typically update the game state to show that the game has ended,
+    // potentially notifying players of the final scores and the winner.
+    // This could involve calling a method like gameFinished() on a game observer.
   }
 
   public String state() {
