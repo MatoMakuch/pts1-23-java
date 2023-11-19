@@ -42,6 +42,12 @@ class Player implements PlayerInterface {
   }
 
   @Override
+  public Board getBoard() {
+
+    return board;
+  }
+
+  @Override
   public void put(List<Tile> tiles, int destinationIndex) {
 
     board.put(tiles, destinationIndex);

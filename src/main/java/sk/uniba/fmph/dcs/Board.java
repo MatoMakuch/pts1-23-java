@@ -93,6 +93,25 @@ public class Board {
     this.points.setValue(state.points.getValue());
   }
 
+  public Points getPoints() {
+
+    return points;
+  }
+
+  public List<PatternLine> getPatternLines() {
+
+    return Collections.unmodifiableList(patternLines);
+  }
+
+  public List<WallLine> getWallLines() {
+
+    return Collections.unmodifiableList(wallLines);
+  }
+
+  public Floor getFloor() {
+
+    return floor;
+  }
 
   public void put(List<Tile> tiles, int destinationIndex) {
 
@@ -118,6 +137,8 @@ public class Board {
 
       points.add(patternLine.finishRound());
     }
+
+    floor.finishRound();
 
     return GameFinished.gameFinished(wallLines);
   }

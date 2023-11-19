@@ -35,6 +35,8 @@ public class Demo {
       builder.append("YBBL");
     }
 
+    Bag.getInstance().restoreState(new Bag.BagState(Tile.fromString(builder.toString())));
+
     Game game = new Game(playerNames);
 
 //    // Simulate a game.
@@ -52,6 +54,8 @@ public class Demo {
 
     // Infinite loop for game turns
 
+    Display.display(game);
+
     while (true) {
       System.out.println(game.onTurn()); // Display the name or number of the current player.
 
@@ -65,6 +69,8 @@ public class Demo {
       int destinationIndex = Integer.parseInt(scanner.nextLine());
 
       game.take(sourceIndex, tileIndex, destinationIndex);
+
+      Display.display(game);
     }
 
     // scanner.close();

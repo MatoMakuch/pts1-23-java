@@ -32,7 +32,7 @@ enum Tile {
 
   public static Character toChar(Tile tile) {
 
-    return tile.toString().charAt(0);
+    return tile == null ? null : tile.toString().charAt(0);
   }
 
   public static List<Tile> fromString(String value) {
@@ -52,6 +52,12 @@ enum Tile {
     StringBuilder builder = new StringBuilder();
 
     for (Tile tile : tiles) {
+
+      if (tile == null) {
+
+        builder.append(".");
+        continue;
+      }
 
       builder.append(tile.toString());
     }

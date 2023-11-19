@@ -13,19 +13,43 @@ class UsedTiles implements UsedTilesInterface {
   }
 
   public static UsedTiles getInstance() {
+
     if (instance == null) {
+
       instance = new UsedTiles();
     }
+
     return instance;
   }
 
   @Override
   public void give(Collection<Tile> tiles) {
+
     usedTiles.addAll(tiles);
   }
 
-  // If you need to access the used tiles, add a method for it
   public List<Tile> getUsedTiles() {
-    return new ArrayList<>(usedTiles); // Returning a copy to maintain encapsulation
+
+    return new ArrayList<>(usedTiles);
+  }
+
+  // Memento inner class for UsedTiles' state
+  public static class UsedTilesState {
+    private final String tiles;
+
+    private UsedTilesState(List<Tile> tiles) {
+
+      this.tiles = Tile.toString(tiles);
+    }
+  }
+
+  public UsedTilesState saveState() {
+
+    return new UsedTilesState(usedTiles);
+  }
+
+  public void restoreState(UsedTilesState state) {
+
+    this.usedTiles = Tile.fromString(state.tiles);
   }
 }

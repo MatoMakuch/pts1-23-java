@@ -1,9 +1,8 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 class Game implements GameInterface {
   private final TableArea tableArea;
@@ -62,6 +61,15 @@ class Game implements GameInterface {
     this.startingPlayerIndex = state.startingPlayerIndex;
   }
 
+  public TableArea getTableArea() {
+
+    return tableArea;
+  }
+
+  public List<Player> getPlayers() {
+
+    return Collections.unmodifiableList(players);
+  }
 
   @Override
   public String onTurn() {

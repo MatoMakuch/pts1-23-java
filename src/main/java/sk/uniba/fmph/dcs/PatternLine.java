@@ -1,6 +1,7 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PatternLine {
@@ -44,6 +45,16 @@ public class PatternLine {
     this.tiles = Tile.fromString(state.tiles);
     this.type = Tile.fromChar(state.type);
     this.capacity = state.capacity;
+  }
+
+  public int getCapacity() {
+
+    return capacity;
+  }
+
+  public List<Tile> getTiles() {
+
+    return Collections.unmodifiableList(tiles);
   }
 
   public boolean put(List<Tile> tilesToAdd) {
@@ -99,9 +110,30 @@ public class PatternLine {
 
     var points = wallLine.putTile(type);
 
+    UsedTiles.getInstance().give(tiles);
     tiles.clear();
     type = null;
 
     return points;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder builder = new StringBuilder();
+
+    for (int i = 0; i < capacity; i++) {
+
+      if (i < tiles.size()) {
+
+        builder.append(Tile.toChar(tiles.get(i)));
+      }
+      else {
+
+        builder.append('.');
+      }
+    }
+
+    return builder.toString();
   }
 }

@@ -2,6 +2,7 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public final class Floor {
@@ -36,7 +37,18 @@ public final class Floor {
   }
 
   public void restoreState(FloorState state) {
+
     this.tiles = Tile.fromString(state.tiles); // Assuming Tile.fromString method exists
+  }
+
+  public List<Points> getPointPattern() {
+
+    return Collections.unmodifiableList(pointPattern);
+  }
+
+  public List<Tile> getTiles() {
+
+    return Collections.unmodifiableList(tiles);
   }
 
   public void put(final Collection<Tile> tiles) {

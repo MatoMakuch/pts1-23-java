@@ -59,6 +59,11 @@ public class TableArea {
     return tableCenter;
   }
 
+  public List<TileSource> getFactories() {
+
+    return factories;
+  }
+
   public List<Tile> take(int sourceIndex, int tileIndex) {
 
     if (sourceIndex == -1) {

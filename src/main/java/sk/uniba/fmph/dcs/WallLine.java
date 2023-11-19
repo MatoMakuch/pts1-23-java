@@ -28,6 +28,8 @@ public class WallLine {
     this.lineDown = lineDown;
   }
 
+  //#region State
+
   public static class WallLineState {
 
     private String tiles;
@@ -63,6 +65,8 @@ public class WallLine {
       }
     }
   }
+
+  //#endregion
 
   public boolean canPutTile(Tile tile) {
 
@@ -172,5 +176,25 @@ public class WallLine {
     builder.append("\n");
 
     return builder.toString();
+  }
+
+  @Override
+  public String toString() {
+
+    final List<Tile> tiles = new ArrayList<>();
+    for (int i = 0; i < tileTypes.length; i++) {
+
+      if (filledPositions[i]) {
+
+        tiles.add(tileTypes[i]);
+      }
+      else
+      {
+
+        tiles.add(null);
+      }
+    }
+
+    return Tile.toString(tiles);
   }
 }
