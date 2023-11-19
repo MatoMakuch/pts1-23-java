@@ -65,11 +65,13 @@ public class Factory implements TileSource {
 
   @Override
   public boolean isEmpty() {
+
     return tiles.isEmpty();
   }
 
   @Override
   public void startNewRound() {
+
     tiles.clear();
   }
 
