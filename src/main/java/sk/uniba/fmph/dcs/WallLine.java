@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WallLine {
+public class WallLine implements TileStateInterface {
 
   private final Tile[] tileTypes;
   private final boolean[] filledPositions;
@@ -27,46 +27,6 @@ public class WallLine {
 
     this.lineDown = lineDown;
   }
-
-  //#region State
-
-  public static class WallLineState {
-
-    private String tiles;
-
-    private WallLineState(List<Tile> tiles) {
-
-      this.tiles = Tile.toString(tiles);
-    }
-  }
-
-  public WallLineState saveState() {
-
-    final List<Tile> tiles = new ArrayList<>();
-    for (int i = 0; i < tileTypes.length; i++) {
-
-      if (filledPositions[i]) {
-
-        tiles.add(tileTypes[i]);
-      }
-    }
-
-    return new WallLineState(tiles);
-  }
-
-  public void restoreState(WallLineState state) {
-
-    final List<Tile> tiles = Tile.fromString(state.tiles);
-    for (int i = 0; i < tileTypes.length; i++) {
-
-      if (tiles.contains(tileTypes[i])) {
-
-        filledPositions[i] = true;
-      }
-    }
-  }
-
-  //#endregion
 
   public boolean canPutTile(Tile tile) {
 
@@ -191,22 +151,38 @@ public class WallLine {
   }
 
   @Override
-  public String toString() {
+  public String getState() {
 
     final List<Tile> tiles = new ArrayList<>();
+
     for (int i = 0; i < tileTypes.length; i++) {
 
       if (filledPositions[i]) {
 
         tiles.add(tileTypes[i]);
       }
-      else
-      {
-
-        tiles.add(null);
-      }
     }
 
     return Tile.toString(tiles);
+  }
+
+  @Override
+  public void setState(String state) {
+
+    final List<Tile> tiles = Tile.fromString(state);
+
+    for (int i = 0; i < tileTypes.length; i++) {
+
+      if (tiles.contains(tileTypes[i])) {
+
+        filledPositions[i] = true;
+      }
+    }
+  }
+
+  @Override
+  public String toString() {
+
+    return getState();
   }
 }

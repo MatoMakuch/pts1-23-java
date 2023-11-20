@@ -24,21 +24,21 @@ public class TableArea {
   }
 
   public static class TableAreaState {
-    private TileSource.TileSourceState tableCenterState;
-    private List<TileSource.TileSourceState> factoryStates;
+    private String tableCenterState;
+    private List<String> factoryStates;
   }
 
   public TableAreaState saveState() {
 
     TableAreaState state = new TableAreaState();
 
-    state.tableCenterState = tableCenter.saveState();
+    state.tableCenterState = tableCenter.getState();
 
     state.factoryStates = new ArrayList<>();
 
     for (TileSource factory : factories) {
 
-      state.factoryStates.add(factory.saveState());
+      state.factoryStates.add(factory.getState());
     }
 
     return state;
@@ -46,11 +46,11 @@ public class TableArea {
 
   public void restoreState(TableAreaState state) {
 
-    this.tableCenter.restoreState(state.tableCenterState);
+    this.tableCenter.setState(state.tableCenterState);
 
     for (int i = 0; i < factories.size(); i++) {
 
-      factories.get(i).restoreState(state.factoryStates.get(i));
+      factories.get(i).setState(state.factoryStates.get(i));
     }
   }
 

@@ -37,9 +37,9 @@ public class Board {
   }
 
   public static class BoardState {
-    private Floor.FloorState floorState;
-    private List<WallLine.WallLineState> wallLineStates;
-    private List<PatternLine.PatternLineState> patternLineStates;
+    private String floorState;
+    private List<String> wallLineStates;
+    private List<String> patternLineStates;
     private Points points;
   }
 
@@ -47,18 +47,18 @@ public class Board {
 
     BoardState state = new BoardState();
 
-    state.floorState = floor.saveState();
+    state.floorState = floor.getState();
 
     state.wallLineStates = new ArrayList<>();
     for (WallLine wallLine : wallLines) {
 
-      state.wallLineStates.add(wallLine.saveState());
+      state.wallLineStates.add(wallLine.getState());
     }
 
     state.patternLineStates = new ArrayList<>();
     for (PatternLine patternLine : patternLines) {
 
-      state.patternLineStates.add(patternLine.saveState());
+      state.patternLineStates.add(patternLine.getState());
     }
 
     state.points = points;
@@ -69,14 +69,14 @@ public class Board {
   public void restoreState(BoardState state) {
 
     // Restore the state of the floor.
-    this.floor.restoreState(state.floorState);
+    this.floor.setState(state.floorState);
 
     // Restore the states of the wall lines.
     for (int i = 0; i < state.wallLineStates.size(); i++) {
 
       if (i < wallLines.size()) {
 
-        wallLines.get(i).restoreState(state.wallLineStates.get(i));
+        wallLines.get(i).setState(state.wallLineStates.get(i));
       }
     }
 
@@ -85,7 +85,7 @@ public class Board {
 
       if (i < patternLines.size()) {
 
-        patternLines.get(i).restoreState(state.patternLineStates.get(i));
+        patternLines.get(i).setState(state.patternLineStates.get(i));
       }
     }
 

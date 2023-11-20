@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class Demo {
   public static void main(String[] args) {
 
+    final ObserverInterface observer = System.out::println;
+
     Scanner scanner = new Scanner(System.in);
 
 //    System.out.print("Enter the number of players: ");
@@ -38,6 +40,7 @@ public class Demo {
     Bag.getInstance().fillBag(Tile.fromString(builder.toString()));
 
     Game game = new Game(playerNames);
+    game.getGameObserver().registerObserver(observer);
 
     // Simulate a game.
     // Round 1.
@@ -99,6 +102,17 @@ public class Demo {
     game.take(-1, 2, 2);
     game.take(-1, 0, -1);
     game.take(-1, 0, 1);
+
+    // Round 6.
+    game.take(2, 3, 4);
+    game.take(0, 0, 4);
+    game.take(1, 0, 1);
+    game.take(3, 1, 2);
+    game.take(4, 3, 0);
+    game.take(-1, 4, 2);
+    game.take(-1, 0, 3);
+    game.take(-1, 0, -1);
+    game.take(-1, 0, 2);
 
     // Infinite loop for game turns
 

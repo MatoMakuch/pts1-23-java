@@ -5,35 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Bag {
+public class Bag implements TileStateInterface {
   private static Bag instance = null;
   private List<Tile> tiles = new ArrayList<>();
-
-  private Bag() {
-
-  }
 
   public static Bag getInstance() {
     if (instance == null) {
       instance = new Bag();
     }
     return instance;
-  }
-
-  public static class BagState {
-    private String tiles;
-
-    private BagState(List<Tile> tiles) {
-      this.tiles = Tile.toString(tiles);
-    }
-  }
-
-  public BagState saveState() {
-    return new BagState(tiles);
-  }
-
-  public void restoreState(BagState state) {
-    tiles = Tile.fromString(state.tiles);
   }
 
   public void fillBag() {
@@ -65,4 +45,15 @@ public class Bag {
     }
     return pickedTiles;
   }
+
+  @Override
+  public String getState() {
+    return Tile.toString(tiles);
+  }
+
+  @Override
+  public void setState(String state) { tiles = Tile.fromString(state); }
+
+  @Override
+  public String toString() { return getState(); }
 }

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public final class Floor {
+public final class Floor implements TileStateInterface {
   private final List<Points> pointPattern;
   private List<Tile> tiles;
 
@@ -22,23 +22,6 @@ public final class Floor {
     this.pointPattern.add(new Points(-3));
 
     this.tiles = new ArrayList<>();
-  }
-
-  public static class FloorState {
-    private final String tiles;
-
-    private FloorState(List<Tile> tiles) {
-      this.tiles = Tile.toString(tiles); // Assuming Tile.toString method exists
-    }
-  }
-
-  public FloorState saveState() {
-    return new FloorState(tiles);
-  }
-
-  public void restoreState(FloorState state) {
-
-    this.tiles = Tile.fromString(state.tiles); // Assuming Tile.fromString method exists
   }
 
   public List<Points> getPointPattern() {
@@ -72,4 +55,15 @@ public final class Floor {
 
     return new Points(sum);
   }
+
+  @Override
+  public String getState() {
+    return Tile.toString(tiles);
+  }
+
+  @Override
+  public void setState(String state) { tiles = Tile.fromString(state); }
+
+  @Override
+  public String toString() { return getState(); }
 }

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 class Game implements GameInterface {
+  private final GameObserver observer = new GameObserver();
   private final TableArea tableArea;
   private final List<Player> players;
   private int startingPlayerIndex = 0;
@@ -72,6 +73,12 @@ class Game implements GameInterface {
   }
 
   @Override
+  public GameObserver getGameObserver() {
+
+    return observer;
+  }
+
+  @Override
   public String onTurn() {
 
     return players.get(currentPlayerIndex).getName();
@@ -96,18 +103,22 @@ class Game implements GameInterface {
       return;
     }
 
+    observer.notifyEverybody("Round ended");
+
     var result = finishRound();
 
     if (result == FinishRoundResult.NORMAL) {
 
       tableArea.startNewRound();
-    }
-    else {
 
-      endGame();
+      observer.notifyEverybody("Round started");
+
+      return;
     }
 
     endGame();
+
+    observer.notifyEverybody("Game ended");
   }
 
   public FinishRoundResult finishRound() {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PatternLine {
+public class PatternLine implements TileStateInterface {
 
-  private WallLine wallLine;
-  private Floor floor;
+  private final WallLine wallLine;
+  private final Floor floor;
   private int capacity;
-  private List<Tile> tiles;
+  private final List<Tile> tiles;
   private Tile type;
 
   public PatternLine(WallLine wallLine, Floor floor, int capacity) {
@@ -19,32 +19,6 @@ public class PatternLine {
     this.capacity = capacity;
 
     this.tiles = new ArrayList<>();
-  }
-
-  public static class PatternLineState {
-    private String tiles;
-    private Character type;
-    private int capacity;
-
-    private PatternLineState(List<Tile> tiles, Tile type, int capacity) {
-
-      this.tiles = Tile.toString(tiles);
-      this.type = Tile.toChar(type);
-
-      this.capacity = capacity;
-    }
-  }
-
-  public PatternLineState saveState() {
-
-    return new PatternLineState(tiles, type, capacity);
-  }
-
-  public void restoreState(PatternLineState state) {
-
-    this.tiles = Tile.fromString(state.tiles);
-    this.type = Tile.fromChar(state.type);
-    this.capacity = state.capacity;
   }
 
   public int getCapacity() {
@@ -118,22 +92,53 @@ public class PatternLine {
   }
 
   @Override
-  public String toString() {
+  public String getState() {
 
-    StringBuilder builder = new StringBuilder();
+    final List<Tile> tiles = new ArrayList<>();
 
     for (int i = 0; i < capacity; i++) {
 
-      if (i < tiles.size()) {
+      if (i < this.tiles.size()) {
 
-        builder.append(Tile.toChar(tiles.get(i)));
+        tiles.add(this.tiles.get(i));
       }
       else {
 
-        builder.append('.');
+        tiles.add(null);
       }
     }
 
-    return builder.toString();
+    return Tile.toString(tiles);
+  }
+
+  @Override
+  public void setState(String state) {
+
+    final List<Tile> tiles = Tile.fromString(state);
+
+    this.capacity = tiles.size();
+
+    this.tiles.clear();
+    for (var tile : tiles) {
+
+      if (tile == null) {
+
+        break;
+      }
+
+      this.tiles.add(tile);
+    }
+
+    this.type = null;
+    if (this.tiles.size() > 0) {
+
+      this.type = this.tiles.get(0);
+    }
+  }
+
+  @Override
+  public String toString() {
+
+    return getState();
   }
 }

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class UsedTiles implements UsedTilesInterface {
+class UsedTiles implements UsedTilesInterface, TileStateInterface {
   private static UsedTiles instance = null;
-  private List<Tile> usedTiles;
+  private List<Tile> tiles;
 
   private UsedTiles() {
-    usedTiles = new ArrayList<>();
+
+    tiles = new ArrayList<>();
   }
 
   public static UsedTiles getInstance() {
@@ -25,31 +26,22 @@ class UsedTiles implements UsedTilesInterface {
   @Override
   public void give(Collection<Tile> tiles) {
 
-    usedTiles.addAll(tiles);
+    tiles.addAll(tiles);
   }
 
   public List<Tile> getUsedTiles() {
 
-    return new ArrayList<>(usedTiles);
+    return new ArrayList<>(tiles);
   }
 
-  // Memento inner class for UsedTiles' state
-  public static class UsedTilesState {
-    private final String tiles;
-
-    private UsedTilesState(List<Tile> tiles) {
-
-      this.tiles = Tile.toString(tiles);
-    }
+  @Override
+  public String getState() {
+    return Tile.toString(tiles);
   }
 
-  public UsedTilesState saveState() {
+  @Override
+  public void setState(String state) { tiles = Tile.fromString(state); }
 
-    return new UsedTilesState(usedTiles);
-  }
-
-  public void restoreState(UsedTilesState state) {
-
-    this.usedTiles = Tile.fromString(state.tiles);
-  }
+  @Override
+  public String toString() { return getState(); }
 }
