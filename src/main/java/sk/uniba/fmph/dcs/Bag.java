@@ -10,7 +10,7 @@ public class Bag {
   private List<Tile> tiles = new ArrayList<>();
 
   private Bag() {
-    fillBag();
+
   }
 
   public static Bag getInstance() {
@@ -23,7 +23,7 @@ public class Bag {
   public static class BagState {
     private String tiles;
 
-    public BagState(List<Tile> tiles) {
+    private BagState(List<Tile> tiles) {
       this.tiles = Tile.toString(tiles);
     }
   }
@@ -36,7 +36,8 @@ public class Bag {
     tiles = Tile.fromString(state.tiles);
   }
 
-  private void fillBag() {
+  public void fillBag() {
+
     this.tiles.clear();
     for (Tile tile : Tile.values()) {
       if (tile != Tile.STARTING_PLAYER) {
@@ -46,6 +47,12 @@ public class Bag {
       }
     }
     Collections.shuffle(tiles, new Random());
+  }
+
+  public void fillBag(List<Tile> tiles) {
+
+    this.tiles.clear();
+    this.tiles.addAll(tiles);
   }
 
   public List<Tile> getTiles(int count) {

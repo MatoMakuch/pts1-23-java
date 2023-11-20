@@ -29,7 +29,7 @@ public class FloorTest {
   @Before
   public void setUp() {
     usedTiles = new FakeUsedTiles();
-    floor = new Floor(usedTiles);
+    //floor = new Floor(usedTiles);
   }
 
   @Test

@@ -103,7 +103,7 @@ public class WallLine {
 
     filledPositions[index] = true;
 
-    int points = 1; // Start with 1 point for the tile itself
+    int points = 0;
 
     // Check horizontally
     int horizontalCount = 1; // Include the placed tile.
@@ -132,25 +132,37 @@ public class WallLine {
 
     if (horizontalCount > 1) {
 
-      points += (horizontalCount - 1);
+      points += (horizontalCount);
     }
 
     // Check vertically
 
     int verticalCount = 1; // Include the placed tile.
 
-    if (lineUp != null && lineUp.getTiles()[index] != null) {
+    // Check upwards
+    WallLine currentLine = this.lineUp;
+    while (currentLine != null && currentLine.getTiles()[index] != null) {
 
+      currentLine = currentLine.lineUp;
       verticalCount++;
     }
-    if (lineDown != null && lineDown.getTiles()[index] != null) {
 
+    // Check downwards
+    currentLine = this.lineDown;
+    while (currentLine != null && currentLine.getTiles()[index] != null) {
+
+      currentLine = currentLine.lineDown;
       verticalCount++;
     }
 
     if (verticalCount > 1) {
+      points += verticalCount;
+    }
 
-      points += (verticalCount - 1);
+    // Minimum of 1 point.
+    if (points == 0) {
+
+      points = 1;
     }
 
     return new Points(points);

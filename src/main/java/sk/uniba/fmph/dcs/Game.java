@@ -100,7 +100,11 @@ class Game implements GameInterface {
 
     if (result == FinishRoundResult.NORMAL) {
 
-      return;
+      tableArea.startNewRound();
+    }
+    else {
+
+      endGame();
     }
 
     endGame();

@@ -59,7 +59,7 @@ enum Tile {
         continue;
       }
 
-      builder.append(tile.toString());
+      builder.append(tile);
     }
 
     return builder.toString();

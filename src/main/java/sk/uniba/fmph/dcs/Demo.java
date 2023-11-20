@@ -26,7 +26,7 @@ public class Demo {
 
     StringBuilder builder = new StringBuilder();
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
 
       builder.append("RRRG");
       builder.append("GYYB");
@@ -35,22 +35,70 @@ public class Demo {
       builder.append("YBBL");
     }
 
-    Bag.getInstance().restoreState(new Bag.BagState(Tile.fromString(builder.toString())));
+    Bag.getInstance().fillBag(Tile.fromString(builder.toString()));
 
     Game game = new Game(playerNames);
 
-//    // Simulate a game.
-//    // Round 1.
-//    game.take(0, 0, 2);
-//    game.take(3, 0, 0);
-//    game.take(1, 1, 1);
-//    game.take(2, 1, 1);
-//    game.take(-1, 1, 3);
-//    game.take(4, 0, 2);
-//    game.take(-1, 1, 4);
-//    game.take(-1, 0, 2);
-//    game.take(-1, 0, 0);
-//    game.take(-1, 0, 3);
+    // Simulate a game.
+    // Round 1.
+    game.take(0, 0, 2);
+    game.take(3, 0, 0);
+    game.take(1, 1, 1);
+    game.take(2, 1, 1);
+    game.take(-1, 1, 3);
+    game.take(4, 0, 2);
+    game.take(-1, 1, 4);
+    game.take(-1, 0, 2);
+    game.take(-1, 0, 0);
+    game.take(-1, 0, 3);
+
+    // Round 2.
+    game.take(0, 0, 1);
+    game.take(3, 3, 2);
+    game.take(1, 1, 0);
+    game.take(-1, 1, 4);
+    game.take(2, 0, 4);
+    game.take(-1, 0, 3);
+    game.take(4, 0, -1);
+    game.take(-1, 1, 0);
+    game.take(-1, 0, 2);
+    game.take(-1, 0, -1);
+
+    // Round 3.
+    game.take(3, 1, 1);
+    game.take(1, 0, 0);
+    game.take(2, 0, 0);
+    game.take(4, 1, 1);
+    game.take(-1, 2, 3);
+    game.take(-1, 0, 2);
+    game.take(0, 3, 4);
+    game.take(-1, 1, 3);
+    game.take(-1, 0, -1);
+
+    // Round 4.
+    game.take(4, 1, 1);
+    game.take(2, 0, 0);
+    game.take(0, 0, 2);
+    game.take(-1, 2, 1);
+    game.take(3, 3, 0);
+    game.take(-1, 2, 2);
+    game.take(1, 0, 3);
+    game.take(-1, 0, 3);
+    game.take(-1, 0, 4);
+    game.take(-1, 0, -1);
+    game.take(-1, 0, -1);
+
+    // Round 5.
+    game.take(4, 0, 3);
+    game.take(0, 3, 3);
+    game.take(1, 0, 1);
+    game.take(3, 1, 3);
+    game.take(-1, 4, 4);
+    game.take(2, 1, 2);
+    game.take(-1, 9, 4);
+    game.take(-1, 2, 2);
+    game.take(-1, 0, -1);
+    game.take(-1, 0, 1);
 
     // Infinite loop for game turns
 

@@ -138,7 +138,7 @@ public class Board {
       points.add(patternLine.finishRound());
     }
 
-    floor.finishRound();
+    points.add(floor.finishRound());
 
     return GameFinished.gameFinished(wallLines);
   }

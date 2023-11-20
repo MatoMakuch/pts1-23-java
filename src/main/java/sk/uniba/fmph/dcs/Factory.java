@@ -68,6 +68,6 @@ public class Factory extends TileSource {
   @Override
   public void startNewRound() {
 
-    tiles.clear();
+    fillFactory();
   }
 }
