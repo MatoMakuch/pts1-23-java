@@ -11,7 +11,7 @@ public class Display {
 
       factoriesGrid.addText(i, 0, "F" + (i + 1) + ":");
 
-      var tiles = factories.get(i).getTiles();
+      var tiles = Tile.fromString(factories.get(i).getState());
 
       for (int j = 0; j < tiles.size(); j++) {
 
@@ -23,7 +23,7 @@ public class Display {
     System.out.print(new GridHorizontalSeparator(50));
 
     GridDisplay tableCenterGrid = new GridDisplay(50, 1, 1);
-    tableCenterGrid.addText(0, 0, "Table center: " + Tile.toString(game.getTableArea().getTableCenter().getTiles()));
+    tableCenterGrid.addText(0, 0, "Table center: " + game.getTableArea().getTableCenter().getState());
     System.out.print(tableCenterGrid);
 
     System.out.print(new GridHorizontalSeparator(50));

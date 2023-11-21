@@ -13,20 +13,17 @@ public class Demo {
 
     Scanner scanner = new Scanner(System.in);
 
-//    System.out.print("Enter the number of players: ");
-//    int playerCount = Integer.parseInt(scanner.nextLine());
+    System.out.print("Enter the number of players: ");
+    int playerCount = Integer.parseInt(scanner.nextLine());
 
     List<String> playerNames = new ArrayList<>();
 
-//    for (int i = 0; i < playerCount; i++) {
-//
-//      System.out.print("Enter the name of player " + (i + 1) + ": ");
-//
-//      playerNames.add(scanner.nextLine());
-//    }
+    for (int i = 0; i < playerCount; i++) {
 
-    playerNames.add("Player1");
-    playerNames.add("Player2");
+      System.out.print("Enter the name of player " + (i + 1) + ": ");
+
+      playerNames.add(scanner.nextLine());
+    }
 
     StringBuilder builder = new StringBuilder();
 

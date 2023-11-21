@@ -1,8 +1,8 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.PointsCounter;
+import sk.uniba.fmph.dcs.interfaces.PointsCounterInterface;
 
-class ColorCompletionCounter implements PointsCounter {
+class ColorCompletionCounterInterface implements PointsCounterInterface {
 
   @Override
   public Points countPoints(Tile[][] wall) {

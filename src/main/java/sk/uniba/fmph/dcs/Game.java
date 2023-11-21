@@ -23,7 +23,11 @@ class Game implements GameInterface {
 
       players.add(new Player(playerName, pointPattern));
     }
+
+    tableArea.startNewRound();
   }
+
+  //#region Memento
 
   public static class GameState {
     private final TableArea.TableAreaState tableAreaState;
@@ -65,6 +69,8 @@ class Game implements GameInterface {
     this.startingPlayerIndex = state.startingPlayerIndex;
   }
 
+  //#endregion
+
   public TableArea getTableArea() {
 
     return tableArea;
@@ -96,23 +102,32 @@ class Game implements GameInterface {
   @Override
   public void take(int sourceIndex, int tileIndex, int destinationIndex) {
 
+    handleTileTaking(sourceIndex, tileIndex, destinationIndex);
+
+    // Update current player index.
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+
+    if (tableArea.isRoundEnd()) {
+
+      observer.notifyEverybody("Round ended");
+
+      handleRoundEnd();
+    }
+  }
+
+  private void handleTileTaking(int sourceIndex, int tileIndex, int destinationIndex) {
+
     final List<Tile> tiles = tableArea.take(sourceIndex, tileIndex);
 
+    // Update starting player index.
     if (tiles.contains(Tile.STARTING_PLAYER)) {
-
-       startingPlayerIndex = currentPlayerIndex;
+      startingPlayerIndex = currentPlayerIndex;
     }
 
     players.get(currentPlayerIndex).put(tiles, destinationIndex);
+  }
 
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-
-    if (!tableArea.isRoundEnd()) {
-
-      return;
-    }
-
-    observer.notifyEverybody("Round ended");
+  private void handleRoundEnd() {
 
     var result = finishRound();
 
@@ -121,13 +136,13 @@ class Game implements GameInterface {
       tableArea.startNewRound();
 
       observer.notifyEverybody("Round started");
-
-      return;
     }
+    else {
 
-    endGame();
+      endGame();
 
-    observer.notifyEverybody("Game ended");
+      observer.notifyEverybody("Game ended");
+    }
   }
 
   public FinishRoundResult finishRound() {

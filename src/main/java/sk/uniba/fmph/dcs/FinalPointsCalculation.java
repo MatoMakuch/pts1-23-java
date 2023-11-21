@@ -1,27 +1,27 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.PointsCounter;
+import sk.uniba.fmph.dcs.interfaces.PointsCounterInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FinalPointsCalculation {
-  private List<PointsCounter> counters;
+  private List<PointsCounterInterface> counters;
 
   public FinalPointsCalculation() {
 
     counters = new ArrayList<>();
 
-    counters.add(new RowCompletionCounter());
-    counters.add(new ColumnCompletionCounter());
-    counters.add(new ColorCompletionCounter());
+    counters.add(new RowCompletionCounterInterface());
+    counters.add(new ColumnCompletionCounterInterface());
+    counters.add(new ColorCompletionCounterInterface());
   }
 
   public Points getPoints(Tile[][] wall) {
 
     var totalPoints = 0;
 
-    for (PointsCounter counter : counters) {
+    for (PointsCounterInterface counter : counters) {
 
       totalPoints += counter.countPoints(wall).getValue();
     }

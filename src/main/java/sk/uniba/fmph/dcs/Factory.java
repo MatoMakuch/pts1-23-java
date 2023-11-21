@@ -1,19 +1,21 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
+import sk.uniba.fmph.dcs.interfaces.TileSourceInterface;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Factory extends TileSource {
+public class Factory implements TileSourceInterface {
 
   private static final int MAX_TILES = 4;
-  private final TableCenter  tableCenter;
+  private final TableCenterInterface tableCenter;
+  private List<Tile> tiles = new ArrayList<>();
 
-  public Factory(TableCenter tableCenter) {
+  public Factory(TableCenterInterface tableCenter) {
 
     this.tableCenter = tableCenter;
-
-    fillFactory();
   }
 
   private void fillFactory() {
@@ -70,4 +72,12 @@ public class Factory extends TileSource {
 
     fillFactory();
   }
+
+  @Override
+  public String getState() {
+    return Tile.toString(tiles);
+  }
+
+  @Override
+  public void setState(String state) { tiles = Tile.fromString(state); }
 }

@@ -1,11 +1,11 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.PointsCounter;
+import sk.uniba.fmph.dcs.interfaces.PointsCounterInterface;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-class RowCompletionCounter implements PointsCounter {
+class RowCompletionCounterInterface implements PointsCounterInterface {
 
   @Override
   public Points countPoints(Tile[][] wall) {

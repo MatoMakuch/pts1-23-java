@@ -1,19 +1,22 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableCenter extends TileSource {
+public class TableCenter implements TableCenterInterface {
+
+  private List<Tile> tiles = new ArrayList<>();
   private boolean isFirstPlayer;
 
   public TableCenter() {
 
     tiles = new ArrayList<>();
     isFirstPlayer = true;
-
-    tiles.add(Tile.STARTING_PLAYER); // Adding the starting player tile initially.
   }
 
+  @Override
   public void add(List<Tile> tilesToAdd) {
     this.tiles.addAll(tilesToAdd);
   }
@@ -30,7 +33,7 @@ public class TableCenter extends TileSource {
 
     List<Tile> pickedTiles = new ArrayList<>();
 
-    // Use an iterator to avoid ConcurrentModificationException
+    // Use an iterator to avoid ConcurrentModificationException.
     tiles.removeIf(tile -> {
 
       boolean shouldRemove = tile == pickedTile;
@@ -66,8 +69,16 @@ public class TableCenter extends TileSource {
   public void startNewRound() {
 
     tiles.clear();
-    tiles.add(Tile.STARTING_PLAYER);
+    tiles.add(Tile.STARTING_PLAYER); // Adding the starting player tile initially.
 
     isFirstPlayer = true;
   }
+
+  @Override
+  public String getState() {
+    return Tile.toString(tiles);
+  }
+
+  @Override
+  public void setState(String state) { tiles = Tile.fromString(state); }
 }

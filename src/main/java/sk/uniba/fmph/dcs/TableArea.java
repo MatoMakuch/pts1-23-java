@@ -1,13 +1,16 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
+import sk.uniba.fmph.dcs.interfaces.TileSourceInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TableArea {
 
   private Bag bag;
-  private TableCenter tableCenter;
-  private List<TileSource> factories;
+  private final TableCenter tableCenter;
+  private final List<TileSourceInterface> factories;
 
   public TableArea(int playerCount) {
 
@@ -23,25 +26,28 @@ public class TableArea {
     }
   }
 
+  //#region Memento
+
   public static class TableAreaState {
     private String tableCenterState;
     private List<String> factoryStates;
+
+    private TableAreaState(TableCenterInterface tableCenter, List<TileSourceInterface> factories) {
+
+      this.tableCenterState = tableCenter.getState();
+
+      this.factoryStates = new ArrayList<>();
+
+      for (TileSourceInterface factory : factories) {
+
+        this.factoryStates.add(factory.getState());
+      }
+    }
   }
 
   public TableAreaState saveState() {
 
-    TableAreaState state = new TableAreaState();
-
-    state.tableCenterState = tableCenter.getState();
-
-    state.factoryStates = new ArrayList<>();
-
-    for (TileSource factory : factories) {
-
-      state.factoryStates.add(factory.getState());
-    }
-
-    return state;
+    return new TableAreaState(tableCenter, factories);
   }
 
   public void restoreState(TableAreaState state) {
@@ -54,12 +60,14 @@ public class TableArea {
     }
   }
 
+  //#endregion
+
   public TableCenter getTableCenter() {
 
     return tableCenter;
   }
 
-  public List<TileSource> getFactories() {
+  public List<TileSourceInterface> getFactories() {
 
     return factories;
   }
@@ -75,7 +83,7 @@ public class TableArea {
 
   public boolean isRoundEnd() {
 
-    for (TileSource factory : factories) {
+    for (TileSourceInterface factory : factories) {
 
       if (!factory.isEmpty()) {
 
@@ -88,7 +96,7 @@ public class TableArea {
   public void startNewRound() {
 
     // Refill factories with tiles from the bag.
-    for (TileSource factory : factories) {
+    for (TileSourceInterface factory : factories) {
 
       factory.startNewRound();
     }
