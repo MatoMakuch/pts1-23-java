@@ -1,13 +1,18 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PatternLineInterface;
+import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
-  private List<PatternLine> patternLines = new ArrayList<>();
-  private List<WallLine> wallLines = new ArrayList<>();
   private final Floor floor;
+  private final List<PatternLineInterface> patternLines = new ArrayList<>();
+  private final List<WallLineInterface> wallLines = new ArrayList<>();
   private final FinalPointsCalculation finalPointsCalculation = new FinalPointsCalculation();
   private final Points points = new Points(0);
 
@@ -36,34 +41,37 @@ public class Board {
     }
   }
 
+  //#region Board state management
+
   public static class BoardState {
-    private String floorState;
-    private List<String> wallLineStates;
-    private List<String> patternLineStates;
-    private Points points;
+    private final String floorState;
+    private final List<String> wallLineStates;
+    private final List<String> patternLineStates;
+    private final Points points;
+
+    private BoardState(Floor floor, List<PatternLineInterface> patternLines, List<WallLineInterface> wallLines, Points points) {
+
+      this.floorState = floor.getState();
+
+      this.wallLineStates = new ArrayList<>();
+      for (WallLineInterface wallLine : wallLines) {
+
+        this.wallLineStates.add(wallLine.getState());
+      }
+
+      this.patternLineStates = new ArrayList<>();
+      for (PatternLineInterface patternLine : patternLines) {
+
+        this.patternLineStates.add(patternLine.getState());
+      }
+
+      this.points = points;
+    }
   }
 
   public BoardState saveState() {
 
-    BoardState state = new BoardState();
-
-    state.floorState = floor.getState();
-
-    state.wallLineStates = new ArrayList<>();
-    for (WallLine wallLine : wallLines) {
-
-      state.wallLineStates.add(wallLine.getState());
-    }
-
-    state.patternLineStates = new ArrayList<>();
-    for (PatternLine patternLine : patternLines) {
-
-      state.patternLineStates.add(patternLine.getState());
-    }
-
-    state.points = points;
-
-    return state;
+    return new BoardState(floor, patternLines, wallLines, points);
   }
 
   public void restoreState(BoardState state) {
@@ -93,24 +101,26 @@ public class Board {
     this.points.setValue(state.points.getValue());
   }
 
-  public Points getPoints() {
+  public List<String> getPatternLineStates() {
 
-    return points;
+    return patternLines.stream().map(PatternLineInterface::getState).collect(Collectors.toList());
   }
 
-  public List<PatternLine> getPatternLines() {
+  public List<String> getWallLineStates() {
 
-    return Collections.unmodifiableList(patternLines);
+    return wallLines.stream().map(WallLineInterface::getState).collect(Collectors.toList());
   }
 
-  public List<WallLine> getWallLines() {
-
-    return Collections.unmodifiableList(wallLines);
-  }
+  //#endregion
 
   public Floor getFloor() {
 
     return floor;
+  }
+
+  public Points getPoints() {
+
+    return points;
   }
 
   public void put(List<Tile> tiles, int destinationIndex) {
@@ -133,7 +143,7 @@ public class Board {
 
   public FinishRoundResult finishRound() {
 
-    for (PatternLine patternLine : patternLines) {
+    for (PatternLineInterface patternLine : patternLines) {
 
       points.add(patternLine.finishRound());
     }
@@ -146,7 +156,9 @@ public class Board {
   public void endGame() {
 
     Tile[][] wall = wallLines.stream()
-        .map(WallLine::getTiles)
+        .map(line ->
+            Tile.fromString(line.getState()).stream()
+                .toArray(Tile[]::new))
         .toArray(Tile[][]::new);
 
     Points finalPoints = finalPointsCalculation.getPoints(wall);

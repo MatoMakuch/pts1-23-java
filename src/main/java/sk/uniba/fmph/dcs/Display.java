@@ -38,23 +38,23 @@ public class Display {
 
       playerGrid.addText(i, 2, "Points: " + board.getPoints().getValue());
 
-      var patternLines = board.getPatternLines();
+      var patternLineStates = board.getPatternLineStates();
       playerGrid.addText(i, 4, "Pattern lines:");
-      for (int j = 0; j < patternLines.size(); j++) {
+      for (int j = 0; j < patternLineStates.size(); j++) {
 
-        playerGrid.addText(i, 5 + j, "P" + (j) + ": " + patternLines.get(j).toString());
+        playerGrid.addText(i, 5 + j, "P" + (j) + ": " + patternLineStates.get(j));
       }
 
-      var wallLines = board.getWallLines();
+      var wallLines = board.getWallLineStates();
       playerGrid.addText(i, 11, "Wall lines:");
       for (int j = 0; j < wallLines.size(); j++) {
 
-        playerGrid.addText(i, 12 + j, "W" + (j) + ": " + wallLines.get(j).toString());
+        playerGrid.addText(i, 12 + j, "W" + (j) + ": " + wallLines.get(j));
       }
 
       var floor = board.getFloor();
       var floorPattern = floor.getPointPattern();
-      var floorTiles = floor.getTiles();
+      var floorTiles = Tile.fromString(floor.getState());
       playerGrid.addText(i, 18, "Floor:");
       for (int j = 0; j < floorPattern.size(); j++) {
 

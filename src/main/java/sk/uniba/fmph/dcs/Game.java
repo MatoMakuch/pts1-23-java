@@ -27,7 +27,7 @@ class Game implements GameInterface {
     tableArea.startNewRound();
   }
 
-  //#region Memento
+  //#region Game state management
 
   public static class GameState {
     private final TableArea.TableAreaState tableAreaState;

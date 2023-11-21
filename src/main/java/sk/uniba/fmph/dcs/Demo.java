@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Demo {
-  public static void main(String[] args) {
 
-    final ObserverInterface observer = System.out::println;
+  final static ObserverInterface observer = System.out::println;
+
+  public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
 
@@ -25,18 +26,7 @@ public class Demo {
       playerNames.add(scanner.nextLine());
     }
 
-    StringBuilder builder = new StringBuilder();
-
-    for (int i = 0; i < 10; i++) {
-
-      builder.append("RRRG");
-      builder.append("GYYB");
-      builder.append("BLLR");
-      builder.append("LGGY");
-      builder.append("YBBL");
-    }
-
-    Bag.getInstance().fillBag(Tile.fromString(builder.toString()));
+    Bag.getInstance().fillBag();
 
     // Define the point pattern for the floor line.
     List<Points> pointPattern = new ArrayList<>();
@@ -72,9 +62,9 @@ public class Demo {
       int destinationIndex = Integer.parseInt(scanner.nextLine());
 
       game.take(sourceIndex, tileIndex, destinationIndex);
-
-      Display.display(game);
     }
+
+    Display.display(game);
 
     scanner.close();
   }

@@ -1,5 +1,6 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PatternLineInterface;
 import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PatternLine implements TileStateInterface {
+public class PatternLine implements PatternLineInterface {
 
   private final WallLineInterface wallLine;
   private final Floor floor;
@@ -24,16 +25,7 @@ public class PatternLine implements TileStateInterface {
     this.tiles = new ArrayList<>();
   }
 
-  public int getCapacity() {
-
-    return capacity;
-  }
-
-  public List<Tile> getTiles() {
-
-    return Collections.unmodifiableList(tiles);
-  }
-
+  @Override
   public boolean put(List<Tile> tilesToAdd) {
 
     if (tilesToAdd.size() == 0) {
@@ -73,6 +65,7 @@ public class PatternLine implements TileStateInterface {
     return true;
   }
 
+  @Override
   public Points finishRound() {
 
     if (tiles.size() != capacity) {

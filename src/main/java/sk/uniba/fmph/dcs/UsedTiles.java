@@ -32,11 +32,6 @@ class UsedTiles implements UsedTilesInterface, TileStateInterface {
     this.tiles.addAll(tiles);
   }
 
-  public List<Tile> getUsedTiles() {
-
-    return new ArrayList<>(tiles);
-  }
-
   @Override
   public String getState() {
     return Tile.toString(tiles);

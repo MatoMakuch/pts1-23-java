@@ -12,7 +12,10 @@ public class TableCenterTest {
 
   @BeforeEach
   public void setUp() {
+
     tableCenter = new TableCenter();
+
+    tableCenter.startNewRound();
   }
 
   @Test
@@ -22,7 +25,7 @@ public class TableCenterTest {
     tableCenter.add(List.of(Tile.BLUE, Tile.RED));
 
     // Take one of the added tiles.
-    List<Tile> takenTiles = tableCenter.take(1); // Assume index 1 is for Tile.RED
+    List<Tile> takenTiles = tableCenter.take(1); // Assume index 1 is for Tile.BLUE.
 
     assertTrue(takenTiles.contains(Tile.STARTING_PLAYER));
     assertTrue(takenTiles.contains(Tile.BLUE));
@@ -56,7 +59,6 @@ public class TableCenterTest {
   @Test
   public void testStartNewRound_ContainsStartingTile() {
 
-    tableCenter.startNewRound();
     assertEquals(tableCenter.take(0).get(0), Tile.STARTING_PLAYER);
   }
 

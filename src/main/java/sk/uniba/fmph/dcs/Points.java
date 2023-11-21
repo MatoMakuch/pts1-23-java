@@ -60,12 +60,7 @@ public final class Points {
 
     final Points other = (Points) obj;
 
-    if (value != other.value) {
-
-      return false;
-    }
-
-    return true;
+    return value == other.value;
   }
 
   @Override

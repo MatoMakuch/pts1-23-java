@@ -16,8 +16,8 @@ class Player implements PlayerInterface {
   }
 
   public static class PlayerState {
-    private String name;
-    private Board.BoardState boardState;
+    private final String name;
+    private final Board.BoardState boardState;
 
     private PlayerState(String name, Board board) {
 

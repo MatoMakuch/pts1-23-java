@@ -35,9 +35,9 @@ public class PatternLineTest {
 
     assertTrue(patternLine.put(Collections.singletonList(testTile)));
 
-    assertEquals(1, patternLine.getTiles().size());
+    assertEquals("R..", patternLine.getState());
 
-    assertEquals(testTile, patternLine.getTiles().get(0));
+    assertEquals(testTile, Tile.fromString(patternLine.getState()).get(0));
   }
 
   @Test

@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WallLine implements WallLineInterface, TileStateInterface {
+public class WallLine implements WallLineInterface {
 
   private final Tile[] tileTypes;
   private final boolean[] filledPositions;
-  private WallLine lineUp;
-  private WallLine lineDown;
+  private WallLineInterface lineUp;
+  private WallLineInterface lineDown;
 
   public WallLine(Tile[] tileTypes) {
 
@@ -21,12 +21,26 @@ public class WallLine implements WallLineInterface, TileStateInterface {
     this.filledPositions = new boolean[tileTypes.length];
   }
 
-  public void setLineUp(WallLine lineUp) {
+  @Override
+  public WallLineInterface getLineUp() {
+
+    return lineUp;
+  }
+
+  @Override
+  public void setLineUp(WallLineInterface lineUp) {
 
     this.lineUp = lineUp;
   }
 
-  public void setLineDown(WallLine lineDown) {
+  @Override
+  public WallLineInterface getLineDown() {
+
+    return lineDown;
+  }
+
+  @Override
+  public void setLineDown(WallLineInterface lineDown) {
 
     this.lineDown = lineDown;
   }
@@ -40,30 +54,11 @@ public class WallLine implements WallLineInterface, TileStateInterface {
   }
 
   @Override
-  public Tile[] getTiles() {
-
-    var tiles = new Tile[tileTypes.length];
-
-    for (int i = 0; i < tileTypes.length; i++) {
-
-      if (filledPositions[i]) {
-
-        tiles[i] = tileTypes[i];
-      }
-      else {
-
-        tiles[i] = null;
-      }
-    }
-
-    return tiles;
-  }
-
-  @Override
   public Points putTile(Tile tile) {
     int index = Arrays.asList(tileTypes).indexOf(tile);
 
     if (index < 0 || filledPositions[index]) {
+
       throw new IllegalStateException("Tile cannot be placed here.");
     }
 
@@ -106,18 +101,18 @@ public class WallLine implements WallLineInterface, TileStateInterface {
     int verticalCount = 1; // Include the placed tile.
 
     // Check upwards
-    WallLine currentLine = this.lineUp;
-    while (currentLine != null && currentLine.getTiles()[index] != null) {
+    WallLineInterface currentLine = this.lineUp;
+    while (currentLine != null && Tile.fromString(currentLine.getState()).get(index) != null) {
 
-      currentLine = currentLine.lineUp;
+      currentLine = currentLine.getLineUp();
       verticalCount++;
     }
 
     // Check downwards
     currentLine = this.lineDown;
-    while (currentLine != null && currentLine.getTiles()[index] != null) {
+    while (currentLine != null && Tile.fromString(currentLine.getState()).get(index) != null) {
 
-      currentLine = currentLine.lineDown;
+      currentLine = currentLine.getLineDown();
       verticalCount++;
     }
 

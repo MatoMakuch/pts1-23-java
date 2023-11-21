@@ -21,11 +21,6 @@ public final class Floor implements TileStateInterface {
     return Collections.unmodifiableList(pointPattern);
   }
 
-  public List<Tile> getTiles() {
-
-    return Collections.unmodifiableList(tiles);
-  }
-
   public void put(final Collection<Tile> tiles) {
     this.tiles.addAll(tiles);
   }

@@ -185,46 +185,65 @@ class GameTest {
     assertEquals(40, game.getPlayers().get(0).getBoard().getPoints().getValue());
     assertEquals(19, game.getPlayers().get(1).getBoard().getPoints().getValue());
 
+    // Player 1.
     game.take(4, 0, 3);
 
+    // Player 2.
     game.take(0, 3, 3);
 
+    // Player 1.
     game.take(1, 0, 1);
 
+    // Player 2.
     game.take(3, 1, 3);
 
+    // Player 1 takes from the table center first.
     game.take(-1, 4, 4);
 
+    // Player 2.
     game.take(2, 1, 2);
 
+    // Player 1.
     game.take(-1, 9, 4);
 
+    // Player 2.
     game.take(-1, 2, 2);
 
+    // Player 1.
     game.take(-1, 0, -1);
 
+    // Player 2.
     game.take(-1, 0, 1);
 
     assertEquals("Player1", game.onTurn());
     assertEquals(38, game.getPlayers().get(0).getBoard().getPoints().getValue());
     assertEquals(32, game.getPlayers().get(1).getBoard().getPoints().getValue());
 
+    // Player 1.
     game.take(2, 3, 4);
 
+    // Player 2.
     game.take(0, 0, 4);
 
+    // Player 1.
     game.take(1, 0, 1);
 
+    // Player 2.
     game.take(3, 1, 2);
 
+    // Player 1.
     game.take(4, 3, 0);
 
+    // Player 2 takes from the table center first.
     game.take(-1, 4, 2);
 
+    // Player 1.
     game.take(-1, 0, 3);
 
+    // Player 2.
     game.take(-1, 0, -1);
 
+    // Player 1.
     game.take(-1, 0, 2);
 
     assertEquals(100, game.getPlayers().get(0).getBoard().getPoints().getValue());

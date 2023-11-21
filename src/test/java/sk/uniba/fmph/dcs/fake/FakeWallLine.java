@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class FakeWallLine implements WallLineInterface {
   private final Set<Tile> acceptableTiles;
+  private WallLineInterface lineUp;
+  private WallLineInterface lineDown;
 
   public FakeWallLine() {
 
@@ -25,6 +27,29 @@ public class FakeWallLine implements WallLineInterface {
 
       acceptableTiles.remove(tile);
     }
+  }
+
+  @Override
+  public WallLineInterface getLineUp() {
+
+    return lineUp;
+  }
+
+  @Override
+  public void setLineUp(WallLineInterface lineUp) {
+
+    this.lineUp = lineUp;
+  }
+
+  @Override
+  public WallLineInterface getLineDown() {
+
+    return lineDown;
+  }
+
+  public void setLineDown(WallLineInterface lineDown) {
+
+    this.lineDown = lineDown;
   }
 
   @Override
@@ -45,8 +70,13 @@ public class FakeWallLine implements WallLineInterface {
   }
 
   @Override
-  public Tile[] getTiles() {
+  public String getState() {
 
-    throw new UnsupportedOperationException("Not implemented.");
+    return null;
+  }
+
+  @Override
+  public void setState(String state) {
+
   }
 }

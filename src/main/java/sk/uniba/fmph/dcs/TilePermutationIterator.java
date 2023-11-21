@@ -14,16 +14,20 @@ public class TilePermutationIterator implements Iterator<Tile[]> {
 
   @Override
   public Tile[] next() {
+
     if (!hasNext()) {
+
       throw new NoSuchElementException("No more permutations available.");
     }
 
     Tile[] pattern = new Tile[colors.length];
     for (int j = 0; j < colors.length; j++) {
+
       pattern[j] = colors[(currentIndex + j) % colors.length];
     }
 
     currentIndex++;
+
     return pattern;
   }
 }

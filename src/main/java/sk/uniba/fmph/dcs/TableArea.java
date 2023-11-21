@@ -29,8 +29,8 @@ public class TableArea {
   //#region Memento
 
   public static class TableAreaState {
-    private String tableCenterState;
-    private List<String> factoryStates;
+    private final String tableCenterState;
+    private final List<String> factoryStates;
 
     private TableAreaState(TableCenterInterface tableCenter, List<TileSourceInterface> factories) {
 
