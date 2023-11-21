@@ -1,10 +1,13 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WallLine implements TileStateInterface {
+public class WallLine implements WallLineInterface, TileStateInterface {
 
   private final Tile[] tileTypes;
   private final boolean[] filledPositions;
@@ -28,6 +31,7 @@ public class WallLine implements TileStateInterface {
     this.lineDown = lineDown;
   }
 
+  @Override
   public boolean canPutTile(Tile tile) {
 
     int index = Arrays.asList(tileTypes).indexOf(tile);
@@ -35,6 +39,7 @@ public class WallLine implements TileStateInterface {
     return index >= 0 && !filledPositions[index];
   }
 
+  @Override
   public Tile[] getTiles() {
 
     var tiles = new Tile[tileTypes.length];
@@ -54,6 +59,7 @@ public class WallLine implements TileStateInterface {
     return tiles;
   }
 
+  @Override
   public Points putTile(Tile tile) {
     int index = Arrays.asList(tileTypes).indexOf(tile);
 
@@ -128,28 +134,6 @@ public class WallLine implements TileStateInterface {
     return new Points(points);
   }
 
-  public String state() {
-
-    StringBuilder builder = new StringBuilder();
-
-    for (int i = 0; i < tileTypes.length; i++) {
-
-      // Add tile if it exists, otherwise add dot.
-      if (filledPositions[i]) {
-
-        builder.append(tileTypes[i]);
-      }
-      else {
-
-        builder.append(".");
-      }
-    }
-
-    builder.append("\n");
-
-    return builder.toString();
-  }
-
   @Override
   public String getState() {
 
@@ -160,6 +144,10 @@ public class WallLine implements TileStateInterface {
       if (filledPositions[i]) {
 
         tiles.add(tileTypes[i]);
+      }
+      else {
+
+        tiles.add(null);
       }
     }
 

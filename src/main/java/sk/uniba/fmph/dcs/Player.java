@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PlayerInterface;
+
 import java.util.List;
 
 class Player implements PlayerInterface {
@@ -7,10 +9,10 @@ class Player implements PlayerInterface {
   private String name;
   private final Board board;
 
-  public Player(String name) {
+  public Player(String name, List<Points> pointPattern) {
 
     this.name = name;
-    this.board = new Board();
+    this.board = new Board(pointPattern);
   }
 
   public static class PlayerState {

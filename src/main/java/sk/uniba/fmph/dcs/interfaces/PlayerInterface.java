@@ -1,4 +1,8 @@
-package sk.uniba.fmph.dcs;
+package sk.uniba.fmph.dcs.interfaces;
+
+import sk.uniba.fmph.dcs.Board;
+import sk.uniba.fmph.dcs.FinishRoundResult;
+import sk.uniba.fmph.dcs.Tile;
 
 import java.util.List;
 

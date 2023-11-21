@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,21 +9,11 @@ import java.util.List;
 
 public final class Floor implements TileStateInterface {
   private final List<Points> pointPattern;
-  private List<Tile> tiles;
+  private List<Tile> tiles = new ArrayList<>();
 
-  public Floor() {
+  public Floor(List<Points> pointPattern) {
 
-    // Define the point pattern for the floor line.
-    this.pointPattern = new ArrayList<>();
-    this.pointPattern.add(new Points(-1));
-    this.pointPattern.add(new Points(-1));
-    this.pointPattern.add(new Points(-2));
-    this.pointPattern.add(new Points(-2));
-    this.pointPattern.add(new Points(-2));
-    this.pointPattern.add(new Points(-3));
-    this.pointPattern.add(new Points(-3));
-
-    this.tiles = new ArrayList<>();
+    this.pointPattern = pointPattern;
   }
 
   public List<Points> getPointPattern() {
@@ -51,7 +43,7 @@ public final class Floor implements TileStateInterface {
 
     UsedTiles.getInstance().give(tiles);
 
-    tiles = new ArrayList<>();
+    tiles.clear();
 
     return new Points(sum);
   }

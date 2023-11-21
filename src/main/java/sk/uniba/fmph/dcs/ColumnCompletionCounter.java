@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PointsCounter;
+
 import java.util.Arrays;
 
 class ColumnCompletionCounter implements PointsCounter {

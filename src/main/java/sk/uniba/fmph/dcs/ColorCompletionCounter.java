@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PointsCounter;
+
 class ColorCompletionCounter implements PointsCounter {
 
   @Override

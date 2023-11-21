@@ -1,5 +1,8 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +29,7 @@ class UsedTiles implements UsedTilesInterface, TileStateInterface {
   @Override
   public void give(Collection<Tile> tiles) {
 
-    tiles.addAll(tiles);
+    this.tiles.addAll(tiles);
   }
 
   public List<Tile> getUsedTiles() {

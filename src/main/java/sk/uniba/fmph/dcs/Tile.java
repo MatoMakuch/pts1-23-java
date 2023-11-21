@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-enum Tile {
+public enum Tile {
   STARTING_PLAYER,
   RED,
   GREEN,

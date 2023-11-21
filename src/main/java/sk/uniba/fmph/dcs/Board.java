@@ -11,9 +11,9 @@ public class Board {
   private final FinalPointsCalculation finalPointsCalculation = new FinalPointsCalculation();
   private final Points points = new Points(0);
 
-  public Board() {
+  public Board(List<Points> pointPattern) {
 
-    this.floor = new Floor();
+    this.floor = new Floor(pointPattern);
 
     TilePermutationIterator iterator = new TilePermutationIterator();
 

@@ -1,4 +1,4 @@
-package sk.uniba.fmph.dcs;
+package sk.uniba.fmph.dcs.interfaces;
 
 public interface TileStateInterface {
   String getState();

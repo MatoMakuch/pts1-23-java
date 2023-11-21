@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.GameInterface;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,15 +12,16 @@ class Game implements GameInterface {
   private final List<Player> players;
   private int startingPlayerIndex = 0;
   private int currentPlayerIndex = 0;
+  private boolean isGameOver = false;
 
-  public Game(List<String> playerNames) {
+  public Game(List<String> playerNames, List<Points> pointPattern) {
 
     this.tableArea = new TableArea(playerNames.size());
     this.players = new ArrayList<>();
 
     for (String playerName : playerNames) {
 
-      players.add(new Player(playerName));
+      players.add(new Player(playerName, pointPattern));
     }
   }
 
@@ -76,6 +79,12 @@ class Game implements GameInterface {
   public GameObserver getGameObserver() {
 
     return observer;
+  }
+
+  @Override
+  public boolean isGameOver() {
+
+    return isGameOver;
   }
 
   @Override
@@ -153,5 +162,7 @@ class Game implements GameInterface {
 
       player.endGame();
     }
+
+    isGameOver = true;
   }
 }

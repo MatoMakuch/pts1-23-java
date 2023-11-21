@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

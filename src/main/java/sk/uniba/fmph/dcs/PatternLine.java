@@ -1,18 +1,21 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class PatternLine implements TileStateInterface {
 
-  private final WallLine wallLine;
+  private final WallLineInterface wallLine;
   private final Floor floor;
   private int capacity;
   private final List<Tile> tiles;
   private Tile type;
 
-  public PatternLine(WallLine wallLine, Floor floor, int capacity) {
+  public PatternLine(WallLineInterface wallLine, Floor floor, int capacity) {
 
     this.wallLine = wallLine;
     this.floor = floor;

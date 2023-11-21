@@ -7,7 +7,7 @@ import java.util.List;
 public class Factory extends TileSource {
 
   private static final int MAX_TILES = 4;
-  private TableCenter tableCenter;
+  private final TableCenter  tableCenter;
 
   public Factory(TableCenter tableCenter) {
 

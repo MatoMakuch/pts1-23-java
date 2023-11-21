@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.ObserverInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -39,86 +41,28 @@ public class Demo {
 
     Bag.getInstance().fillBag(Tile.fromString(builder.toString()));
 
-    Game game = new Game(playerNames);
+    // Define the point pattern for the floor line.
+    List<Points> pointPattern = new ArrayList<>();
+
+    pointPattern = new ArrayList<>(
+        List.of(
+            new Points(-1),
+            new Points(-1),
+            new Points(-2),
+            new Points(-2),
+            new Points(-3),
+            new Points(-3)
+        )
+    );
+
+    Game game = new Game(playerNames, pointPattern);
     game.getGameObserver().registerObserver(observer);
 
-    // Simulate a game.
-    // Round 1.
-    game.take(0, 0, 2);
-    game.take(3, 0, 0);
-    game.take(1, 1, 1);
-    game.take(2, 1, 1);
-    game.take(-1, 1, 3);
-    game.take(4, 0, 2);
-    game.take(-1, 1, 4);
-    game.take(-1, 0, 2);
-    game.take(-1, 0, 0);
-    game.take(-1, 0, 3);
+    while (!game.isGameOver()) {
 
-    // Round 2.
-    game.take(0, 0, 1);
-    game.take(3, 3, 2);
-    game.take(1, 1, 0);
-    game.take(-1, 1, 4);
-    game.take(2, 0, 4);
-    game.take(-1, 0, 3);
-    game.take(4, 0, -1);
-    game.take(-1, 1, 0);
-    game.take(-1, 0, 2);
-    game.take(-1, 0, -1);
+      // Display the game state.
+      Display.display(game);
 
-    // Round 3.
-    game.take(3, 1, 1);
-    game.take(1, 0, 0);
-    game.take(2, 0, 0);
-    game.take(4, 1, 1);
-    game.take(-1, 2, 3);
-    game.take(-1, 0, 2);
-    game.take(0, 3, 4);
-    game.take(-1, 1, 3);
-    game.take(-1, 0, -1);
-
-    // Round 4.
-    game.take(4, 1, 1);
-    game.take(2, 0, 0);
-    game.take(0, 0, 2);
-    game.take(-1, 2, 1);
-    game.take(3, 3, 0);
-    game.take(-1, 2, 2);
-    game.take(1, 0, 3);
-    game.take(-1, 0, 3);
-    game.take(-1, 0, 4);
-    game.take(-1, 0, -1);
-    game.take(-1, 0, -1);
-
-    // Round 5.
-    game.take(4, 0, 3);
-    game.take(0, 3, 3);
-    game.take(1, 0, 1);
-    game.take(3, 1, 3);
-    game.take(-1, 4, 4);
-    game.take(2, 1, 2);
-    game.take(-1, 9, 4);
-    game.take(-1, 2, 2);
-    game.take(-1, 0, -1);
-    game.take(-1, 0, 1);
-
-    // Round 6.
-    game.take(2, 3, 4);
-    game.take(0, 0, 4);
-    game.take(1, 0, 1);
-    game.take(3, 1, 2);
-    game.take(4, 3, 0);
-    game.take(-1, 4, 2);
-    game.take(-1, 0, 3);
-    game.take(-1, 0, -1);
-    game.take(-1, 0, 2);
-
-    // Infinite loop for game turns
-
-    Display.display(game);
-
-    while (true) {
       System.out.println(game.onTurn()); // Display the name or number of the current player.
 
       System.out.print("Choose source: ");
@@ -135,6 +79,6 @@ public class Demo {
       Display.display(game);
     }
 
-    // scanner.close();
+    scanner.close();
   }
 }

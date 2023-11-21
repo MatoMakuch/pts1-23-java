@@ -16,7 +16,16 @@ class GameTest {
 
     List<String> playerNames = Arrays.asList("Player1", "Player2");
 
-    game = new Game(playerNames);
+    game = new Game(playerNames,
+      List.of(
+        new Points(-1),
+        new Points(-1),
+        new Points(-2),
+        new Points(-2),
+        new Points(-3),
+        new Points(-3)
+      )
+    );
   }
 
   private void createBagOf100Tiles() {
@@ -197,7 +206,7 @@ class GameTest {
     game.take(-1, 0, 1);
 
     assertEquals("Player1", game.onTurn());
-    assertEquals(39, game.getPlayers().get(0).getBoard().getPoints().getValue());
+    assertEquals(38, game.getPlayers().get(0).getBoard().getPoints().getValue());
     assertEquals(32, game.getPlayers().get(1).getBoard().getPoints().getValue());
 
     game.take(2, 3, 4);
@@ -218,7 +227,7 @@ class GameTest {
 
     game.take(-1, 0, 2);
 
-    assertEquals(134, game.getPlayers().get(0).getBoard().getPoints().getValue());
+    assertEquals(100, game.getPlayers().get(0).getBoard().getPoints().getValue());
     assertEquals(31, game.getPlayers().get(1).getBoard().getPoints().getValue());
   }
 }
