@@ -51,7 +51,7 @@ public class FloorTest {
         7,
         points.getValue());
     assertArrayEquals(
-        "Used tiles should get the tiles", tiles.toArray(), UsedTiles.getInstance().getUsedTiles().toArray());
+        "Used tiles should get the tiles", tiles.toArray(), Tile.fromString(UsedTiles.getInstance().getState()).toArray());
 
     floor.put(List.of(Tile.RED));
     floor.put(List.of(Tile.GREEN));
@@ -71,6 +71,6 @@ public class FloorTest {
     tiles.add(Tile.GREEN);
 
     assertArrayEquals(
-        "Used tiles should get the tiles", tiles.toArray(), UsedTiles.getInstance().getUsedTiles().toArray());
+        "Used tiles should get the tiles", tiles.toArray(), Tile.fromString(UsedTiles.getInstance().getState()).toArray());
   }
 }

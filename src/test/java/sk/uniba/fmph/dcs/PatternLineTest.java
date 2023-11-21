@@ -59,7 +59,7 @@ public class PatternLineTest {
     patternLine.put(Collections.singletonList(testTile));
 
     // Verify that the floor received the extra tile.
-    assertTrue(floor.getTiles().contains(testTile));
+    assertTrue(Tile.fromString(floor.getState()).contains(testTile));
   }
 
   @Test
