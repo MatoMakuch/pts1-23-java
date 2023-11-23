@@ -4,6 +4,5 @@ import sk.uniba.fmph.dcs.Tile;
 
 import java.util.List;
 
-public interface TableCenterInterface extends TileSourceInterface {
-  void add(List<Tile> tiles);
+public interface TableCenterInterface extends TileSourceInterface, PutTilesInterface, TileStateInterface {
 }

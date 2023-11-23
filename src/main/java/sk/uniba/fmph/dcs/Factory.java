@@ -1,6 +1,8 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PutTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
+import sk.uniba.fmph.dcs.interfaces.TakeTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.TileSourceInterface;
 
 import java.util.ArrayList;
@@ -10,18 +12,20 @@ import java.util.List;
 public class Factory implements TileSourceInterface {
 
   private static final int MAX_TILES = 4;
-  private final TableCenterInterface tableCenter;
+  private final TakeTilesInterface bag;
+  private final PutTilesInterface tableCenter;
   private List<Tile> tiles = new ArrayList<>();
 
-  public Factory(TableCenterInterface tableCenter) {
+  public Factory(TakeTilesInterface bag, PutTilesInterface tableCenter) {
 
+    this.bag = bag;
     this.tableCenter = tableCenter;
   }
 
   private void fillFactory() {
 
     tiles.clear();
-    tiles = Bag.getInstance().getTiles(MAX_TILES);
+    tiles = bag.take(MAX_TILES);
   }
 
   @Override
@@ -56,7 +60,7 @@ public class Factory implements TileSourceInterface {
       }
     }
 
-    tableCenter.add(remainingTiles);
+    tableCenter.put(remainingTiles);
 
     return pickedTiles;
   }

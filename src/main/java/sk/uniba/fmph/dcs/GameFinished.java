@@ -1,18 +1,17 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class GameFinished {
 
-  public static FinishRoundResult gameFinished(List<WallLineInterface> wallLines) {
+  public static FinishRoundResult gameFinished(List<TileStateInterface> wallLines) {
 
     boolean isRowCompleted = false;
 
-    for (WallLineInterface line : wallLines) {
+    for (TileStateInterface line : wallLines) {
 
       if (Tile.fromString(line.getState()).stream().allMatch(Objects::nonNull)) {
 

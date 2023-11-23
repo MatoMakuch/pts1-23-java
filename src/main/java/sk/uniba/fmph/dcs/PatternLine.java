@@ -1,57 +1,59 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.PatternLineInterface;
-import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
-import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
+import sk.uniba.fmph.dcs.interfaces.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
 public class PatternLine implements PatternLineInterface {
+  private final PutTilesInterface usedTiles;
+  private final PutTilesInterface floor;
+  private final PutTileInterface wallLine;
 
-  private final WallLineInterface wallLine;
-  private final Floor floor;
   private int capacity;
   private final List<Tile> tiles;
   private Tile type;
 
-  public PatternLine(WallLineInterface wallLine, Floor floor, int capacity) {
+  public PatternLine(PutTilesInterface usedTiles, PutTilesInterface floor, PutTileInterface wallLine, int capacity) {
 
-    this.wallLine = wallLine;
+    this.usedTiles = usedTiles;
     this.floor = floor;
+    this.wallLine = wallLine;
     this.capacity = capacity;
 
     this.tiles = new ArrayList<>();
   }
 
   @Override
-  public boolean put(List<Tile> tilesToAdd) {
+  public void put(Collection<Tile> tiles) {
 
-    if (tilesToAdd.size() == 0) {
+    if (tiles.size() == 0) {
 
       throw new IllegalArgumentException("No tiles to add.");
     }
 
-    if (type != null && type != tilesToAdd.get(0)) {
+    Tile toPut = tiles.stream().toList().get(0);
+
+    if (type != null && type != toPut) {
 
       throw new IllegalArgumentException("Invalid tile type.");
     }
 
-    if (!wallLine.canPutTile(tilesToAdd.get(0))) {
+    if (!wallLine.canPutTile(toPut)) {
 
       throw new IllegalStateException("Cannot put tile on the wall.");
     }
 
-    type = tilesToAdd.get(0);
+    type = toPut;
 
     List<Tile> tilesFalling = new ArrayList<>();
 
-    for (Tile tile : tilesToAdd) {
+    for (Tile tile : tiles) {
 
-      if (tiles.size() < capacity) {
+      if (this.tiles.size() < capacity) {
 
-        tiles.add(tile);
+        this.tiles.add(tile);
 
       }
       else {
@@ -61,8 +63,6 @@ public class PatternLine implements PatternLineInterface {
     }
 
     floor.put(tilesFalling);
-
-    return true;
   }
 
   @Override
@@ -80,7 +80,7 @@ public class PatternLine implements PatternLineInterface {
 
     var points = wallLine.putTile(type);
 
-    UsedTiles.getInstance().give(tiles);
+    usedTiles.put(tiles);
     tiles.clear();
     type = null;
 

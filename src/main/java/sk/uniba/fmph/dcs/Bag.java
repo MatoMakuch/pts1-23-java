@@ -1,5 +1,7 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.BagInterface;
+import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 
 import java.util.ArrayList;
@@ -7,44 +9,61 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Bag implements TileStateInterface {
-  private static Bag instance = null;
+public class Bag implements BagInterface {
+
+  private final TakeAllTilesInterface usedTiles;
   private List<Tile> tiles = new ArrayList<>();
 
-  public static Bag getInstance() {
-    if (instance == null) {
-      instance = new Bag();
-    }
-    return instance;
+  public Bag(TakeAllTilesInterface usedTiles) {
+
+    this.usedTiles = usedTiles;
   }
 
+  @Override
   public void fillBag() {
 
     this.tiles.clear();
+
     for (Tile tile : Tile.values()) {
+
       if (tile != Tile.STARTING_PLAYER) {
+
         for (int i = 0; i < 20; i++) {
+
           tiles.add(tile);
         }
       }
     }
+
     Collections.shuffle(tiles, new Random());
   }
 
-  public void fillBag(List<Tile> tiles) {
+  @Override
+  public void startNewRound() {
 
-    this.tiles.clear();
-    this.tiles.addAll(tiles);
+    tiles.addAll(usedTiles.takeAll());
   }
 
-  public List<Tile> getTiles(int count) {
+  @Override
+  public boolean isEmpty() {
+
+    return tiles.isEmpty();
+  }
+
+  @Override
+  public List<Tile> take(int count) {
+
     if (count > tiles.size()) {
+
       throw new IllegalArgumentException("Not enough tiles in the bag");
     }
+
     List<Tile> pickedTiles = new ArrayList<>();
     for (int i = 0; i < count; i++) {
+
       pickedTiles.add(tiles.remove(0));
     }
+
     return pickedTiles;
   }
 

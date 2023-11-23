@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FinalPointsCalculation {
-  private List<PointsCounterInterface> counters;
+  private final List<PointsCounterInterface> counters;
 
   public FinalPointsCalculation() {
 

@@ -1,33 +1,34 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PutTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class UsedTiles implements UsedTilesInterface, TileStateInterface {
-  private static UsedTiles instance = null;
+class UsedTiles implements UsedTilesInterface {
   private List<Tile> tiles;
 
-  private UsedTiles() {
+  public UsedTiles() {
 
     tiles = new ArrayList<>();
   }
 
-  public static UsedTiles getInstance() {
+  @Override
+  public Collection<Tile> takeAll() {
 
-    if (instance == null) {
+    List<Tile> tiles = new ArrayList<>(this.tiles);
 
-      instance = new UsedTiles();
-    }
+    this.tiles.clear();
 
-    return instance;
+    return tiles;
   }
 
   @Override
-  public void give(Collection<Tile> tiles) {
+  public void put(Collection<Tile> tiles) {
 
     this.tiles.addAll(tiles);
   }

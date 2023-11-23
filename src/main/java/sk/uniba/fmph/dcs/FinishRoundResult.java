@@ -7,19 +7,10 @@ public enum FinishRoundResult {
   @Override
   public String toString() {
 
-    switch (this) {
-
-      case NORMAL:
-
-        return "normal";
-
-      case GAME_FINISHED:
-
-        return "game_finished";
-
-      default:
-
-        return null;
-    }
+    return switch (this) {
+      case NORMAL -> "normal";
+      case GAME_FINISHED -> "game_finished";
+      default -> null;
+    };
   }
 }

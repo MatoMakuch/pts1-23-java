@@ -1,5 +1,6 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.PutTileInterface;
 import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
 
@@ -55,6 +56,7 @@ public class WallLine implements WallLineInterface {
 
   @Override
   public Points putTile(Tile tile) {
+
     int index = Arrays.asList(tileTypes).indexOf(tile);
 
     if (index < 0 || filledPositions[index]) {

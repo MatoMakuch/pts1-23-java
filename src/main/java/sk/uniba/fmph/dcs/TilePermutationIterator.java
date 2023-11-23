@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class TilePermutationIterator implements Iterator<Tile[]> {
+
   private final Tile[] colors = new Tile[] { Tile.RED, Tile.GREEN, Tile.YELLOW, Tile.BLUE, Tile.BLACK };
   private int currentIndex = 0;
 

@@ -4,6 +4,8 @@ import sk.uniba.fmph.dcs.Tile;
 
 import java.util.List;
 
-public interface TileSourceInterface extends TakeTileInterface, TileStateInterface {
+public interface TableAreaInterface {
+  List<Tile> take(int sourceIndex, int tileIndex);
+  boolean isRoundEnd();
   void startNewRound();
 }

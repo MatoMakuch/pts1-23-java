@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs.fake;
 import sk.uniba.fmph.dcs.Tile;
 import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,20 +16,14 @@ public class FakeTableCenter implements TableCenterInterface {
   }
 
   @Override
-  public void add(List<Tile> tiles) {
-
-    this.tiles.addAll(tiles);
+  public boolean isEmpty() {
+    return tiles.isEmpty();
   }
 
   @Override
   public List<Tile> take(int index) {
 
-    throw new UnsupportedOperationException("Not supported");
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return tiles.isEmpty();
+    return null;
   }
 
   @Override
@@ -44,6 +39,12 @@ public class FakeTableCenter implements TableCenterInterface {
   @Override
   public void setState(String state) {
     tiles = Tile.fromString(state);
+  }
+
+  @Override
+  public void put(Collection<Tile> tiles) {
+
+    this.tiles.addAll(tiles);
   }
 }
 

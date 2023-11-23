@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs;
 import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TableCenter implements TableCenterInterface {
@@ -17,8 +18,8 @@ public class TableCenter implements TableCenterInterface {
   }
 
   @Override
-  public void add(List<Tile> tilesToAdd) {
-    this.tiles.addAll(tilesToAdd);
+  public void put(Collection<Tile> tiles) {
+    this.tiles.addAll(tiles);
   }
 
   @Override

@@ -3,6 +3,8 @@ package sk.uniba.fmph.dcs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sk.uniba.fmph.dcs.fake.FakeWallLine;
+import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
+import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,22 +20,24 @@ public class PatternLineTest {
   @BeforeEach
   public void setUp() {
 
+    UsedTilesInterface usedTiles = new UsedTiles();
+
     fakeWallLine = new FakeWallLine();
     fakeWallLine.setCanPutTile(testTile, true);
 
-    floor = new Floor(List.of(
+    floor = new Floor(usedTiles, List.of(
         new Points(1),
         new Points(2),
         new Points(2)
     ));
 
-    patternLine = new PatternLine(fakeWallLine, floor, 3);
+    patternLine = new PatternLine(usedTiles, floor, fakeWallLine, 3);
   }
 
   @Test
   public void testPutTiles_ValidTiles_ShouldAddToPatternLine() {
 
-    assertTrue(patternLine.put(Collections.singletonList(testTile)));
+    patternLine.put(Collections.singletonList(testTile));
 
     assertEquals("R..", patternLine.getState());
 

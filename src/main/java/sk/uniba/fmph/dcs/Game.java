@@ -1,84 +1,24 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.GameInterface;
+import sk.uniba.fmph.dcs.interfaces.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 class Game implements GameInterface {
   private final GameObserver observer = new GameObserver();
-  private final TableArea tableArea;
-  private final List<Player> players;
+  private final TableAreaInterface tableArea;
+  private final List<PlayerInterface> players;
   private int startingPlayerIndex = 0;
   private int currentPlayerIndex = 0;
   private boolean isGameOver = false;
 
-  public Game(List<String> playerNames, List<Points> pointPattern) {
+  public Game(TableAreaInterface tableArea, List<PlayerInterface> players) {
 
-    this.tableArea = new TableArea(playerNames.size());
-    this.players = new ArrayList<>();
-
-    for (String playerName : playerNames) {
-
-      players.add(new Player(playerName, pointPattern));
-    }
+    this.tableArea = tableArea;
+    this.players = players;
 
     tableArea.startNewRound();
-  }
-
-  //#region Game state management
-
-  public static class GameState {
-    private final TableArea.TableAreaState tableAreaState;
-    private final List<Player.PlayerState> playerStates;
-    private final int currentPlayerIndex;
-    private final int startingPlayerIndex;
-
-    private GameState(TableArea tableArea, List<Player> players, int currentPlayerIndex, int startingPlayerIndex) {
-
-      this.tableAreaState = tableArea.saveState();
-
-      this.playerStates = new ArrayList<>();
-      for (Player player : players) {
-
-        this.playerStates.add(player.saveState());
-      }
-
-      this.currentPlayerIndex = currentPlayerIndex;
-      this.startingPlayerIndex = startingPlayerIndex;
-    }
-  }
-
-  public GameState saveState() {
-
-    return new GameState(tableArea, players, currentPlayerIndex, startingPlayerIndex);
-  }
-
-  public void restoreState(GameState state) {
-
-    this.tableArea.restoreState(state.tableAreaState);
-
-    for (int i = 0; i < players.size(); i++) {
-
-      Player.PlayerState playerState = state.playerStates.get(i);
-      players.get(i).restoreState(playerState);
-    }
-
-    this.currentPlayerIndex = state.currentPlayerIndex;
-    this.startingPlayerIndex = state.startingPlayerIndex;
-  }
-
-  //#endregion
-
-  public TableArea getTableArea() {
-
-    return tableArea;
-  }
-
-  public List<Player> getPlayers() {
-
-    return Collections.unmodifiableList(players);
   }
 
   @Override
@@ -109,7 +49,7 @@ class Game implements GameInterface {
 
     if (tableArea.isRoundEnd()) {
 
-      observer.notifyEverybody("Round ended");
+      observer.notifyEverybody("Round ended.");
 
       handleRoundEnd();
     }
@@ -135,13 +75,37 @@ class Game implements GameInterface {
 
       tableArea.startNewRound();
 
-      observer.notifyEverybody("Round started");
+      observer.notifyEverybody("Round started.");
     }
     else {
 
       endGame();
 
-      observer.notifyEverybody("Game ended");
+      announceWinner();
+    }
+  }
+
+  private void announceWinner() {
+
+    // Find the player with the most points.
+    String winnerName = null;
+    Points winnerPoints = new Points(0);
+
+    for (PlayerInterface player : players) {
+
+      if (player.getPoints().getValue() > winnerPoints.getValue()) {
+
+        winnerName = player.getName();
+        winnerPoints = player.getPoints();
+      }
+    }
+
+    // Notify observers.
+    observer.notifyEverybody("Game ended.");
+
+    if (winnerName != null) {
+
+      observer.notifyEverybody("Player " + winnerName + " won with " + winnerPoints.getValue() + " points.");
     }
   }
 
@@ -149,7 +113,7 @@ class Game implements GameInterface {
 
     boolean isGameFinished = false;
 
-    for (Player player : players) {
+    for (PlayerInterface player : players) {
 
       final FinishRoundResult result = player.finishRound();
 
@@ -173,7 +137,7 @@ class Game implements GameInterface {
 
   public void endGame() {
 
-    for (Player player : players) {
+    for (PlayerInterface player : players) {
 
       player.endGame();
     }

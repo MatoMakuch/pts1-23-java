@@ -22,7 +22,7 @@ public class TableCenterTest {
   public void testTakeFirstTile_IncludesStartingPlayerTile() {
 
     // Add some tiles to the TableCenter.
-    tableCenter.add(List.of(Tile.BLUE, Tile.RED));
+    tableCenter.put(List.of(Tile.BLUE, Tile.RED));
 
     // Take one of the added tiles.
     List<Tile> takenTiles = tableCenter.take(1); // Assume index 1 is for Tile.BLUE.
@@ -36,7 +36,7 @@ public class TableCenterTest {
   public void testTakeTile_AfterFirstTake_ExcludesStartingPlayerTile() {
 
     // Add tiles.
-    tableCenter.add(List.of(Tile.BLUE, Tile.RED));
+    tableCenter.put(List.of(Tile.BLUE, Tile.RED));
 
     // First take, includes starting player tile.
     tableCenter.take(1);
@@ -66,7 +66,7 @@ public class TableCenterTest {
   public void testStartNewRound_ResetsTableCenter() {
 
     // Add tiles and take once.
-    tableCenter.add(List.of(Tile.BLUE, Tile.RED));
+    tableCenter.put(List.of(Tile.BLUE, Tile.RED));
     tableCenter.take(1);
 
     // Start a new round.

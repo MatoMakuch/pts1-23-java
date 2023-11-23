@@ -1,11 +1,23 @@
 package sk.uniba.fmph.dcs;
 
+import sk.uniba.fmph.dcs.interfaces.FloorStateInterface;
+import sk.uniba.fmph.dcs.interfaces.PlayerInterface;
+import sk.uniba.fmph.dcs.interfaces.TableAreaInterface;
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+
+import java.util.List;
+
 public class Display {
-  public static void display(Game game) {
+  public static void display(
+      TileStateInterface tableCenter,
+      List<TileStateInterface> factories,
+      List<PlayerInterface> players,
+      List<List<TileStateInterface>> patternLines,
+      List<List<TileStateInterface>> wallLines,
+      List<FloorStateInterface> floors) {
 
     System.out.print(new GridHorizontalSeparator(50));
 
-    var factories = game.getTableArea().getFactories();
     GridDisplay factoriesGrid = new GridDisplay(50, factories.size(), 5);
     for (int i = 0; i < factories.size(); i++) {
 
@@ -23,38 +35,34 @@ public class Display {
     System.out.print(new GridHorizontalSeparator(50));
 
     GridDisplay tableCenterGrid = new GridDisplay(50, 1, 1);
-    tableCenterGrid.addText(0, 0, "Table center: " + game.getTableArea().getTableCenter().getState());
+    tableCenterGrid.addText(0, 0, "Table center: " + tableCenter.getState());
     System.out.print(tableCenterGrid);
 
     System.out.print(new GridHorizontalSeparator(50));
 
-    var players = game.getPlayers();
     GridDisplay playerGrid = new GridDisplay(50, 2, 26);
     for (int i = 0; i < players.size(); i++) {
 
+      final PlayerInterface player = players.get(i);
+
       playerGrid.addText(i, 0, players.get(i).getName() + ":");
 
-      var board = players.get(i).getBoard();
+      playerGrid.addText(i, 2, "Points: " + player.getPoints().getValue());
 
-      playerGrid.addText(i, 2, "Points: " + board.getPoints().getValue());
-
-      var patternLineStates = board.getPatternLineStates();
       playerGrid.addText(i, 4, "Pattern lines:");
-      for (int j = 0; j < patternLineStates.size(); j++) {
+      for (int j = 0; j < patternLines.get(i).size(); j++) {
 
-        playerGrid.addText(i, 5 + j, "P" + (j) + ": " + patternLineStates.get(j));
+        playerGrid.addText(i, 5 + j, "P" + (j) + ": " + patternLines.get(i).get(j));
       }
 
-      var wallLines = board.getWallLineStates();
       playerGrid.addText(i, 11, "Wall lines:");
-      for (int j = 0; j < wallLines.size(); j++) {
+      for (int j = 0; j < wallLines.get(i).size(); j++) {
 
-        playerGrid.addText(i, 12 + j, "W" + (j) + ": " + wallLines.get(j));
+        playerGrid.addText(i, 12 + j, "W" + (j) + ": " + wallLines.get(i).get(j));
       }
 
-      var floor = board.getFloor();
-      var floorPattern = floor.getPointPattern();
-      var floorTiles = Tile.fromString(floor.getState());
+      var floorPattern = floors.get(i).getPointPattern();
+      var floorTiles = Tile.fromString(floors.get(i).getState());
       playerGrid.addText(i, 18, "Floor:");
       for (int j = 0; j < floorPattern.size(); j++) {
 

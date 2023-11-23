@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sk.uniba.fmph.dcs.fake.FakeTableCenter;
 import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
+import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 import java.util.List;
 
@@ -16,11 +17,18 @@ public class FactoryTest {
   @BeforeEach
   public void setUp() {
 
-    Bag.getInstance().setState("RRGGBBYYLL");
+    //#region Used Tiles
+
+    UsedTilesInterface usedTiles = new UsedTiles();
+
+    //#endregion
+
+    Bag bag = new Bag(usedTiles);
+    bag.setState("RRGGBBYYLL");
 
     fakeTableCenter = new FakeTableCenter();
 
-    factory = new Factory(fakeTableCenter);
+    factory = new Factory(bag, fakeTableCenter);
   }
 
   @Test

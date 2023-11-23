@@ -4,20 +4,23 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
+import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 public class FloorTest {
+  private UsedTilesInterface usedTiles;
   private Floor floor;
 
   @Before
   public void setUp() {
 
-    floor = new Floor(List.of(
+    usedTiles = new UsedTiles();
+
+    floor = new Floor(usedTiles, List.of(
         new Points(1),
         new Points(2),
         new Points(2)
@@ -28,7 +31,7 @@ public class FloorTest {
   public void test_tiles() {
 
     // Floor should be empty when created.
-    UsedTiles.getInstance().setState("");
+    usedTiles.setState("");
 
     List<Tile> tiles = new ArrayList<>();
 
@@ -51,7 +54,7 @@ public class FloorTest {
         7,
         points.getValue());
     assertArrayEquals(
-        "Used tiles should get the tiles", tiles.toArray(), Tile.fromString(UsedTiles.getInstance().getState()).toArray());
+        "Used tiles should get the tiles", tiles.toArray(), Tile.fromString(usedTiles.getState()).toArray());
 
     floor.put(List.of(Tile.RED));
     floor.put(List.of(Tile.GREEN));
@@ -71,6 +74,6 @@ public class FloorTest {
     tiles.add(Tile.GREEN);
 
     assertArrayEquals(
-        "Used tiles should get the tiles", tiles.toArray(), Tile.fromString(UsedTiles.getInstance().getState()).toArray());
+        "Used tiles should get the tiles", tiles.toArray(), Tile.fromString(usedTiles.getState()).toArray());
   }
 }
