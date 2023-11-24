@@ -21,18 +21,6 @@ public class Demo {
       new Points(-3)
   );
 
-  private static UsedTilesInterface usedTiles;
-  private static BagInterface bag;
-  private static TableCenterInterface tableCenter;
-  private static List<TileSourceInterface> factories = new ArrayList<>();
-  private static TableAreaInterface tableArea;
-  private static List<List<WallLineInterface>> wallLines = new ArrayList<>();
-  private static List<List<PatternLineInterface>> patternLines = new ArrayList<>();
-  private static List<FloorInterface> floors = new ArrayList<>();
-  private static List<BoardInterface> boards = new ArrayList<>();
-  private static List<PlayerInterface> players = new ArrayList<>();
-  private static GameInterface game;
-
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
@@ -55,24 +43,26 @@ public class Demo {
 
     //#region Used Tiles
 
-    usedTiles = new UsedTiles();
+    UsedTilesInterface usedTiles = new UsedTiles();
 
     //#endregion
 
     //#region Bag
 
-    bag = new Bag(usedTiles);
+    BagInterface bag = new Bag(usedTiles);
     bag.fillBag();
 
     //#endregion
 
     //#region Table Center
 
-    tableCenter = new TableCenter();
+    TableCenterInterface tableCenter = new TableCenter();
 
     //#endregion
 
     //#region Factories
+
+    List<TileSourceInterface> factories = new ArrayList<>();
 
     // Adjust the number of factories based on the player count.
     int factoryCount = playerCount * 2 + 1;
@@ -86,9 +76,15 @@ public class Demo {
 
     //#region Table Area
 
-    tableArea = new TableArea(bag, tableCenter, factories);
+    TableAreaInterface tableArea = new TableArea(bag, tableCenter, factories);
 
     //#endregion
+
+    final List<List<WallLineInterface>> wallLines = new ArrayList<>();
+    final List<List<PatternLineInterface>> patternLines = new ArrayList<>();
+    final List<FloorInterface> floors = new ArrayList<>();
+    final List<BoardInterface> boards = new ArrayList<>();
+    final List<PlayerInterface> players = new ArrayList<>();
 
     for (String playerName : playerNames) {
 
@@ -155,15 +151,17 @@ public class Demo {
 
     //region Game
 
-    game = new Game(tableArea, players);
+    GameInterface game = new Game(tableArea, players);
 
     game.getGameObserver().registerObserver(observer);
+
+    game.start();
 
     //endregion
 
     //region Gameplay
 
-    while (!game.isGameOver()) {
+    while (!game.isGameFinished()) {
 
       //#region Display the game state.
 
@@ -184,20 +182,24 @@ public class Demo {
 
       //#region Input
 
-      System.out.println(game.onTurn()); // Display the name or number of the current player.
+      // Display the name or number of the current player.
+      System.out.println(game.onTurn());
+
+      // Subtract 1 from the index to convert from 1-based to 0-based.
+      // This is done to make the input more user-friendly.
 
       System.out.print("Choose source: ");
-      int sourceIndex = Integer.parseInt(scanner.nextLine());
+      int sourceIndex = Integer.parseInt(scanner.nextLine()) - 1;
 
       System.out.print("Choose tile index: ");
-      int tileIndex = Integer.parseInt(scanner.nextLine());
+      int tileIndex = Integer.parseInt(scanner.nextLine()) - 1;
 
       System.out.print("Choose destination: ");
-      int destinationIndex = Integer.parseInt(scanner.nextLine());
+      int destinationIndex = Integer.parseInt(scanner.nextLine()) - 1;
 
       //#endregion
 
-      game.take(sourceIndex, tileIndex, destinationIndex);
+      game.take(new SourcePath(sourceIndex, tileIndex), destinationIndex);
     }
 
     //#endregion

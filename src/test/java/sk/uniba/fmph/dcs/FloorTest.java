@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 public class FloorTest {
@@ -28,7 +27,7 @@ public class FloorTest {
   }
 
   @Test
-  public void test_tiles() {
+  public void testTiles() {
 
     // Floor should be empty when created.
     usedTiles.setState("");

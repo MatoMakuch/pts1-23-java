@@ -2,7 +2,6 @@ package sk.uniba.fmph.dcs;
 
 import sk.uniba.fmph.dcs.interfaces.BagInterface;
 import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
-import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,12 +41,6 @@ public class Bag implements BagInterface {
   public void startNewRound() {
 
     tiles.addAll(usedTiles.takeAll());
-  }
-
-  @Override
-  public boolean isEmpty() {
-
-    return tiles.isEmpty();
   }
 
   @Override

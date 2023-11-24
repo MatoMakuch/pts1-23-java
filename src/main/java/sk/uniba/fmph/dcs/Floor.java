@@ -2,7 +2,6 @@ package sk.uniba.fmph.dcs;
 
 import sk.uniba.fmph.dcs.interfaces.FloorInterface;
 import sk.uniba.fmph.dcs.interfaces.PutTilesInterface;
-import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 
 import java.util.ArrayList;
 import java.util.Collection;

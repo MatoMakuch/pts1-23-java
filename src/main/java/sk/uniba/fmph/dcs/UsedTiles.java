@@ -1,8 +1,5 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.PutTilesInterface;
-import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
-import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 import java.util.ArrayList;

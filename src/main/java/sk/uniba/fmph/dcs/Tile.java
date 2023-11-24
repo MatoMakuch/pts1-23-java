@@ -25,14 +25,9 @@ public enum Tile {
     charToEnum.put('L', BLACK);
   }
 
-  public static Tile fromChar(char value) {
+  private static Tile fromChar(char value) {
 
     return charToEnum.getOrDefault(value, null);
-  }
-
-  public static Character toChar(Tile tile) {
-
-    return tile == null ? null : tile.toString().charAt(0);
   }
 
   public static List<Tile> fromString(String value) {
@@ -75,7 +70,6 @@ public enum Tile {
       case YELLOW -> "Y";
       case BLUE -> "B";
       case BLACK -> "L";
-      default -> ".";
     };
   }
 }

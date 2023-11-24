@@ -1,10 +1,12 @@
 package sk.uniba.fmph.dcs.interfaces;
 
 import sk.uniba.fmph.dcs.GameObserver;
+import sk.uniba.fmph.dcs.SourcePath;
 
 public interface GameInterface {
+  void start();
   GameObserver getGameObserver();
-  boolean isGameOver();
+  boolean isGameFinished();
   String onTurn();
-  void take(int sourceIndex, int tileIndex, int destinationIndex);
+  void take(SourcePath sourcePath, int destinationIndex);
 }

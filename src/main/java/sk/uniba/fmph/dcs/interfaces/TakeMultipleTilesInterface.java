@@ -4,7 +4,6 @@ import sk.uniba.fmph.dcs.Tile;
 
 import java.util.List;
 
-public interface TakeTilesInterface {
-  boolean isEmpty();
+public interface TakeMultipleTilesInterface {
   List<Tile> take(int count);
 }

@@ -10,35 +10,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameIntegrationTest {
-
-  private UsedTilesInterface usedTiles;
-  private BagInterface bag;
-  private TableCenterInterface tableCenter;
-  private List<TileSourceInterface> factories = new ArrayList<>();
-  private TableAreaInterface tableArea;
-  private List<List<WallLineInterface>> wallLines = new ArrayList<>();
-  private List<List<PatternLineInterface>> patternLines = new ArrayList<>();
-  private List<FloorInterface> floors = new ArrayList<>();
-  private List<BoardInterface> boards = new ArrayList<>();
-  private List<PlayerInterface> players = new ArrayList<>();
+  private List<PlayerInterface> players;
   private GameInterface game;
-  private ObserverInterface observer;
-  private List<String> observerOutput = new ArrayList<>();
+  private List<String> observerOutput;
 
   @BeforeEach
   void setUp() {
 
-    //#region Clear
-
-    factories.clear();
-    wallLines.clear();
-    patternLines.clear();
-    floors.clear();
-    boards.clear();
-    players.clear();
-    observerOutput.clear();
-
-    //#endregion
+    observerOutput = new ArrayList<>();
 
     //#region Configuration
 
@@ -70,24 +49,27 @@ class GameIntegrationTest {
 
     //#region Used Tiles
 
-    usedTiles = new UsedTiles();
+    UsedTilesInterface usedTiles = new UsedTiles();
 
     //#endregion
 
     //#region Bag
 
-    bag = new Bag(usedTiles);
+    BagInterface bag = new Bag(usedTiles);
+
     bag.setState(bagState);
 
     //#endregion
 
     //#region Table Center
 
-    tableCenter = new TableCenter();
+    TableCenterInterface tableCenter = new TableCenter();
 
     //#endregion
 
     //#region Factories
+
+    List<TileSourceInterface> factories = new ArrayList<>();
 
     // Adjust the number of factories based on the player count.
     int factoryCount = playerCount * 2 + 1;
@@ -101,9 +83,15 @@ class GameIntegrationTest {
 
     //#region Table Area
 
-    tableArea = new TableArea(bag, tableCenter, factories);
+    TableAreaInterface tableArea = new TableArea(bag, tableCenter, factories);
 
     //#endregion
+
+    final List<List<WallLineInterface>> wallLines = new ArrayList<>();
+    final List<List<PatternLineInterface>> patternLines = new ArrayList<>();
+    final List<FloorInterface> floors = new ArrayList<>();
+    final List<BoardInterface> boards = new ArrayList<>();
+    players = new ArrayList<>();
 
     for (String playerName : playerNames) {
 
@@ -170,7 +158,7 @@ class GameIntegrationTest {
 
     //#region Observer
 
-    observer = state -> observerOutput.add(state);
+    ObserverInterface observer = state -> observerOutput.add(state);
 
     //#endregion
 
@@ -179,6 +167,8 @@ class GameIntegrationTest {
     game = new Game(tableArea, players);
 
     game.getGameObserver().registerObserver(observer);
+
+    game.start();
 
     //endregion
   }
@@ -191,34 +181,34 @@ class GameIntegrationTest {
     //#region First round simulation
 
     // Player 1.
-    game.take(0, 0, 2);
+    game.take(new SourcePath(0, 0), 2);
 
     // Player 2.
-    game.take(3, 0, 0);
+    game.take(new SourcePath(3, 0), 0);
 
     // Player 1.
-    game.take(1, 1, 1);
+    game.take(new SourcePath(1, 1), 1);
 
     // Player 2.
-    game.take(2, 1, 1);
+    game.take(new SourcePath(2, 1), 1);
 
     // Player 1 takes from the table center first.
-    game.take(-1, 1, 3);
+    game.take(new SourcePath(-1, 1), 3);
 
     // Player 2.
-    game.take(4, 0, 2);
+    game.take(new SourcePath(4, 0), 2);
 
     // Player 1.
-    game.take(-1, 1, 4);
+    game.take(new SourcePath(-1, 1), 4);
 
     // Player 2.
-    game.take(-1, 0, 2);
+    game.take(new SourcePath(-1, 0), 2);
 
     // Player 1.
-    game.take(-1, 0, 0);
+    game.take(new SourcePath(-1, 0), 0);
 
     // Player 2.
-    game.take(-1, 0, 3);
+    game.take(new SourcePath(-1, 0), 3);
 
     //#endregion
 
@@ -229,34 +219,34 @@ class GameIntegrationTest {
     //#region Second round simulation
 
     // Player 1.
-    game.take(0, 0, 1);
+    game.take(new SourcePath(0, 0), 1);
 
     // Player 2.
-    game.take(3, 3, 2);
+    game.take(new SourcePath(3, 3), 2);
 
     // Player 1.
-    game.take(1, 1, 0);
+    game.take(new SourcePath(1, 1), 0);
 
     // Player 2 takes from the table center first.
-    game.take(-1, 1, 4);
+    game.take(new SourcePath(-1, 1), 4);
 
     // Player 1.
-    game.take(2, 0, 4);
+    game.take(new SourcePath(2, 0), 4);
 
     // Player 2.
-    game.take(-1, 0, 3);
+    game.take(new SourcePath(-1, 0), 3);
 
     // Player 1.
-    game.take(4, 0, -1);
+    game.take(new SourcePath(4, 0), -1);
 
     // Player 2.
-    game.take(-1, 1, 0);
+    game.take(new SourcePath(-1, 1), 0);
 
     // Player 1.
-    game.take(-1, 0, 2);
+    game.take(new SourcePath(-1, 0), 2);
 
     // Player 2.
-    game.take(-1, 0, -1);
+    game.take(new SourcePath(-1, 0), -1);
 
     //#endregion
 
@@ -267,31 +257,31 @@ class GameIntegrationTest {
     //#region Third round simulation
 
     // Player 2.
-    game.take(3, 1, 1);
+    game.take(new SourcePath(3, 1), 1);
 
     // Player 1.
-    game.take(1, 0, 0);
+    game.take(new SourcePath(1, 0), 0);
 
     // Player 2.
-    game.take(2, 0, 0);
+    game.take(new SourcePath(2, 0), 0);
 
     // Player 1.
-    game.take(4, 1, 1);
+    game.take(new SourcePath(4, 1), 1);
 
     // Player 2 takes from the table center first.
-    game.take(-1, 2, 3);
+    game.take(new SourcePath(-1, 2), 3);
 
     // Player 1.
-    game.take(-1, 0, 2);
+    game.take(new SourcePath(-1, 0), 2);
 
     // Player 2.
-    game.take(0, 3, 4);
+    game.take(new SourcePath(0, 3), 4);
 
     // Player 1.
-    game.take(-1, 1, 3);
+    game.take(new SourcePath(-1, 1), 3);
 
     // Player 2.
-    game.take(-1, 0, -1);
+    game.take(new SourcePath(-1, 0), -1);
 
     //#endregion
 
@@ -302,37 +292,37 @@ class GameIntegrationTest {
     //#region Fourth round simulation
 
     // Player 2.
-    game.take(4, 1, 1);
+    game.take(new SourcePath(4, 1), 1);
 
     // Player 1.
-    game.take(2, 0, 0);
+    game.take(new SourcePath(2, 0), 0);
 
     // Player 2.
-    game.take(0, 0, 2);
+    game.take(new SourcePath(0, 0), 2);
 
     // Player 1 takes from the table center first.
-    game.take(-1, 2, 1);
+    game.take(new SourcePath(-1, 2), 1);
 
     // Player 2.
-    game.take(3, 3, 0);
+    game.take(new SourcePath(3, 3), 0);
 
     // Player 1.
-    game.take(-1, 2, 2);
+    game.take(new SourcePath(-1, 2), 2);
 
     // Player 2.
-    game.take(1, 0, 3);
+    game.take(new SourcePath(1, 0), 3);
 
     // Player 1.
-    game.take(-1, 0, 3);
+    game.take(new SourcePath(-1, 0), 3);
 
     // Player 2.
-    game.take(-1, 0, 4);
+    game.take(new SourcePath(-1, 0), 4);
 
     // Player 1.
-    game.take(-1, 0, -1);
+    game.take(new SourcePath(-1, 0), -1);
 
     // Player 2.
-    game.take(-1, 0, -1);
+    game.take(new SourcePath(-1, 0), -1);
 
     //#endregion
 
@@ -343,34 +333,34 @@ class GameIntegrationTest {
     //#region Fifth round simulation
 
     // Player 1.
-    game.take(4, 0, 3);
+    game.take(new SourcePath(4, 0), 3);
 
     // Player 2.
-    game.take(0, 3, 3);
+    game.take(new SourcePath(0, 3), 3);
 
     // Player 1.
-    game.take(1, 0, 1);
+    game.take(new SourcePath(1, 0), 1);
 
     // Player 2.
-    game.take(3, 1, 3);
+    game.take(new SourcePath(3, 1), 3);
 
     // Player 1 takes from the table center first.
-    game.take(-1, 4, 4);
+    game.take(new SourcePath(-1, 4), 4);
 
     // Player 2.
-    game.take(2, 1, 2);
+    game.take(new SourcePath(2, 1), 2);
 
     // Player 1.
-    game.take(-1, 9, 4);
+    game.take(new SourcePath(-1, 9), 4);
 
     // Player 2.
-    game.take(-1, 2, 2);
+    game.take(new SourcePath(-1, 2), 2);
 
     // Player 1.
-    game.take(-1, 0, -1);
+    game.take(new SourcePath(-1, 0), -1);
 
     // Player 2.
-    game.take(-1, 0, 1);
+    game.take(new SourcePath(-1, 0), 1);
 
     //#endregion
 
@@ -381,35 +371,41 @@ class GameIntegrationTest {
     //#region Sixth round simulation
 
     // Player 1.
-    game.take(2, 3, 4);
+    game.take(new SourcePath(2, 3), 4);
 
     // Player 2.
-    game.take(0, 0, 4);
+    game.take(new SourcePath(0, 0), 4);
 
     // Player 1.
-    game.take(1, 0, 1);
+    game.take(new SourcePath(1, 0), 1);
 
     // Player 2.
-    game.take(3, 1, 2);
+    game.take(new SourcePath(3, 1), 2);
 
     // Player 1.
-    game.take(4, 3, 0);
+    game.take(new SourcePath(4, 3), 0);
 
     // Player 2 takes from the table center first.
-    game.take(-1, 4, 2);
+    game.take(new SourcePath(-1, 4), 2);
 
     // Player 1.
-    game.take(-1, 0, 3);
+    game.take(new SourcePath(-1, 0), 3);
 
     // Player 2.
-    game.take(-1, 0, -1);
+    game.take(new SourcePath(-1, 0), -1);
 
     // Player 1.
-    game.take(-1, 0, 2);
+    game.take(new SourcePath(-1, 0), 2);
 
     //#endregion
 
     assertEquals(100, players.get(0).getPoints().getValue());
     assertEquals(31, players.get(1).getPoints().getValue());
+
+    assertEquals(1, observerOutput.stream().filter(msg -> msg.equals(Game.GAME_STARTED_MESSAGE)).count());
+    assertEquals(6, observerOutput.stream().filter(msg -> msg.equals(Game.ROUND_STARTED_MESSAGE)).count());
+    assertEquals(6, observerOutput.stream().filter(msg -> msg.equals(Game.ROUND_ENDED_MESSAGE)).count());
+    assertEquals(1, observerOutput.stream().filter(msg -> msg.equals(Game.GAME_ENDED_MESSAGE)).count());
+    assertEquals(1, observerOutput.stream().filter(msg -> msg.equals(Game.PLAYER_WON_MESSAGE.replace("X", players.get(0).getName()))).count());
   }
 }

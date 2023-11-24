@@ -6,13 +6,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class Board implements BoardInterface {
-  private final TurnInterface floor;
-  private final List<TurnInterface> patternLines;
+  private final TakeTurnInterface floor;
+  private final List<TakeTurnInterface> patternLines;
   private final List<TileStateInterface> wallLines;
   private final FinalPointsCalculation finalPointsCalculation = new FinalPointsCalculation();
   private final Points points = new Points(0);
 
-  public Board(TurnInterface floor, List<TurnInterface> patternLines, List<TileStateInterface> wallLines) {
+  public Board(TakeTurnInterface floor, List<TakeTurnInterface> patternLines, List<TileStateInterface> wallLines) {
 
     this.floor = floor;
     this.patternLines = patternLines;
@@ -47,7 +47,7 @@ public class Board implements BoardInterface {
   @Override
   public FinishRoundResult finishRound() {
 
-    for (TurnInterface patternLine : patternLines) {
+    for (TakeTurnInterface patternLine : patternLines) {
 
       points.add(patternLine.finishRound());
     }

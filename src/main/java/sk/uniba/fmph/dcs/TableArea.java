@@ -5,7 +5,6 @@ import sk.uniba.fmph.dcs.interfaces.TableAreaInterface;
 import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
 import sk.uniba.fmph.dcs.interfaces.TileSourceInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableArea implements TableAreaInterface {
@@ -22,14 +21,14 @@ public class TableArea implements TableAreaInterface {
   }
 
   @Override
-  public List<Tile> take(int sourceIndex, int tileIndex) {
+  public List<Tile> take(SourcePath sourcePath) {
 
-    if (sourceIndex == -1) {
+    if (sourcePath.sourceIndex() == -1) {
 
-      return tableCenter.take(tileIndex);
+      return tableCenter.take(sourcePath.tileIndex());
     }
 
-    return factories.get(sourceIndex).take(tileIndex);
+    return factories.get(sourcePath.sourceIndex()).take(sourcePath.tileIndex());
   }
 
   @Override

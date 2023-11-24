@@ -2,23 +2,43 @@ package sk.uniba.fmph.dcs;
 
 import sk.uniba.fmph.dcs.interfaces.*;
 
-import java.util.Collections;
 import java.util.List;
 
 class Game implements GameInterface {
+
+  public static final String GAME_STARTED_MESSAGE = "Game started";
+  public static final String ROUND_STARTED_MESSAGE = "Round started";
+  public static final String ROUND_ENDED_MESSAGE = "Round ended";
+  public static final String GAME_ENDED_MESSAGE = "Game ended";
+  public static final String PLAYER_WON_MESSAGE = "Player X won";
+
   private final GameObserver observer = new GameObserver();
   private final TableAreaInterface tableArea;
   private final List<PlayerInterface> players;
   private int startingPlayerIndex = 0;
   private int currentPlayerIndex = 0;
-  private boolean isGameOver = false;
+  private boolean gameStarted = false;
+  private boolean gameFinished = false;
 
   public Game(TableAreaInterface tableArea, List<PlayerInterface> players) {
 
     this.tableArea = tableArea;
     this.players = players;
+  }
+
+  @Override
+  public void start() {
+
+    if (gameStarted) {
+
+      throw new IllegalStateException("Game already started");
+    }
+    gameStarted = true;
 
     tableArea.startNewRound();
+
+    observer.notifyEverybody(GAME_STARTED_MESSAGE);
+    observer.notifyEverybody(ROUND_STARTED_MESSAGE);
   }
 
   @Override
@@ -28,9 +48,9 @@ class Game implements GameInterface {
   }
 
   @Override
-  public boolean isGameOver() {
+  public boolean isGameFinished() {
 
-    return isGameOver;
+    return gameFinished;
   }
 
   @Override
@@ -40,24 +60,29 @@ class Game implements GameInterface {
   }
 
   @Override
-  public void take(int sourceIndex, int tileIndex, int destinationIndex) {
+  public void take(SourcePath sourcePath, int destinationIndex) {
 
-    handleTileTaking(sourceIndex, tileIndex, destinationIndex);
+    if (!gameStarted) {
+
+      throw new IllegalStateException("Game not started");
+    }
+
+    handleTileTaking(sourcePath, destinationIndex);
 
     // Update current player index.
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 
     if (tableArea.isRoundEnd()) {
 
-      observer.notifyEverybody("Round ended.");
+      observer.notifyEverybody(ROUND_ENDED_MESSAGE);
 
       handleRoundEnd();
     }
   }
 
-  private void handleTileTaking(int sourceIndex, int tileIndex, int destinationIndex) {
+  private void handleTileTaking(SourcePath sourcePath, int destinationIndex) {
 
-    final List<Tile> tiles = tableArea.take(sourceIndex, tileIndex);
+    final List<Tile> tiles = tableArea.take(sourcePath);
 
     // Update starting player index.
     if (tiles.contains(Tile.STARTING_PLAYER)) {
@@ -75,7 +100,7 @@ class Game implements GameInterface {
 
       tableArea.startNewRound();
 
-      observer.notifyEverybody("Round started.");
+      observer.notifyEverybody(ROUND_STARTED_MESSAGE);
     }
     else {
 
@@ -101,17 +126,15 @@ class Game implements GameInterface {
     }
 
     // Notify observers.
-    observer.notifyEverybody("Game ended.");
+    observer.notifyEverybody(GAME_ENDED_MESSAGE);
 
     if (winnerName != null) {
 
-      observer.notifyEverybody("Player " + winnerName + " won with " + winnerPoints.getValue() + " points.");
+      observer.notifyEverybody(PLAYER_WON_MESSAGE.replace("X", winnerName));
     }
   }
 
   public FinishRoundResult finishRound() {
-
-    boolean isGameFinished = false;
 
     for (PlayerInterface player : players) {
 
@@ -119,11 +142,11 @@ class Game implements GameInterface {
 
       if (result == FinishRoundResult.GAME_FINISHED) {
 
-        isGameFinished = true;
+        gameFinished = true;
       }
     }
 
-    if (isGameFinished) {
+    if (gameFinished) {
 
       return FinishRoundResult.GAME_FINISHED;
     }
@@ -142,6 +165,6 @@ class Game implements GameInterface {
       player.endGame();
     }
 
-    isGameOver = true;
+    gameFinished = true;
   }
 }

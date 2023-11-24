@@ -2,7 +2,6 @@ package sk.uniba.fmph.dcs;
 
 import sk.uniba.fmph.dcs.interfaces.FloorStateInterface;
 import sk.uniba.fmph.dcs.interfaces.PlayerInterface;
-import sk.uniba.fmph.dcs.interfaces.TableAreaInterface;
 import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 
 import java.util.List;
@@ -52,13 +51,13 @@ public class Display {
       playerGrid.addText(i, 4, "Pattern lines:");
       for (int j = 0; j < patternLines.get(i).size(); j++) {
 
-        playerGrid.addText(i, 5 + j, "P" + (j) + ": " + patternLines.get(i).get(j));
+        playerGrid.addText(i, 5 + j, "P" + (j + 1) + ": " + patternLines.get(i).get(j));
       }
 
       playerGrid.addText(i, 11, "Wall lines:");
       for (int j = 0; j < wallLines.get(i).size(); j++) {
 
-        playerGrid.addText(i, 12 + j, "W" + (j) + ": " + wallLines.get(i).get(j));
+        playerGrid.addText(i, 12 + j, "W" + (j + 1) + ": " + wallLines.get(i).get(j));
       }
 
       var floorPattern = floors.get(i).getPointPattern();

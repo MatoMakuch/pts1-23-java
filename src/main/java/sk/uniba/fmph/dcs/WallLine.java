@@ -1,7 +1,5 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.PutTileInterface;
-import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
 
 import java.util.ArrayList;
