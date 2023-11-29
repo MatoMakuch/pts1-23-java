@@ -1,6 +1,8 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.*;
+import sk.uniba.fmph.dcs.interfaces.PatternLineInterface;
+import sk.uniba.fmph.dcs.interfaces.PutTileInterface;
+import sk.uniba.fmph.dcs.interfaces.PutTilesInterface;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,12 +12,11 @@ public class PatternLine implements PatternLineInterface {
   private final PutTilesInterface usedTiles;
   private final PutTilesInterface floor;
   private final PutTileInterface wallLine;
-
-  private int capacity;
   private final List<Tile> tiles;
+  private int capacity;
   private Tile type;
 
-  public PatternLine(PutTilesInterface usedTiles, PutTilesInterface floor, PutTileInterface wallLine, int capacity) {
+  public PatternLine(final PutTilesInterface usedTiles, final PutTilesInterface floor, final PutTileInterface wallLine, final int capacity) {
 
     this.usedTiles = usedTiles;
     this.floor = floor;
@@ -26,14 +27,14 @@ public class PatternLine implements PatternLineInterface {
   }
 
   @Override
-  public void put(Collection<Tile> tiles) {
+  public void put(final Collection<Tile> tiles) {
 
     if (tiles.size() == 0) {
 
       throw new IllegalArgumentException("No tiles to add.");
     }
 
-    Tile toPut = tiles.stream().toList().get(0);
+    final Tile toPut = tiles.stream().toList().get(0);
 
     if (type != null && type != toPut) {
 
@@ -47,7 +48,7 @@ public class PatternLine implements PatternLineInterface {
 
     type = toPut;
 
-    List<Tile> tilesFalling = new ArrayList<>();
+    final List<Tile> tilesFalling = new ArrayList<>();
 
     for (Tile tile : tiles) {
 
@@ -55,8 +56,7 @@ public class PatternLine implements PatternLineInterface {
 
         this.tiles.add(tile);
 
-      }
-      else {
+      } else {
 
         tilesFalling.add(tile);
       }
@@ -78,7 +78,7 @@ public class PatternLine implements PatternLineInterface {
       throw new IllegalStateException("Cannot put tile on the wall.");
     }
 
-    var points = wallLine.putTile(type);
+    final Points points = wallLine.putTile(type);
 
     usedTiles.put(tiles);
     tiles.clear();
@@ -97,8 +97,7 @@ public class PatternLine implements PatternLineInterface {
       if (i < this.tiles.size()) {
 
         tiles.add(this.tiles.get(i));
-      }
-      else {
+      } else {
 
         tiles.add(null);
       }
@@ -108,7 +107,7 @@ public class PatternLine implements PatternLineInterface {
   }
 
   @Override
-  public void setState(String state) {
+  public void setState(final String state) {
 
     final List<Tile> tiles = Tile.fromString(state);
 

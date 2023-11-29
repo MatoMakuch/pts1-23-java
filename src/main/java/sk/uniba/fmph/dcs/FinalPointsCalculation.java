@@ -17,7 +17,7 @@ public class FinalPointsCalculation {
     counters.add(new ColorCompletionCounterInterface());
   }
 
-  public Points getPoints(Tile[][] wall) {
+  public Points getPoints(final Tile[][] wall) {
 
     var totalPoints = 0;
 

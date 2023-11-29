@@ -20,7 +20,7 @@ record Player(String name, BoardInterface board) implements PlayerInterface {
   }
 
   @Override
-  public void put(List<Tile> tiles, int destinationIndex) {
+  public void put(final List<Tile> tiles, final int destinationIndex) {
 
     board.put(tiles, destinationIndex);
   }

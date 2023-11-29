@@ -9,7 +9,7 @@ public class GridDisplay {
   private final int columnCount;
   private final int totalWidth;
 
-  public GridDisplay(int totalWidth, int columnCount, int rowCount) {
+  public GridDisplay(final int totalWidth, final int columnCount, final int rowCount) {
 
     this.columnCount = columnCount;
     this.rowCount = rowCount;
@@ -58,7 +58,7 @@ public class GridDisplay {
     return totalWidth;
   }
 
-  public void addText(int column, int row, String text) {
+  public void addText(final int column, final int row, String text) {
 
     if (column < 0 || column >= columnCount || row < 0 || row >= rowCount) {
 
@@ -80,7 +80,7 @@ public class GridDisplay {
   @Override
   public String toString() {
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
 
     for (char[] row : grid) {
 

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class GameFinished {
 
-  public static FinishRoundResult gameFinished(List<TileStateInterface> wallLines) {
+  public static FinishRoundResult gameFinished(final List<TileStateInterface> wallLines) {
 
     boolean isRowCompleted = false;
 
@@ -24,8 +24,7 @@ public class GameFinished {
 
       return FinishRoundResult.GAME_FINISHED;
 
-    }
-    else {
+    } else {
 
       return FinishRoundResult.NORMAL;
     }

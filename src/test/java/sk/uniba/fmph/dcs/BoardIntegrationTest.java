@@ -1,25 +1,25 @@
 package sk.uniba.fmph.dcs;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import sk.uniba.fmph.dcs.interfaces.*;
 import org.junit.Before;
 import org.junit.Test;
+import sk.uniba.fmph.dcs.interfaces.FloorInterface;
+import sk.uniba.fmph.dcs.interfaces.PatternLineInterface;
+import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
+import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardIntegrationTest {
 
   // Define the point pattern for the floor line.
-  final static List<Points> pointPattern = List.of(
-      new Points(-1),
-      new Points(-1),
-      new Points(-2),
-      new Points(-2),
-      new Points(-3),
-      new Points(-3)
-  );
+  final static List<Points> pointPattern = List.of(new Points(-1), new Points(-1), new Points(-2), new Points(-2), new Points(-3), new Points(-3));
   private Board board;
   private FloorInterface floor;
   private List<PatternLineInterface> patternLines;
@@ -30,7 +30,7 @@ public class BoardIntegrationTest {
 
     //#region Used Tiles
 
-    UsedTilesInterface usedTiles = new UsedTiles();
+    final UsedTilesInterface usedTiles = new UsedTiles();
 
     //#endregion
 
@@ -43,7 +43,7 @@ public class BoardIntegrationTest {
     wallLines = new ArrayList<>();
     patternLines = new ArrayList<>();
 
-    TilePermutationIterator iterator = new TilePermutationIterator();
+    final TilePermutationIterator iterator = new TilePermutationIterator();
 
     int i = 0; // Initialize the counter.
     while (iterator.hasNext()) {
@@ -84,11 +84,11 @@ public class BoardIntegrationTest {
   public void testAddTilesToPatternLine() {
 
     // Assuming that the pattern line can accept a certain color and number of tiles.
-    Tile color = Tile.BLUE;
-    int lineIndex = 1; // Choosing the second pattern line (index 1).
-    int numberOfTiles = 2; // Line can hold 2 tiles.
+    final Tile color = Tile.BLUE;
+    final int lineIndex = 1; // Choosing the second pattern line (index 1).
+    final int numberOfTiles = 2; // Line can hold 2 tiles.
 
-    List<Tile> tiles = new ArrayList<>(Collections.nCopies(numberOfTiles, color));
+    final List<Tile> tiles = new ArrayList<>(Collections.nCopies(numberOfTiles, color));
     board.put(tiles, lineIndex);
 
     // Verify that the tiles are added to the specified pattern line.
@@ -106,12 +106,12 @@ public class BoardIntegrationTest {
   public void testPatternLineColorRestriction() {
 
     // Add some tiles to a pattern line.
-    Tile initialColor = Tile.BLUE;
-    int lineIndex = 1;
+    final Tile initialColor = Tile.BLUE;
+    final int lineIndex = 1;
     board.put(Collections.singletonList(initialColor), lineIndex);
 
     // Attempt to add different colored tiles to the same line.
-    Tile differentColor = Tile.RED;
+    final Tile differentColor = Tile.RED;
 
     // Verify that adding a different color to the pattern line throws an exception
     assertThrows(IllegalArgumentException.class, () -> board.put(Collections.singletonList(differentColor), lineIndex));
@@ -121,8 +121,8 @@ public class BoardIntegrationTest {
   public void testMoveTileFromPatternLineToWall() {
 
     // Fill a pattern line completely.
-    Tile color = Tile.BLUE;
-    int lineIndex = 1;
+    final Tile color = Tile.BLUE;
+    final int lineIndex = 1;
     for (int i = 0; i <= lineIndex; i++) {
 
       board.put(Collections.singletonList(color), lineIndex);
@@ -141,17 +141,17 @@ public class BoardIntegrationTest {
   public void testLosingPointsDueToFloorLine() {
 
     // Add tiles to the floor line.
-    Tile color = Tile.BLUE;
-    int numberOfTiles = 3;
-    List<Tile> tiles = new ArrayList<>(Collections.nCopies(numberOfTiles, color));
+    final Tile color = Tile.BLUE;
+    final int numberOfTiles = 3;
+    final List<Tile> tiles = new ArrayList<>(Collections.nCopies(numberOfTiles, color));
 
     board.put(tiles, -1); // -1 indicates adding to the floor line.
 
     board.finishRound();
 
     // Verify that points are deducted according to the floor line's point pattern.
-    int expectedPointsDeduction = pointPattern.subList(0, numberOfTiles).stream().mapToInt(Points::getValue).sum();
-    int actualPoints = board.getPoints().getValue();
+    final int expectedPointsDeduction = pointPattern.subList(0, numberOfTiles).stream().mapToInt(Points::getValue).sum();
+    final int actualPoints = board.getPoints().getValue();
 
     assertTrue(actualPoints <= expectedPointsDeduction);
   }

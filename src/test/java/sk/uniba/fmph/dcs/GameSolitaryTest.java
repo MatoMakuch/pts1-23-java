@@ -2,14 +2,17 @@ package sk.uniba.fmph.dcs;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import sk.uniba.fmph.dcs.fake.FakePlayer;
 import sk.uniba.fmph.dcs.fake.FakeTableArea;
 import sk.uniba.fmph.dcs.interfaces.PlayerInterface;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameSolitaryTest {
   private Game game;
@@ -23,15 +26,15 @@ public class GameSolitaryTest {
     player2 = new FakePlayer("Bob");
 
     // Initialize the table area with different sets of tiles.
-    Map<SourcePath, List<Tile>> initialTiles = new HashMap<>();
+    final Map<SourcePath, List<Tile>> initialTiles = new HashMap<>();
 
-    List<Tile> round1Tiles = Tile.fromString("RGB");
+    final List<Tile> round1Tiles = Tile.fromString("RGB");
 
     initialTiles.put(new SourcePath(0, 0), round1Tiles);
 
     tableArea = new FakeTableArea(initialTiles);
 
-    List<PlayerInterface> players = Arrays.asList(player1, player2);
+    final List<PlayerInterface> players = Arrays.asList(player1, player2);
 
     game = new Game(tableArea, players);
     game.start();
@@ -69,9 +72,9 @@ public class GameSolitaryTest {
   public void testStartingPlayerTile() {
 
     // Initialize the table area with a starting player tile.
-    Map<SourcePath, List<Tile>> initialTiles = new HashMap<>();
+    final Map<SourcePath, List<Tile>> initialTiles = new HashMap<>();
 
-    List<Tile> startingTiles = Tile.fromString("S");
+    final List<Tile> startingTiles = Tile.fromString("S");
 
     initialTiles.put(new SourcePath(0, 0), startingTiles);
 
@@ -90,10 +93,10 @@ public class GameSolitaryTest {
   public void testTileTaking_MultipleRounds() {
 
     // Initialize the table area with different sets of tiles.
-    Map<SourcePath, List<Tile>> initialTiles = new HashMap<>();
+    final Map<SourcePath, List<Tile>> initialTiles = new HashMap<>();
 
-    List<Tile> round1Tiles = Tile.fromString("RGB");
-    List<Tile> round2Tiles = Tile.fromString("YBL");
+    final List<Tile> round1Tiles = Tile.fromString("RGB");
+    final List<Tile> round2Tiles = Tile.fromString("YBL");
 
     initialTiles.put(new SourcePath(0, 0), round1Tiles);
     initialTiles.put(new SourcePath(1, 0), round2Tiles);
@@ -161,7 +164,7 @@ public class GameSolitaryTest {
   public void testTilePlacement() {
 
     // Testing if tiles are correctly placed by players.
-    List<Tile> tilesToPut = Tile.fromString("RR"); // Create sample tiles.
+    final List<Tile> tilesToPut = Tile.fromString("RR"); // Create sample tiles.
 
     game.take(new SourcePath(0, 0), 1); // Simulate a turn.
 

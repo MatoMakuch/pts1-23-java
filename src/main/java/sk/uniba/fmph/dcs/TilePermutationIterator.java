@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class TilePermutationIterator implements Iterator<Tile[]> {
 
-  private final Tile[] colors = new Tile[] { Tile.RED, Tile.GREEN, Tile.YELLOW, Tile.BLUE, Tile.BLACK };
+  private final Tile[] colors = new Tile[]{Tile.RED, Tile.GREEN, Tile.YELLOW, Tile.BLUE, Tile.BLACK};
   private int currentIndex = 0;
 
   @Override
@@ -21,7 +21,7 @@ public class TilePermutationIterator implements Iterator<Tile[]> {
       throw new NoSuchElementException("No more permutations available.");
     }
 
-    Tile[] pattern = new Tile[colors.length];
+    final Tile[] pattern = new Tile[colors.length];
     for (int j = 0; j < colors.length; j++) {
 
       pattern[j] = colors[(currentIndex + j) % colors.length];

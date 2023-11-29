@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameObserver {
-  private List<ObserverInterface> observers;
+  private final List<ObserverInterface> observers;
 
   public GameObserver() {
 
     observers = new ArrayList<>();
   }
 
-  public void registerObserver(ObserverInterface observer) {
+  public void registerObserver(final ObserverInterface observer) {
 
     if (!observers.contains(observer)) {
 
@@ -21,12 +21,12 @@ public class GameObserver {
     }
   }
 
-  public void cancelObserver(ObserverInterface observer) {
+  public void cancelObserver(final ObserverInterface observer) {
 
     observers.remove(observer);
   }
 
-  public void notifyEverybody(String state) {
+  public void notifyEverybody(final String state) {
 
     for (ObserverInterface observer : observers) {
 

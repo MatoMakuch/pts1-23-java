@@ -1,6 +1,12 @@
 package sk.uniba.fmph.dcs;
 
 public final class Points {
+  private int value;
+
+  public Points(final int value) {
+    this.value = value;
+  }
+
   public static Points sum(final Iterable<Points> pts) {
 
     int sum = 0;
@@ -9,12 +15,6 @@ public final class Points {
       sum += points.getValue();
     }
     return new Points(sum);
-  }
-
-  private int value;
-
-  public Points(final int value) {
-    this.value = value;
   }
 
   public int getValue() {

@@ -13,7 +13,7 @@ public class TableArea implements TableAreaInterface {
   private final TableCenterInterface tableCenter;
   private final List<TileSourceInterface> factories;
 
-  public TableArea(StartNewRoundInterface bag, TableCenterInterface tableCenter, List<TileSourceInterface> factories) {
+  public TableArea(final StartNewRoundInterface bag, final TableCenterInterface tableCenter, final List<TileSourceInterface> factories) {
 
     this.bag = bag;
     this.tableCenter = tableCenter;
@@ -21,7 +21,7 @@ public class TableArea implements TableAreaInterface {
   }
 
   @Override
-  public List<Tile> take(SourcePath sourcePath) {
+  public List<Tile> take(final SourcePath sourcePath) {
 
     if (sourcePath.sourceIndex() == -1) {
 

@@ -12,13 +12,13 @@ class BagTest {
   @Test
   void testDrawingSequence() {
 
-    UsedTilesInterface usedTiles = new UsedTiles();
+    final UsedTilesInterface usedTiles = new UsedTiles();
 
-    Bag bag = new Bag(usedTiles);
+    final Bag bag = new Bag(usedTiles);
     bag.setState("RRGGBBYYLL");
 
     // Draw the first set of 4 tiles.
-    List<Tile> firstDrawnTiles = bag.take(4);
+    final List<Tile> firstDrawnTiles = bag.take(4);
     assertEquals(4, firstDrawnTiles.size());
     assertEquals(Tile.RED, firstDrawnTiles.get(0));
     assertEquals(Tile.RED, firstDrawnTiles.get(1));
@@ -26,7 +26,7 @@ class BagTest {
     assertEquals(Tile.GREEN, firstDrawnTiles.get(3));
 
     // Draw the second set of 4 tiles.
-    List<Tile> secondDrawnTiles = bag.take(4);
+    final List<Tile> secondDrawnTiles = bag.take(4);
     assertEquals(4, secondDrawnTiles.size());
     assertEquals(Tile.BLUE, secondDrawnTiles.get(0));
     assertEquals(Tile.BLUE, secondDrawnTiles.get(1));
@@ -34,7 +34,7 @@ class BagTest {
     assertEquals(Tile.YELLOW, secondDrawnTiles.get(3));
 
     // Draw the final set of 2 tiles.
-    List<Tile> lastDrawnTiles = bag.take(2);
+    final List<Tile> lastDrawnTiles = bag.take(2);
     assertEquals(2, lastDrawnTiles.size());
     assertEquals(Tile.BLACK, lastDrawnTiles.get(0));
     assertEquals(Tile.BLACK, lastDrawnTiles.get(1));

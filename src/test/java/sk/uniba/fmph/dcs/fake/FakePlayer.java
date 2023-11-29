@@ -16,7 +16,7 @@ public class FakePlayer implements PlayerInterface {
   private int roundsPlayed = 0;
   private FinishRoundResult finishRoundResult;
 
-  public FakePlayer(String name) {
+  public FakePlayer(final String name) {
 
     this.name = name;
   }
@@ -31,7 +31,7 @@ public class FakePlayer implements PlayerInterface {
     return roundsPlayed;
   }
 
-  public void setFinishRoundResult(FinishRoundResult finishRoundResult) {
+  public void setFinishRoundResult(final FinishRoundResult finishRoundResult) {
 
     this.finishRoundResult = finishRoundResult;
   }
@@ -48,7 +48,7 @@ public class FakePlayer implements PlayerInterface {
   }
 
   @Override
-  public void put(List<Tile> tiles, int destinationIndex) {
+  public void put(final List<Tile> tiles, final int destinationIndex) {
 
     putTiles.put(destinationIndex, tiles);
   }

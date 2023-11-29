@@ -7,7 +7,8 @@ import sk.uniba.fmph.dcs.interfaces.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameIntegrationTest {
   private List<PlayerInterface> players;
@@ -21,7 +22,7 @@ class GameIntegrationTest {
 
     //#region Configuration
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
 
     for (int i = 0; i < 6; i++) {
 
@@ -32,30 +33,23 @@ class GameIntegrationTest {
       builder.append("YBBL");
     }
 
-    String bagState = builder.toString();
+    final String bagState = builder.toString();
 
     int playerCount = 2;
     List<String> playerNames = Arrays.asList("Player1", "Player2");
-    List<Points> pointPattern = List.of(
-        new Points(-1),
-        new Points(-1),
-        new Points(-2),
-        new Points(-2),
-        new Points(-3),
-        new Points(-3)
-    );
+    List<Points> pointPattern = List.of(new Points(-1), new Points(-1), new Points(-2), new Points(-2), new Points(-3), new Points(-3));
 
     //#endregion
 
     //#region Used Tiles
 
-    UsedTilesInterface usedTiles = new UsedTiles();
+    final UsedTilesInterface usedTiles = new UsedTiles();
 
     //#endregion
 
     //#region Bag
 
-    BagInterface bag = new Bag(usedTiles);
+    final BagInterface bag = new Bag(usedTiles);
 
     bag.setState(bagState);
 
@@ -63,13 +57,13 @@ class GameIntegrationTest {
 
     //#region Table Center
 
-    TableCenterInterface tableCenter = new TableCenter();
+    final TableCenterInterface tableCenter = new TableCenter();
 
     //#endregion
 
     //#region Factories
 
-    List<TileSourceInterface> factories = new ArrayList<>();
+    final List<TileSourceInterface> factories = new ArrayList<>();
 
     // Adjust the number of factories based on the player count.
     int factoryCount = playerCount * 2 + 1;
@@ -83,14 +77,10 @@ class GameIntegrationTest {
 
     //#region Table Area
 
-    TableAreaInterface tableArea = new TableArea(bag, tableCenter, factories);
+    final TableAreaInterface tableArea = new TableArea(bag, tableCenter, factories);
 
     //#endregion
 
-    final List<List<WallLineInterface>> wallLines = new ArrayList<>();
-    final List<List<PatternLineInterface>> patternLines = new ArrayList<>();
-    final List<FloorInterface> floors = new ArrayList<>();
-    final List<BoardInterface> boards = new ArrayList<>();
     players = new ArrayList<>();
 
     for (String playerName : playerNames) {
@@ -99,14 +89,12 @@ class GameIntegrationTest {
 
       final FloorInterface floor = new Floor(usedTiles, pointPattern);
 
-      floors.add(floor);
-
       //#endregion
 
       final List<WallLineInterface> playerWallLines = new ArrayList<>();
       final List<PatternLineInterface> playerPatternLines = new ArrayList<>();
 
-      TilePermutationIterator iterator = new TilePermutationIterator();
+      final TilePermutationIterator iterator = new TilePermutationIterator();
 
       int i = 0; // Initialize the counter.
       while (iterator.hasNext()) {
@@ -136,14 +124,9 @@ class GameIntegrationTest {
         i++; // Increment the counter.
       }
 
-      wallLines.add(playerWallLines);
-      patternLines.add(playerPatternLines);
-
       //#region Board
 
       final BoardInterface board = new Board(floor, new ArrayList<>(playerPatternLines), new ArrayList<>(playerWallLines));
-
-      boards.add(board);
 
       //#endregion
 
@@ -158,7 +141,7 @@ class GameIntegrationTest {
 
     //#region Observer
 
-    ObserverInterface observer = state -> observerOutput.add(state);
+    final ObserverInterface observer = state -> observerOutput.add(state);
 
     //#endregion
 

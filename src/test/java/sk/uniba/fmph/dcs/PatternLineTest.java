@@ -3,7 +3,6 @@ package sk.uniba.fmph.dcs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sk.uniba.fmph.dcs.fake.FakeWallLine;
-import sk.uniba.fmph.dcs.interfaces.TakeAllTilesInterface;
 import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 import java.util.Collections;
@@ -12,15 +11,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PatternLineTest {
+  private final Tile testTile = Tile.RED;
   private PatternLine patternLine;
   private FakeWallLine fakeWallLine;
   private Floor floor;
-  private final Tile testTile = Tile.RED;
 
   @BeforeEach
   public void setUp() {
 
-    UsedTilesInterface usedTiles = new UsedTiles();
+    final UsedTilesInterface usedTiles = new UsedTiles();
 
     fakeWallLine = new FakeWallLine();
     fakeWallLine.setCanPutTile(testTile, true);

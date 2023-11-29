@@ -5,7 +5,7 @@ import sk.uniba.fmph.dcs.interfaces.PointsCounterInterface;
 class ColorCompletionCounterInterface implements PointsCounterInterface {
 
   @Override
-  public Points countPoints(Tile[][] wall) {
+  public Points countPoints(final Tile[][] wall) {
 
     int score = 0;
 

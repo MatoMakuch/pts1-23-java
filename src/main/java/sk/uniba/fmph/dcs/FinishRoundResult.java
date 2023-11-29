@@ -1,8 +1,7 @@
 package sk.uniba.fmph.dcs;
 
 public enum FinishRoundResult {
-  NORMAL,
-  GAME_FINISHED;
+  NORMAL, GAME_FINISHED;
 
   @Override
   public String toString() {
@@ -10,7 +9,6 @@ public enum FinishRoundResult {
     return switch (this) {
       case NORMAL -> "normal";
       case GAME_FINISHED -> "game_finished";
-      default -> null;
     };
   }
 }

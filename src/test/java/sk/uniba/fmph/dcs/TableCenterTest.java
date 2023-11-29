@@ -25,7 +25,7 @@ public class TableCenterTest {
     tableCenter.put(List.of(Tile.BLUE, Tile.RED));
 
     // Take one of the added tiles.
-    List<Tile> takenTiles = tableCenter.take(1); // Assume index 1 is for Tile.BLUE.
+    final List<Tile> takenTiles = tableCenter.take(1); // Assume index 1 is for Tile.BLUE.
 
     assertTrue(takenTiles.contains(Tile.STARTING_PLAYER));
     assertTrue(takenTiles.contains(Tile.BLUE));
@@ -42,7 +42,7 @@ public class TableCenterTest {
     tableCenter.take(1);
 
     // Now index 0 is for Tile.RED.
-    List<Tile> takenTiles = tableCenter.take(0);
+    final List<Tile> takenTiles = tableCenter.take(0);
 
     assertFalse(takenTiles.contains(Tile.STARTING_PLAYER));
     assertTrue(takenTiles.contains(Tile.RED));
@@ -79,4 +79,3 @@ public class TableCenterTest {
     assertEquals(Tile.STARTING_PLAYER, tableCenter.take(0).get(0));
   }
 }
-

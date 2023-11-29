@@ -4,10 +4,11 @@ import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 class UsedTiles implements UsedTilesInterface {
-  private List<Tile> tiles;
+  private final List<Tile> tiles;
 
   public UsedTiles() {
 
@@ -17,7 +18,7 @@ class UsedTiles implements UsedTilesInterface {
   @Override
   public Collection<Tile> takeAll() {
 
-    List<Tile> tiles = new ArrayList<>(this.tiles);
+    final Collection<Tile> tiles = Collections.unmodifiableList(this.tiles);
 
     this.tiles.clear();
 
@@ -25,7 +26,7 @@ class UsedTiles implements UsedTilesInterface {
   }
 
   @Override
-  public void put(Collection<Tile> tiles) {
+  public void put(final Collection<Tile> tiles) {
 
     this.tiles.addAll(tiles);
   }
@@ -36,8 +37,14 @@ class UsedTiles implements UsedTilesInterface {
   }
 
   @Override
-  public void setState(String state) { tiles = Tile.fromString(state); }
+  public void setState(final String state) {
+
+    tiles.clear();
+    tiles.addAll(Tile.fromString(state));
+  }
 
   @Override
-  public String toString() { return getState(); }
+  public String toString() {
+    return getState();
+  }
 }

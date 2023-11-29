@@ -12,18 +12,13 @@ public class FakeTableArea implements TableAreaInterface {
   private final Map<SourcePath, List<Tile>> tiles;
   private boolean roundEnd = false;
 
-  public FakeTableArea(Map<SourcePath, List<Tile>> tiles) {
+  public FakeTableArea(final Map<SourcePath, List<Tile>> tiles) {
 
     this.tiles = tiles;
   }
 
-  public void setRoundEnd(boolean roundEnd) {
-
-    this.roundEnd = roundEnd;
-  }
-
   @Override
-  public List<Tile> take(SourcePath sourcePath) {
+  public List<Tile> take(final SourcePath sourcePath) {
 
     return tiles.get(sourcePath);
   }
@@ -32,6 +27,11 @@ public class FakeTableArea implements TableAreaInterface {
   public boolean isRoundEnd() {
 
     return this.roundEnd;
+  }
+
+  public void setRoundEnd(final boolean roundEnd) {
+
+    this.roundEnd = roundEnd;
   }
 
   @Override

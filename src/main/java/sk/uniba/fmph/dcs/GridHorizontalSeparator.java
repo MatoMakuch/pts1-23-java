@@ -5,7 +5,7 @@ import java.util.Collections;
 public class GridHorizontalSeparator {
   private final int totalWidth;
 
-  public GridHorizontalSeparator(int totalWidth) {
+  public GridHorizontalSeparator(final int totalWidth) {
 
     this.totalWidth = totalWidth;
   }

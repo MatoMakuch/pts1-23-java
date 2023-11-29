@@ -19,7 +19,7 @@ public class Bag implements BagInterface {
   }
 
   @Override
-  public void fillBag(int seed) {
+  public void fillBag(final int seed) {
 
     this.tiles.clear();
 
@@ -39,12 +39,12 @@ public class Bag implements BagInterface {
 
   @Override
   public void startNewRound() {
-    
+
     tiles.addAll(usedTiles.takeAll());
   }
 
   @Override
-  public List<Tile> take(int count) {
+  public List<Tile> take(final int count) {
 
     if (count > tiles.size()) {
 
@@ -66,8 +66,12 @@ public class Bag implements BagInterface {
   }
 
   @Override
-  public void setState(String state) { tiles = Tile.fromString(state); }
+  public void setState(String state) {
+    tiles = Tile.fromString(state);
+  }
 
   @Override
-  public String toString() { return getState(); }
+  public String toString() {
+    return getState();
+  }
 }

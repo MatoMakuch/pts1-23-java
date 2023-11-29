@@ -47,4 +47,3 @@ public class FakeTableCenter implements TableCenterInterface {
     this.tiles.addAll(tiles);
   }
 }
-

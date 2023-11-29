@@ -6,12 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public enum Tile {
-  STARTING_PLAYER,
-  RED,
-  GREEN,
-  YELLOW,
-  BLUE,
-  BLACK;
+  STARTING_PLAYER, RED, GREEN, YELLOW, BLUE, BLACK;
 
   private static final Map<Character, Tile> charToEnum = new HashMap<>();
 
@@ -25,14 +20,14 @@ public enum Tile {
     charToEnum.put('L', BLACK);
   }
 
-  private static Tile fromChar(char value) {
+  private static Tile fromChar(final char value) {
 
     return charToEnum.getOrDefault(value, null);
   }
 
-  public static List<Tile> fromString(String value) {
+  public static List<Tile> fromString(final String value) {
 
-    List<Tile> tiles = new ArrayList<>();
+    final List<Tile> tiles = new ArrayList<>();
 
     for (char tile : value.toCharArray()) {
 
@@ -42,9 +37,9 @@ public enum Tile {
     return tiles;
   }
 
-  public static String toString(List<Tile> tiles) {
+  public static String toString(final List<Tile> tiles) {
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
 
     for (Tile tile : tiles) {
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TableCenter implements TableCenterInterface {
 
-  private List<Tile> tiles;
+  private final List<Tile> tiles;
   private boolean isFirstPlayer;
 
   public TableCenter() {
@@ -18,12 +18,12 @@ public class TableCenter implements TableCenterInterface {
   }
 
   @Override
-  public void put(Collection<Tile> tiles) {
+  public void put(final Collection<Tile> tiles) {
     this.tiles.addAll(tiles);
   }
 
   @Override
-  public List<Tile> take(int index) {
+  public List<Tile> take(final int index) {
 
     if (index < 0 || index >= tiles.size()) {
 
@@ -81,5 +81,9 @@ public class TableCenter implements TableCenterInterface {
   }
 
   @Override
-  public void setState(String state) { tiles = Tile.fromString(state); }
+  public void setState(final String state) {
+
+    tiles.clear();
+    tiles.addAll(Tile.fromString(state));
+  }
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 class ColumnCompletionCounterInterface implements PointsCounterInterface {
 
   @Override
-  public Points countPoints(Tile[][] wall) {
+  public Points countPoints(final Tile[][] wall) {
 
     int score = 0;
 

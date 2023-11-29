@@ -1,6 +1,8 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.*;
+import sk.uniba.fmph.dcs.interfaces.BoardInterface;
+import sk.uniba.fmph.dcs.interfaces.TakeTurnInterface;
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +28,7 @@ public class Board implements BoardInterface {
   }
 
   @Override
-  public void put(List<Tile> tiles, int destinationIndex) {
+  public void put(final List<Tile> tiles, final int destinationIndex) {
 
     if (destinationIndex == -1) {
 
@@ -60,11 +62,7 @@ public class Board implements BoardInterface {
   @Override
   public void endGame() {
 
-    Tile[][] wall = wallLines.stream()
-        .map(line ->
-            Tile.fromString(line.getState()).stream()
-                .toArray(Tile[]::new))
-        .toArray(Tile[][]::new);
+    Tile[][] wall = wallLines.stream().map(line -> Tile.fromString(line.getState()).toArray(Tile[]::new)).toArray(Tile[][]::new);
 
     Points finalPoints = finalPointsCalculation.getPoints(wall);
 

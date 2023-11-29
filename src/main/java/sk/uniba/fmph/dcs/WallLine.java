@@ -13,7 +13,7 @@ public class WallLine implements WallLineInterface {
   private WallLineInterface lineUp;
   private WallLineInterface lineDown;
 
-  public WallLine(Tile[] tileTypes) {
+  public WallLine(final Tile[] tileTypes) {
 
     this.tileTypes = tileTypes;
 
@@ -27,7 +27,7 @@ public class WallLine implements WallLineInterface {
   }
 
   @Override
-  public void setLineUp(WallLineInterface lineUp) {
+  public void setLineUp(final WallLineInterface lineUp) {
 
     this.lineUp = lineUp;
   }
@@ -39,23 +39,23 @@ public class WallLine implements WallLineInterface {
   }
 
   @Override
-  public void setLineDown(WallLineInterface lineDown) {
+  public void setLineDown(final WallLineInterface lineDown) {
 
     this.lineDown = lineDown;
   }
 
   @Override
-  public boolean canPutTile(Tile tile) {
+  public boolean canPutTile(final Tile tile) {
 
-    int index = Arrays.asList(tileTypes).indexOf(tile);
+    final int index = Arrays.asList(tileTypes).indexOf(tile);
 
     return index >= 0 && !filledPositions[index];
   }
 
   @Override
-  public Points putTile(Tile tile) {
+  public Points putTile(final Tile tile) {
 
-    int index = Arrays.asList(tileTypes).indexOf(tile);
+    final int index = Arrays.asList(tileTypes).indexOf(tile);
 
     if (index < 0 || filledPositions[index]) {
 
@@ -139,8 +139,7 @@ public class WallLine implements WallLineInterface {
       if (filledPositions[i]) {
 
         tiles.add(tileTypes[i]);
-      }
-      else {
+      } else {
 
         tiles.add(null);
       }
@@ -150,7 +149,7 @@ public class WallLine implements WallLineInterface {
   }
 
   @Override
-  public void setState(String state) {
+  public void setState(final String state) {
 
     final List<Tile> tiles = Tile.fromString(state);
 

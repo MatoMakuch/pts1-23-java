@@ -7,22 +7,16 @@ import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
 import java.util.List;
 
 public class Display {
-  public static void display(
-      TileStateInterface tableCenter,
-      List<TileStateInterface> factories,
-      List<PlayerInterface> players,
-      List<List<TileStateInterface>> patternLines,
-      List<List<TileStateInterface>> wallLines,
-      List<FloorStateInterface> floors) {
+  public static void display(final TileStateInterface tableCenter, final List<TileStateInterface> factories, final List<PlayerInterface> players, final List<List<TileStateInterface>> patternLines, final List<List<TileStateInterface>> wallLines, final List<FloorStateInterface> floors) {
 
     System.out.print(new GridHorizontalSeparator(50));
 
-    GridDisplay factoriesGrid = new GridDisplay(50, factories.size(), 5);
+    final GridDisplay factoriesGrid = new GridDisplay(50, factories.size(), 5);
     for (int i = 0; i < factories.size(); i++) {
 
       factoriesGrid.addText(i, 0, "F" + (i + 1) + ":");
 
-      var tiles = Tile.fromString(factories.get(i).getState());
+      final List<Tile> tiles = Tile.fromString(factories.get(i).getState());
 
       for (int j = 0; j < tiles.size(); j++) {
 
@@ -33,13 +27,13 @@ public class Display {
 
     System.out.print(new GridHorizontalSeparator(50));
 
-    GridDisplay tableCenterGrid = new GridDisplay(50, 1, 1);
+    final GridDisplay tableCenterGrid = new GridDisplay(50, 1, 1);
     tableCenterGrid.addText(0, 0, "Table center: " + tableCenter.getState());
     System.out.print(tableCenterGrid);
 
     System.out.print(new GridHorizontalSeparator(50));
 
-    GridDisplay playerGrid = new GridDisplay(50, 2, 26);
+    final GridDisplay playerGrid = new GridDisplay(50, 2, 26);
     for (int i = 0; i < players.size(); i++) {
 
       final PlayerInterface player = players.get(i);
@@ -60,8 +54,8 @@ public class Display {
         playerGrid.addText(i, 12 + j, "W" + (j + 1) + ": " + wallLines.get(i).get(j));
       }
 
-      var floorPattern = floors.get(i).getPointPattern();
-      var floorTiles = Tile.fromString(floors.get(i).getState());
+      final List<Points> floorPattern = floors.get(i).getPointPattern();
+      final List<Tile> floorTiles = Tile.fromString(floors.get(i).getState());
       playerGrid.addText(i, 18, "Floor:");
       for (int j = 0; j < floorPattern.size(); j++) {
 

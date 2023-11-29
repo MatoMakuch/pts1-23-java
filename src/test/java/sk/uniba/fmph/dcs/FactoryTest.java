@@ -19,11 +19,11 @@ public class FactoryTest {
 
     //#region Used Tiles
 
-    UsedTilesInterface usedTiles = new UsedTiles();
+    final UsedTilesInterface usedTiles = new UsedTiles();
 
     //#endregion
 
-    Bag bag = new Bag(usedTiles);
+    final Bag bag = new Bag(usedTiles);
     bag.setState("RRGGBBYYLL");
 
     fakeTableCenter = new FakeTableCenter();
@@ -35,18 +35,18 @@ public class FactoryTest {
   public void testTakeTiles_ReturnsCorrectTilesAndMovesOthersToTableCenter() {
 
     // Pre-fill the factory with a set of tiles.
-    List<Tile> initialTiles = List.of(Tile.RED, Tile.RED, Tile.BLUE, Tile.YELLOW);
+    final List<Tile> initialTiles = List.of(Tile.RED, Tile.RED, Tile.BLUE, Tile.YELLOW);
     factory.setState(Tile.toString(initialTiles));
 
     // Take red tiles from the factory.
-    List<Tile> takenTiles = factory.take(0); // Assuming 0 is the index for Tile.RED.
+    final List<Tile> takenTiles = factory.take(0); // Assuming 0 is the index for Tile.RED.
 
     assertEquals(2, takenTiles.size()); // Should take two red tiles.
     assertTrue(takenTiles.stream().allMatch(tile -> tile == Tile.RED));
     assertTrue(factory.isEmpty());
 
     // Verify that blue and yellow tiles were moved to the table center.
-    List<Tile> tableCenterTiles = Tile.fromString(fakeTableCenter.getState());
+    final List<Tile> tableCenterTiles = Tile.fromString(fakeTableCenter.getState());
     assertEquals(2, tableCenterTiles.size());
     assertTrue(tableCenterTiles.contains(Tile.BLUE));
     assertTrue(tableCenterTiles.contains(Tile.YELLOW));
@@ -71,4 +71,3 @@ public class FactoryTest {
     assertFalse(factory.isEmpty());
   }
 }
-

@@ -8,7 +8,7 @@ import java.util.Objects;
 class RowCompletionCounterInterface implements PointsCounterInterface {
 
   @Override
-  public Points countPoints(Tile[][] wall) {
+  public Points countPoints(final Tile[][] wall) {
 
     int score = 0;
 

@@ -15,7 +15,7 @@ public class Factory implements TileSourceInterface {
   private final PutTilesInterface tableCenter;
   private List<Tile> tiles = new ArrayList<>();
 
-  public Factory(TakeMultipleTilesInterface bag, PutTilesInterface tableCenter) {
+  public Factory(final TakeMultipleTilesInterface bag, final PutTilesInterface tableCenter) {
 
     this.bag = bag;
     this.tableCenter = tableCenter;
@@ -28,20 +28,20 @@ public class Factory implements TileSourceInterface {
   }
 
   @Override
-  public List<Tile> take(int index) throws IllegalArgumentException {
+  public List<Tile> take(final int index) throws IllegalArgumentException {
 
     if (index < 0 || index >= tiles.size()) {
 
       throw new IllegalArgumentException("Index out of bounds");
     }
 
-    Tile selectedColor = tiles.get(index);
+    final Tile selectedColor = tiles.get(index);
 
-    List<Tile> pickedTiles = new ArrayList<>();
-    List<Tile> remainingTiles = new ArrayList<>();
+    final List<Tile> pickedTiles = new ArrayList<>();
+    final List<Tile> remainingTiles = new ArrayList<>();
 
     // Use an iterator to avoid ConcurrentModificationException while removing.
-    Iterator<Tile> iterator = tiles.iterator();
+    final Iterator<Tile> iterator = tiles.iterator();
 
     while (iterator.hasNext()) {
 
@@ -51,8 +51,7 @@ public class Factory implements TileSourceInterface {
 
         pickedTiles.add(tile);
         iterator.remove();
-      }
-      else {
+      } else {
 
         remainingTiles.add(tile);
         iterator.remove();
@@ -82,5 +81,7 @@ public class Factory implements TileSourceInterface {
   }
 
   @Override
-  public void setState(String state) { tiles = Tile.fromString(state); }
+  public void setState(String state) {
+    tiles = Tile.fromString(state);
+  }
 }

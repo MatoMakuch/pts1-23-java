@@ -1,6 +1,8 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.*;
+import sk.uniba.fmph.dcs.interfaces.GameInterface;
+import sk.uniba.fmph.dcs.interfaces.PlayerInterface;
+import sk.uniba.fmph.dcs.interfaces.TableAreaInterface;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ class Game implements GameInterface {
   private boolean gameStarted = false;
   private boolean gameFinished = false;
 
-  public Game(TableAreaInterface tableArea, List<PlayerInterface> players) {
+  public Game(final TableAreaInterface tableArea, final List<PlayerInterface> players) {
 
     this.tableArea = tableArea;
     this.players = players;
@@ -60,7 +62,7 @@ class Game implements GameInterface {
   }
 
   @Override
-  public void take(SourcePath sourcePath, int destinationIndex) {
+  public void take(final SourcePath sourcePath, final int destinationIndex) {
 
     if (!gameStarted) {
 
@@ -80,7 +82,7 @@ class Game implements GameInterface {
     }
   }
 
-  private void handleTileTaking(SourcePath sourcePath, int destinationIndex) {
+  private void handleTileTaking(final SourcePath sourcePath, final int destinationIndex) {
 
     final List<Tile> tiles = tableArea.take(sourcePath);
 
@@ -101,8 +103,7 @@ class Game implements GameInterface {
       tableArea.startNewRound();
 
       observer.notifyEverybody(ROUND_STARTED_MESSAGE);
-    }
-    else {
+    } else {
 
       endGame();
 
@@ -149,8 +150,7 @@ class Game implements GameInterface {
     if (gameFinished) {
 
       return FinishRoundResult.GAME_FINISHED;
-    }
-    else {
+    } else {
 
       currentPlayerIndex = startingPlayerIndex;
 

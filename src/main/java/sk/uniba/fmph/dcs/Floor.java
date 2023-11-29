@@ -13,7 +13,7 @@ public final class Floor implements FloorInterface {
   private final List<Points> pointPattern;
   private List<Tile> tiles = new ArrayList<>();
 
-  public Floor(PutTilesInterface usedTiles, List<Points> pointPattern) {
+  public Floor(final PutTilesInterface usedTiles, final List<Points> pointPattern) {
 
     this.usedTiles = usedTiles;
     this.pointPattern = pointPattern;
@@ -35,11 +35,7 @@ public final class Floor implements FloorInterface {
 
     int sum = 0;
     for (int i = 0; i < tiles.size(); i++) {
-      sum +=
-          (i < pointPattern.size()
-              ? pointPattern.get(i)
-              : pointPattern.get(pointPattern.size() - 1))
-              .getValue();
+      sum += (i < pointPattern.size() ? pointPattern.get(i) : pointPattern.get(pointPattern.size() - 1)).getValue();
     }
 
     usedTiles.put(tiles);
@@ -55,8 +51,12 @@ public final class Floor implements FloorInterface {
   }
 
   @Override
-  public void setState(String state) { tiles = Tile.fromString(state); }
+  public void setState(String state) {
+    tiles = Tile.fromString(state);
+  }
 
   @Override
-  public String toString() { return getState(); }
+  public String toString() {
+    return getState();
+  }
 }

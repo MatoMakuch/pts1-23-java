@@ -32,7 +32,7 @@ public class FloorTest {
     // Floor should be empty when created.
     usedTiles.setState("");
 
-    List<Tile> tiles = new ArrayList<>();
+    final List<Tile> tiles = new ArrayList<>();
 
     tiles.add(Tile.STARTING_PLAYER);
     tiles.add(Tile.RED);
@@ -45,7 +45,7 @@ public class FloorTest {
 
     assertEquals("Floor should contain tiles we put on it.", "SRGR", floor.getState());
 
-    Points points = floor.finishRound();
+    final Points points = floor.finishRound();
 
     assertEquals("Floor should be empty after the round is finished.", "", floor.getState());
     assertEquals(
@@ -61,7 +61,7 @@ public class FloorTest {
 
     assertEquals("Floor should contain tiles we put on it.", "RG", floor.getState());
 
-    Points points2 = floor.finishRound();
+    final Points points2 = floor.finishRound();
 
     assertEquals("Floor should be empty after the round is finished.", "", floor.getState());
     assertEquals(

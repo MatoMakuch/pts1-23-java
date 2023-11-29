@@ -13,25 +13,18 @@ public class Demo {
   final static ObserverInterface observer = System.out::println;
 
   // Define the point pattern for the floor line.
-  final static List<Points> pointPattern = List.of(
-      new Points(-1),
-      new Points(-1),
-      new Points(-2),
-      new Points(-2),
-      new Points(-3),
-      new Points(-3)
-  );
+  final static List<Points> pointPattern = List.of(new Points(-1), new Points(-1), new Points(-2), new Points(-2), new Points(-3), new Points(-3));
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
+    final Scanner scanner = new Scanner(System.in);
 
     //#region Configuration
 
     System.out.print("Enter the number of players: ");
-    int playerCount = Integer.parseInt(scanner.nextLine());
+    final int playerCount = Integer.parseInt(scanner.nextLine());
 
-    List<String> playerNames = new ArrayList<>();
+    final List<String> playerNames = new ArrayList<>();
 
     for (int i = 0; i < playerCount; i++) {
 
@@ -44,29 +37,29 @@ public class Demo {
 
     //#region Used Tiles
 
-    UsedTilesInterface usedTiles = new UsedTiles();
+    final UsedTilesInterface usedTiles = new UsedTiles();
 
     //#endregion
 
     //#region Bag
 
-    BagInterface bag = new Bag(usedTiles);
+    final BagInterface bag = new Bag(usedTiles);
     bag.fillBag(new Date().hashCode());
 
     //#endregion
 
     //#region Table Center
 
-    TableCenterInterface tableCenter = new TableCenter();
+    final TableCenterInterface tableCenter = new TableCenter();
 
     //#endregion
 
     //#region Factories
 
-    List<TileSourceInterface> factories = new ArrayList<>();
+    final List<TileSourceInterface> factories = new ArrayList<>();
 
     // Adjust the number of factories based on the player count.
-    int factoryCount = playerCount * 2 + 1;
+    final int factoryCount = playerCount * 2 + 1;
 
     for (int i = 0; i < factoryCount; i++) {
 
@@ -77,7 +70,7 @@ public class Demo {
 
     //#region Table Area
 
-    TableAreaInterface tableArea = new TableArea(bag, tableCenter, factories);
+    final TableAreaInterface tableArea = new TableArea(bag, tableCenter, factories);
 
     //#endregion
 
@@ -99,7 +92,7 @@ public class Demo {
       final List<WallLineInterface> playerWallLines = new ArrayList<>();
       final List<PatternLineInterface> playerPatternLines = new ArrayList<>();
 
-      TilePermutationIterator iterator = new TilePermutationIterator();
+      final TilePermutationIterator iterator = new TilePermutationIterator();
 
       int i = 0; // Initialize the counter.
       while (iterator.hasNext()) {
@@ -149,7 +142,7 @@ public class Demo {
 
     //region Game
 
-    GameInterface game = new Game(tableArea, players);
+    final GameInterface game = new Game(tableArea, players);
 
     game.getGameObserver().registerObserver(observer);
 
@@ -163,18 +156,7 @@ public class Demo {
 
       //#region Display the game state.
 
-      Display.display(
-          tableCenter,
-          new ArrayList<>(factories),
-          players,
-          patternLines.stream()
-              .map(subList -> new ArrayList<TileStateInterface>(subList))
-              .collect(Collectors.toList()),
-          wallLines.stream()
-              .map(subList -> new ArrayList<TileStateInterface>(subList))
-              .collect(Collectors.toList()),
-          new ArrayList<>(floors)
-      );
+      Display.display(tableCenter, new ArrayList<>(factories), players, patternLines.stream().map(subList -> new ArrayList<TileStateInterface>(subList)).collect(Collectors.toList()), wallLines.stream().map(subList -> new ArrayList<TileStateInterface>(subList)).collect(Collectors.toList()), new ArrayList<>(floors));
 
       //#endregion
 
@@ -187,13 +169,13 @@ public class Demo {
       // This is done to make the input more user-friendly.
 
       System.out.print("Choose source: ");
-      int sourceIndex = Integer.parseInt(scanner.nextLine()) - 1;
+      final int sourceIndex = Integer.parseInt(scanner.nextLine()) - 1;
 
       System.out.print("Choose tile index: ");
-      int tileIndex = Integer.parseInt(scanner.nextLine()) - 1;
+      final int tileIndex = Integer.parseInt(scanner.nextLine()) - 1;
 
       System.out.print("Choose destination: ");
-      int destinationIndex = Integer.parseInt(scanner.nextLine()) - 1;
+      final int destinationIndex = Integer.parseInt(scanner.nextLine()) - 1;
 
       //#endregion
 
@@ -204,18 +186,7 @@ public class Demo {
 
     //region Display the game state.
 
-    Display.display(
-        tableCenter,
-        new ArrayList<>(factories),
-        players,
-        patternLines.stream()
-            .map(subList -> new ArrayList<TileStateInterface>(subList))
-            .collect(Collectors.toList()),
-        wallLines.stream()
-            .map(subList -> new ArrayList<TileStateInterface>(subList))
-            .collect(Collectors.toList()),
-        new ArrayList<>(floors)
-    );
+    Display.display(tableCenter, new ArrayList<>(factories), players, patternLines.stream().map(subList -> new ArrayList<TileStateInterface>(subList)).collect(Collectors.toList()), wallLines.stream().map(subList -> new ArrayList<TileStateInterface>(subList)).collect(Collectors.toList()), new ArrayList<>(floors));
 
     //#endregion
 
