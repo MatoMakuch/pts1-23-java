@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs;
 import sk.uniba.fmph.dcs.interfaces.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public class Demo {
     //#region Bag
 
     BagInterface bag = new Bag(usedTiles);
-    bag.fillBag();
+    bag.fillBag(new Date().hashCode());
 
     //#endregion
 
@@ -83,7 +84,6 @@ public class Demo {
     final List<List<WallLineInterface>> wallLines = new ArrayList<>();
     final List<List<PatternLineInterface>> patternLines = new ArrayList<>();
     final List<FloorInterface> floors = new ArrayList<>();
-    final List<BoardInterface> boards = new ArrayList<>();
     final List<PlayerInterface> players = new ArrayList<>();
 
     for (String playerName : playerNames) {
@@ -135,8 +135,6 @@ public class Demo {
       //#region Board
 
       final BoardInterface board = new Board(floor, new ArrayList<>(playerPatternLines), new ArrayList<>(playerWallLines));
-
-      boards.add(board);
 
       //#endregion
 

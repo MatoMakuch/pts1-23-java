@@ -19,7 +19,7 @@ public class Bag implements BagInterface {
   }
 
   @Override
-  public void fillBag() {
+  public void fillBag(int seed) {
 
     this.tiles.clear();
 
@@ -34,12 +34,12 @@ public class Bag implements BagInterface {
       }
     }
 
-    Collections.shuffle(tiles, new Random());
+    Collections.shuffle(tiles, new Random(seed));
   }
 
   @Override
   public void startNewRound() {
-
+    
     tiles.addAll(usedTiles.takeAll());
   }
 
