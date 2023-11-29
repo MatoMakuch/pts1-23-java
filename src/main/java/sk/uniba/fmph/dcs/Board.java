@@ -14,7 +14,7 @@ public class Board implements BoardInterface {
   private final FinalPointsCalculation finalPointsCalculation = new FinalPointsCalculation();
   private final Points points = new Points(0);
 
-  public Board(TakeTurnInterface floor, List<TakeTurnInterface> patternLines, List<TileStateInterface> wallLines) {
+  public Board(final TakeTurnInterface floor, final List<TakeTurnInterface> patternLines, final List<TileStateInterface> wallLines) {
 
     this.floor = floor;
     this.patternLines = patternLines;
@@ -62,9 +62,9 @@ public class Board implements BoardInterface {
   @Override
   public void endGame() {
 
-    Tile[][] wall = wallLines.stream().map(line -> Tile.fromString(line.getState()).toArray(Tile[]::new)).toArray(Tile[][]::new);
+    final Tile[][] wall = wallLines.stream().map(line -> Tile.fromString(line.getState()).toArray(Tile[]::new)).toArray(Tile[][]::new);
 
-    Points finalPoints = finalPointsCalculation.getPoints(wall);
+    final Points finalPoints = finalPointsCalculation.getPoints(wall);
 
     points.add(finalPoints);
   }

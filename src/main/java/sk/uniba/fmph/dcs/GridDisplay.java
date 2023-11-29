@@ -58,22 +58,23 @@ public class GridDisplay {
     return totalWidth;
   }
 
-  public void addText(final int column, final int row, String text) {
+  public void addText(final int column, final int row, final String text) {
 
     if (column < 0 || column >= columnCount || row < 0 || row >= rowCount) {
 
       throw new IllegalArgumentException("Invalid column or row index");
     }
 
-    if (text.length() > columnWidth) {
+    String textToWrite = text;
+    if (textToWrite.length() > columnWidth) {
 
-      text = text.substring(0, columnWidth);
+      textToWrite = textToWrite.substring(0, columnWidth);
     }
 
     int start = column * (columnWidth + 1) + 1;
-    for (int i = 0; i < text.length(); i++) {
+    for (int i = 0; i < textToWrite.length(); i++) {
 
-      grid[row][start + i] = text.charAt(i);
+      grid[row][start + i] = textToWrite.charAt(i);
     }
   }
 

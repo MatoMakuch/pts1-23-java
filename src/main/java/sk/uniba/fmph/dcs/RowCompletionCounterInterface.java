@@ -7,6 +7,8 @@ import java.util.Objects;
 
 class RowCompletionCounterInterface implements PointsCounterInterface {
 
+  private static final int POINTS_PER_ROW = 2;
+
   @Override
   public Points countPoints(final Tile[][] wall) {
 
@@ -16,7 +18,7 @@ class RowCompletionCounterInterface implements PointsCounterInterface {
 
       if (row != null && Arrays.stream(row).allMatch(Objects::nonNull)) {
 
-        score += 2;
+        score += POINTS_PER_ROW;
       }
     }
 

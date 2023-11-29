@@ -51,7 +51,7 @@ public final class Floor implements FloorInterface {
   }
 
   @Override
-  public void setState(String state) {
+  public void setState(final String state) {
     tiles = Tile.fromString(state);
   }
 

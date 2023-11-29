@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 class ColumnCompletionCounterInterface implements PointsCounterInterface {
 
+  private static final int POINTS_PER_COLUMN = 7;
+
   @Override
   public Points countPoints(final Tile[][] wall) {
 
@@ -24,7 +26,7 @@ class ColumnCompletionCounterInterface implements PointsCounterInterface {
 
       if (Arrays.stream(wall).allMatch(row -> row[columnIndex] != null)) {
 
-        score += 7;
+        score += POINTS_PER_COLUMN;
       }
     }
 

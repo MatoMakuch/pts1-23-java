@@ -10,7 +10,7 @@ import java.util.List;
 class UsedTiles implements UsedTilesInterface {
   private final List<Tile> tiles;
 
-  public UsedTiles() {
+  UsedTiles() {
 
     tiles = new ArrayList<>();
   }

@@ -4,6 +4,8 @@ import sk.uniba.fmph.dcs.interfaces.PointsCounterInterface;
 
 class ColorCompletionCounterInterface implements PointsCounterInterface {
 
+  private static final int POINTS_PER_COLOR = 10;
+
   @Override
   public Points countPoints(final Tile[][] wall) {
 
@@ -26,7 +28,7 @@ class ColorCompletionCounterInterface implements PointsCounterInterface {
 
       if (colorCount == wall.length) {
 
-        score += 10;
+        score += POINTS_PER_COLOR;
       }
     }
 

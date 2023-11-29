@@ -1,6 +1,18 @@
 package sk.uniba.fmph.dcs;
 
-import sk.uniba.fmph.dcs.interfaces.*;
+import sk.uniba.fmph.dcs.interfaces.BagInterface;
+import sk.uniba.fmph.dcs.interfaces.BoardInterface;
+import sk.uniba.fmph.dcs.interfaces.FloorInterface;
+import sk.uniba.fmph.dcs.interfaces.GameInterface;
+import sk.uniba.fmph.dcs.interfaces.ObserverInterface;
+import sk.uniba.fmph.dcs.interfaces.PatternLineInterface;
+import sk.uniba.fmph.dcs.interfaces.PlayerInterface;
+import sk.uniba.fmph.dcs.interfaces.TableAreaInterface;
+import sk.uniba.fmph.dcs.interfaces.TableCenterInterface;
+import sk.uniba.fmph.dcs.interfaces.TileSourceInterface;
+import sk.uniba.fmph.dcs.interfaces.TileStateInterface;
+import sk.uniba.fmph.dcs.interfaces.UsedTilesInterface;
+import sk.uniba.fmph.dcs.interfaces.WallLineInterface;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,10 +22,10 @@ import java.util.stream.Collectors;
 
 public class Demo {
 
-  final static ObserverInterface observer = System.out::println;
+  private static final ObserverInterface OBSERVER = System.out::println;
 
   // Define the point pattern for the floor line.
-  final static List<Points> pointPattern = List.of(new Points(-1), new Points(-1), new Points(-2), new Points(-2), new Points(-3), new Points(-3));
+  private static final List<Points> POINT_PATTERN = List.of(new Points(-1), new Points(-1), new Points(-2), new Points(-2), new Points(-3), new Points(-3));
 
   public static void main(final String[] args) {
 
@@ -83,7 +95,7 @@ public class Demo {
 
       //#region Floor
 
-      final FloorInterface floor = new Floor(usedTiles, pointPattern);
+      final FloorInterface floor = new Floor(usedTiles, POINT_PATTERN);
 
       floors.add(floor);
 
@@ -144,7 +156,7 @@ public class Demo {
 
     final GameInterface game = new Game(tableArea, players);
 
-    game.getGameObserver().registerObserver(observer);
+    game.getGameObserver().registerObserver(OBSERVER);
 
     game.start();
 

@@ -10,10 +10,11 @@ import java.util.Random;
 
 public class Bag implements BagInterface {
 
+  private static final int TILE_COUNT = 20;
   private final TakeAllTilesInterface usedTiles;
   private List<Tile> tiles = new ArrayList<>();
 
-  public Bag(TakeAllTilesInterface usedTiles) {
+  public Bag(final TakeAllTilesInterface usedTiles) {
 
     this.usedTiles = usedTiles;
   }
@@ -27,7 +28,7 @@ public class Bag implements BagInterface {
 
       if (tile != Tile.STARTING_PLAYER) {
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < TILE_COUNT; i++) {
 
           tiles.add(tile);
         }
